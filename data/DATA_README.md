@@ -1,0 +1,62 @@
+# Data Guide for Midday-Makers
+
+This folder (`/data`) stores the **lists and starting information** the app needs. You will NOT write JavaScript code here - only edit or add data in JSON format.
+
+---
+
+## Files in this folder
+
+### `categories.json`
+- Holds the **categories** of habits (like Health, Learning, Fitness, Social)
+- Each category has:
+  - an `id` (a unique number or short name),
+  - a `name` (what shows on the screen),
+  - and maybe an `icon` (optional)
+
+# Data Guide for Midday-Makers
+
+This folder (`/data`) stores the **lists and starting information** the app needs.  
+You will NOT write JavaScript code here — only edit or add data in JSON format.
+
+---
+
+## Files in this folder
+
+### `categories.json`
+- Holds the **categories** of habits (like Health, Learning, Fitness, Social).
+- Each category has:
+  - an `id` (a unique number or short name),
+  - a `name` (what shows on the screen),
+  - and maybe an `icon` (optional).
+
+
+👉 Example entry:
+
+```json
+{
+  "id": "health",
+  "name": "Health",
+  "icon": "💪"
+}
+```
+
+
+#### `habits.json`
+- Holds the **list of habits** that users can pick from
+- Each habit has: 
+  - an `id` (unique name or number)
+  - a categoryID (which category it belongs to),
+  - a `name` (the habit itself),
+  - and maybe a short `description`
+
+
+👉 Example entry:
+
+```json
+{
+  "id": "drink-water",
+  "categoryId": "health",
+  "name": "Drink a Glass of Water",
+  "description": "Stay hydrated and energized!"
+}
+``` 
