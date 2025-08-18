@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Micro-Habit Stacker</title>
+  <link rel="icon" href="/public/favicon.png" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <header class="app-header">
+    <h1>Micro-Habit Stacker</h1>
+    <button id="themeToggle" class="btn" aria-pressed="false" title="Toggle theme">🌓</button>
+  </header>
+
+  <main class="container">
+    <section id="categoryPicker" class="card"></section>
+    <section id="habitPicker" class="card"></section>
+    <section id="todayPanel" class="card"></section>
+    <section id="towerView" class="card"></section>
+    <section id="badges" class="card"></section>
+    <section id="reminders" class="card"></section>
+  </main>
+
+  <script src="./utilities/state.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
