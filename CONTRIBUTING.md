@@ -1,58 +1,33 @@
 # Contributing Guide
 
-Welcome to the project! 🎉 Follow these guidelines so we can all work smoothly together.
+Welcome! 🎉 All work runs through **GitHub Projects tickets**. Each ticket = one branch = one PR.
 
 ---
 
-## 🚫 Do NOT Edit Setup Files
-Some files are for setup and automation only.  
-Please **leave these alone** unless a mentor/teacher tells you otherwise:
-
-- `.gitignore`
-- `.editorconfig`
-- `.prettierrc`
+## 🚫 Do NOT Edit (setup files)
+Only mentors/leads touch these:
 - `.github/workflows/ci.yml`
-- `LICENSE`
-- `CONTRIBUTING.md`
-- `index.html`
+- `.editorconfig`, `.prettierrc`
+- `index.html` (entry only)
+- `vercel.json`, `LICENSE`, `CONTRIBUTING.md`, `README.md`
 
 ---
 
 ## ✅ Where You SHOULD Work
-All feature and UI work happens inside the `src/` folder:
-
-- `src/app.js` → main app logic, imports features, connects events
-- `src/styles.css` → main styles
-- `src/components/` (folder) → create new JS/CSS files for features like:
-  - habit cards
-  - timers
-  - scheduler
-  - categories
+All feature work goes in these folders/files:
+- `components/` → UI features (pickers, badges, reminders, tower, etc.)
+- `utilities/` → shared logic (state, streaks, timers, scheduler, xp, notifications, ics)
+- `data/` → seed JSON for categories & habits
+- `styles.css` → shared styles
+- `app.js` → app bootstrap (wire components together). Add imports/initialization here **only** if your ticket needs it
 
 ---
 
-## 🌱 Workflow
-1. **Branching**
-   - Create a new branch from `main` for your feature
-   - Branch name format: `feature/your-feature-name`
+## 🧭 Ticket → Branch → PR Workflow
 
-2. **Coding**
-   - Only add or edit files inside `src/`
-   - Write comments in your code so others understand your logic
-   - Keep functions/components small and focused
-
-3. **Committing**
-   - Commit often with clear messages
-   - Format: `feat: add timer component` or `fix: style overlap on habit card`
-
-4. **Pull Requests**
-   - Push your branch to GitHub
-   - Open a Pull Request (PR) into `main`
-   - Wait for at least one teammate or mentor to review before merging
-
----
-
-## 💡 Questions?
-If you aren’t sure where something goes or how to structure it:
-- Ask in Discord first
-- Open a draft PR for feedback
+1) **Pick/assign a ticket** in the Project board  
+2) **Create a branch by clicking in the ticket or**  
+   ```bash
+   git checkout main && git pull
+   git checkout -b ticket-<number>-<short-name>
+   # e.g. ticket-23-habit-picker
