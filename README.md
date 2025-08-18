@@ -118,7 +118,7 @@ Completed and deployed in under 4 days.
 -Melissa Usher (@MelissaU in discord, @[ADD GITHUB NAME HERE], Github)
 -Rebecca A. Stone (@beckstone on discord and Github)
 -Abu H Kamal(@kamal3235, kamal3235 in Github)
--Christina Lerch
+-Christina Lerch (@Chris-60191, sunny0221 in github)
 
 ---
 
