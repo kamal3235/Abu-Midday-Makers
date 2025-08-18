@@ -60,3 +60,21 @@ You will NOT write JavaScript code here — only edit or add data in JSON format
   "description": "Stay hydrated and energized!"
 }
 ``` 
+
+##### **Rules for Editing Data**
+
+- Do not delete existing entries unless your ticket says to.
+
+- Always keep JSON valid:
+
+- Strings go inside quotes " ".
+
+- Commas go between items, but not after the last one.
+
+- Use { } for objects and [ ] for lists.
+
+- Test after changes: Run the app locally to confirm it still loads without errors.
+
+- Work only on your assigned ticket: Don’t make changes in here unless it’s part of your task.
+
+
