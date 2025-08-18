@@ -1,20 +1,19 @@
 /*
-Global styles for the app.
+GLOBAL STYLES
 
-✅ Use this file to:
-- Define theme colors, typography, layout utilities
-- Add shared classes used by multiple components
+What this file is for
+- Colors, fonts, layout, shared classes used by multiple components.
 
-🛠 How to update:
-- Group styles by feature with clear comments: 
-  e.g.,  /* Habit Picker */  /* Today Panel */  /* Tower */
-- Prefer class selectors over element selectors
-- Keep contrast accessible; ensure visible focus states
+How to update
+- Group styles with clear comments, e.g.:
+  /* Habit Picker */   /* Today Panel */   /* Tower */   /* Badges */   /* Reminders */
+- Keep good contrast and visible focus outlines (accessibility).
+- Prefer class names over targeting HTML tags.
 
-⚠ Avoid:
-- Deleting others' styles; prefer extending or adding new classes
-- Overly specific selectors that block teammates from reusing styles
+Avoid
+- Deleting teammates’ styles. Add or extend instead.
 */
+
 
 
 :root{--bg:#0b0d10;--fg:#e7ecf3;--muted:#9fb0c3;--card:#12161b;--accent:#6ae3ff}
