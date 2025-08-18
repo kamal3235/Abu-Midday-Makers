@@ -1,14 +1,13 @@
 /*
-Streak utilities.
+UTILITY: Streaks
 
-✅ Use this file to:
-- Calculate per-habit streaks from State.history
-- Provide helpers: Streaks.calc(state), Streaks.shouldUnlock(state, cat, threshold)
+Goal
+- Calculate per‑habit streaks based on State.history.
 
-🛠 How to update:
-- Keep pure functions (input → output, no DOM)
-- Unit-testable logic preferred
+What belongs here
+- Pure functions like Streaks.calc(state) that return updated streak counts.
+- Optional helper to decide if a new habit should unlock after N days.
 
-⚠ Avoid:
-- Direct DOM manipulation or notifications here
+Rules
+- No DOM changes here. No alerts/notifications. Pure logic only.
 */

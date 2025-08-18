@@ -1,15 +1,14 @@
 /*
-Notification utilities (in-tab only).
+UTILITY: Notifications (in‑tab only)
 
-✅ Use this file to:
-- Request Notification permission
-- Play a short beep (user-initiated)
-- Show notifications while the tab is open
+Goal
+- Request notification permission and show a small system toast.
+- Optional: play a short beep (after a user click).
 
-Exports:
+What belongs here
 - Notify.enableSoundOnce()
 - Notify.notify(title, body)
 
-⚠ Avoid:
-- Scheduling logic here (put schedules in utilities/scheduler.js)
+Rules
+- No scheduling here (that goes in /utilities/scheduler.js).
 */

@@ -1,15 +1,14 @@
 /*
-In-tab reminder scheduler (works only while page is open).
+UTILITY: Scheduler (in‑tab reminders)
 
-✅ Use this file to:
-- Schedule timeouts/intervals based on State.reminders rules
-- Fire Notify.notify() when a reminder triggers
-- Reschedule the next occurrence after firing
+Goal
+- Schedule reminders while the page is open (setTimeout / setInterval).
+- When a reminder fires, call Notify.notify(...).
 
-Exports (suggested):
-- Scheduler.scheduleAll()      // reads State.reminders and schedules next fire times
+What belongs here
+- Scheduler.scheduleDaily(...) or Scheduler.scheduleAll(...) using State.reminders.
 - Scheduler.clearAll()
 
-⚠ Avoid:
-- Editing DOM (except calling Notify), or touching localStorage directly
+Rules
+- No calendar file creation here (use /utilities/ics.js for that).
 */

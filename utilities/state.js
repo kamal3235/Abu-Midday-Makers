@@ -1,30 +1,19 @@
 /*
-State manager (single source of truth).
+UTILITY: State (single source of truth)
 
-✅ Use this file to:
-- Load/save the whole app state from localStorage
-- Provide helper funcs like State.get(), State.set(), State.todayKey()
+Goal
+- Read and write the entire app state to localStorage safely.
 
-State shape (keep in sync with tickets):
-{
-  goalCategories: { [catId]: { stackProgress, activeHabits:[], unlockedHabits:[] } },
-  selectedCategory: string|null,
-  history: { 'YYYY-MM-DD': { [habitId]: true } },
-  streaks: { [habitId]: number },
-  xp: number,
-  badges: { [badgeId]: true },
-  timers: { [habitId]: { durationSec, remainingSec, running, lastStart } },
-  reminders: [ { id, scope:'global'|'habit', habitId?, type:'DAILY'|'WEEKLY', daysOfWeek?, times:[] } ]
-}
+What belongs here
+- load/save functions
+- small helpers like State.get(), State.set(), State.todayKey(), and any
+  add/remove/toggle functions needed by tickets.
 
-🛠 How to update:
-- Add small helper functions (e.g., toggleToday, unlockHabit) when your ticket needs them
-- Keep persistence centralized here
-
-⚠ Avoid:
-- Writing state logic inside components
-- Breaking JSON serialization (only store plain data)
+Rules
+- Only store plain data (objects/arrays/numbers/strings).
+- Components should call these helpers instead of touching localStorage directly.
 */
+
 
 
 // Minimal localStorage wrapper only (no streak/xp/logic here)

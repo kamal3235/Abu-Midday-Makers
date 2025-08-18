@@ -1,14 +1,13 @@
 /*
-Calendar export utilities.
+UTILITY: Calendar (.ics / Google link)
 
-✅ Use this file to:
-- Generate and download .ics files (recurring events)
-- Build Google Calendar quick-add URLs
+Goal
+- Let users add reminders to their calendar (works even when the app is closed).
 
-Exports:
+What belongs here
 - ICS.downloadIcs({ title, startLocal, durationMin, recur })
 - ICS.googleQuickAddUrl({ title, startLocal, durationMin })
 
-⚠ Avoid:
-- In-tab scheduling or notifications (use scheduler/notify for those)
+Rules
+- No DOM changes or state writes—just build files/links.
 */
