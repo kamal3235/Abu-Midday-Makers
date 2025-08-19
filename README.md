@@ -42,8 +42,12 @@ Final deploy will be on **Vercel (teacher-led on Friday).**
 ---
 
 ## 🖥 Run Locally
+ This project runs entirely in the browser. You just need a simple local server so `fetch()` calls (e.g., `data/habits.json`) work correctly.  
 
-### Simple Local Server
+⚠️ If you try to double-click `index.html` and see JSON or CORS errors, it means you need to use one of the other methods below instead.
+NOTE: The port number may vary depending on the method/tool you use. Any http://localhost:<port> that is defaulted works.
+
+### OPTION 1 - Simple Local Server
 **macOS/Linux**
 cd project-folder
 python3 -m http.server 8000
@@ -55,12 +59,24 @@ cd path\to\project
 py -m http.server 8000
 Go to: http://localhost:8000 
 
+### OPTION 2 - VS Code Live Server (easiest for beginners)
+ - Install the Live Server extension in VS Code.
+ - Right-click index.html → Open with Live Server.
+ - A browser tab will open at http://localhost:5500 (default).
+ - Live Server auto-reloads whenever you save changes.
+
+### Option 3 — Node.js (if installed, not necessary for this project - but useful as an alternative for viewing)
+
+```bash
+npx serve .
+# or
+npx http-server .
+```
+
 ### 🧭 How We Work
 
 - Pick a GitHub issue (ticket).
-
 - Create a branch for that issue.
-
 - Keep changes small and focused.
 
 
@@ -77,15 +93,11 @@ Then → Open PR → link the issue → move ticket to request review.
 
 ### ✅ Definition of Done
 
-Runs locally at http://localhost:8000 with no console errors.
-
-Keyboard accessible (tab through controls; visible focus).
-
-Uses helpers in utilities/state.js (no direct localStorage inside components).
-
-Looks OK at mobile width (375px) in DevTools.
-
-PR links its ticket.
+- Runs locally at `http://localhost:<port>` (via Python server, Live Server, or Node) with no console errors.
+- Keyboard accessible (tab through controls; visible focus).
+- Uses helpers in utilities/state.js (no direct localStorage inside components).
+- Looks OK at mobile width (375px) in DevTools.
+- PR links its ticket.
 
 ### 🧪 Quick AI Prompts (for Copilot) - If you’re stuck, here are some quick example prompts you can paste into AI tools for guidance
 
