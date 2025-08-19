@@ -131,7 +131,9 @@ Work happens on branches + PRs linked to GitHub Project tickets.
 - Melissa Usher (@MelissaU in discord, @MelEUsher in Github)
 - Rebecca A. Stone (@beckstone on discord and Github)
 - Abu H Kamal(@kamal3235, kamal3235 in Github)
+- Christina Lerch (@Chris-60191, sunny0221 in github)
 
 ---
 
 > "Future Focused: Tiny Tech for Your Future Self" by keeping it **Simple**, making it **Lovable**, and finishing it **Complete**.
+
