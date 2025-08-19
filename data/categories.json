@@ -2,15 +2,18 @@
   "categories": [
     {
       "id": "health",
-      "name": "Health"
+      "name": "Health",
+      "icon": "🧘‍♂️"
     },
     {
       "id": "productivity",
-      "name": "Productivity"
+      "name": "Productivity",
+      "icon": "⏱️"
     },
     {
       "id": "learning",
-      "name": "Learning"
+      "name": "Learning",
+      "icon": "📚"
     }
   ]
 }
