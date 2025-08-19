@@ -6,33 +6,48 @@ Goal
 
 What belongs here
 - load/save functions
-- small helpers like State.get(), State.set(), State.todayKey(), and any
-  add/remove/toggle functions needed by tickets.
-
-Rules
-- Only store plain data (objects/arrays/numbers/strings).
-- Components should call these helpers instead of touching localStorage directly.
+- small helpers like State.get(), State.set(), State.todayKey()
+- (Students may add more helpers via tickets)
 */
 
-
-
-// Minimal localStorage wrapper only (no streak/xp/logic here)
-(function(){
+(function () {
   const KEY = 'microStacker_v1';
+
   const defaults = {
-    goalCategories: {},           // { [catId]: { stackProgress, activeHabits:[], unlockedHabits:[] } }
+    goalCategories: {},   // { [catId]: { stackProgress, activeHabits:[], unlockedHabits:[] } }
     selectedCategory: null,
-    history: {},                  // { 'YYYY-MM-DD': { [habitId]: true } }
-    streaks: {},                  // { [habitId]: number }
+    history: {},          // { 'YYYY-MM-DD': { [habitId]: true } }
+    streaks: {},          // { [habitId]: number }
     xp: 0,
-    badges: {},                   // { [badgeId]: true }
-    timers: {},                   // { [habitId]: { durationSec, remainingSec, running, lastStart } }
-    reminders: []                 // [{ id, scope:'global'|'habit', habitId?, type:'DAILY'|'WEEKLY', daysOfWeek?, times:[] }]
+    badges: {},           // { [badgeId]: true }
+    timers: {},           // { [habitId]: { durationSec, remainingSec, running, lastStart } }
+    reminders: []         // [{ id, scope:'global'|'habit', habitId?, type:'DAILY'|'WEEKLY', daysOfWeek?, times:[] }]
   };
-  function load(){ try { return JSON.parse(localStorage.getItem(KEY)) || { ...defaults }; } catch { return { ...defaults }; } }
-  function save(state){ localStorage.setItem(KEY, JSON.stringify(state)); }
-  function get(){ return load(); }
-  function set(next){ save(next); }
-  function todayKey(){ return new Date().toISOString().slice(0,10); }
+
+  function load() {
+    try {
+      const raw = localStorage.getItem(KEY);
+      return raw ? JSON.parse(raw) : { ...defaults };
+    } catch {
+      return { ...defaults };
+    }
+  }
+
+  function save(state) {
+    localStorage.setItem(KEY, JSON.stringify(state));
+  }
+
+  function get() { return load(); }
+  function set(next) { save(next); }
+
+  // Local YYYY-MM-DD (avoids timezone rollover surprises)
+  function todayKey() {
+    const now = new Date();
+    const tz = now.getTimezoneOffset() * 60000;
+    const local = new Date(now - tz);
+    return local.toISOString().slice(0, 10);
+  }
+
+  // Expose a tiny, safe API
   window.State = { get, set, todayKey };
 })();
