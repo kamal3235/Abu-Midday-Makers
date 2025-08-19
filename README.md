@@ -132,7 +132,9 @@ Work happens on branches + PRs linked to GitHub Project tickets.
 - Rebecca A. Stone (@beckstone on discord and Github)
 - Abu H Kamal(@kamal3235, kamal3235 in Github)
 - Christina Lerch (@Chris-60191, sunny0221 in github)
+- Hope Barnett(@HopeBarnett_04433 on Discord)(@Hope-Barnett on Github)
 - Steven Garcia (@Steniel in discord, @Stevengdev1 in github)
+
 
 ---
 
