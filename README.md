@@ -123,3 +123,4 @@ Completed and deployed in under 4 days.
 ---
 
 > "Future Focused: Tiny Tech for Your Future Self" by keeping it **Simple**, making it **Lovable**, and finishing it **Complete**.
+
