@@ -131,7 +131,7 @@ Work happens on branches + PRs linked to GitHub Project tickets.
 
 - Ellery Dorroh (@ellery_d, @EDORROH, Github)
 - Corey Knauer (@[ADD DISCORD NAME HERE] in discord, @[ADD GITHUB NAME HERE], Github)
-- John Caldwell (@[ADD DISCORD NAME HERE] in discord, @[ADD GITHUB NAME HERE], Github)
+- John Caldwell (johncaldwell4 in discord, @johncaldwell4, Github)
 - Melissa Usher (@MelissaU in discord, @MelEUsher in Github)
 - Rebecca A. Stone (@beckstone on discord and Github)
 - Abu H Kamal(@kamal3235, kamal3235 in Github)
