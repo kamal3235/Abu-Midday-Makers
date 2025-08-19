@@ -1,124 +1,137 @@
-# Midday-Makers
+# Midday-Makers — Micro-Habit Stacker 
 
-## Project Summary
-
-**Vibe Code** is a web app created in just **4 days** as part of a hackathon challenge to build something **SLC: Simple, Lovable, and Complete**, inspired by the [SLC philosophy](https://longform.asmartbear.com/slc/).
-
-Built under the theme **"Future Focused: Tiny Tech for Your Future Self,"** this project is a testament to what can happen when a small team leans into creativity, collaboration, and just enough structure to build something real — and something people actually enjoy.
-
-- **Simple** – No bloat, no overengineering — just what matters.
-- **Lovable** – We focused on personality, playfulness, and user-first interactions.
-- **Complete** – Delivered end-to-end with working features, polish, and deployment.
+A simple **micro-habit tracker** for Challenge Week.  
+Runs entirely in the browser (no backend). Data is stored in `localStorage`.  
+Final deploy will be on **Vercel (teacher-led on Friday).**
 
 ---
 
-## Tech Stack
-
-- **React** – For building composable, reactive UI components
-- **JavaScript** – For expressive, client-side logic and functionality
-- **Vite** – For fast development and building
-- **Tailwind CSS** – For utility-first styling
-- **Vitest** – For unit testing
-- **Prettier** - For project formatting
-
----
-
-## Prerequisites
-
-Before you begin, ensure you have the following installed on your machine:
-
-- **Node.js** (version 18 or higher)
-- **npm** (comes with Node.js)
-
-You can check your versions by running:
-
-```bash
-node --version
-npm --version
-```
+## 🚀 What It Does
+- Pick a **category** and choose micro-habits.
+- Daily checklist to **mark habits done/not done.**
+- **Streaks + XP** to reward consistency.
+- **Tower view** for last 7 days.
+- **Badges** for milestones.
+- Optional in-tab **reminders** and `.ics` export to calendar.
 
 ---
 
-## Setup
-
-1. **Clone the repository**
-
-   ```bash
-   git clone https://github.com/Joy-of-Coding/Midday-Makers.git
-   cd Joy-of-Coding/Midday-Makers
-   ```
-
-2. **Install dependencies**
-
-   ```bash
-   npm install
-   ```
-
-3. **Verify installation**
-   ```bash
-   npm run lint
-   ```
+## 🛠 Tech Stack
+- **HTML / CSS / JavaScript** (vanilla, no build step)
+- **localStorage** for data
+- Assets in `public/assets`
+- **Deployment** → Vercel (teacher will guide)
 
 ---
 
-## Running the Project Locally
+## 📂 Project Structure
 
-Start the development server with hot reload:
+**Where you work:**
+- `components/` → UI features  
+- `utilities/` → helper logic  
+- `data/` → JSON + docs  
+- `app.js` → main app logic  
+- `styles.css` → global styles  
 
-```bash
-npm run dev
-```
-
-The application will be available at `http://localhost:5173` (or the next available port).
-
-### Testing
-
-Run unit tests:
-
-```bash
-npm run test:unit
-```
-
-Run tests with coverage:
-
-```bash
-npm run test:coverage
-```
-
-### Code Quality
-
-Format code with Prettier:
-
-```bash
-npm run format
-```
+**Please don’t edit (setup only):**
+- `index.html`  
+- `.editorconfig`, `.prettierrc`, `.gitignore`  
+- `vercel.json`, `LICENSE`, `CONTRIBUTING.md`  
+- `.github/` workflows  
 
 ---
 
-## Deployment
+## 🖥 Run Locally
 
-Completed and deployed in under 4 days.
-
----
-
-## Highlights
-
-- Followed the SLC principle: delivered a real, usable, lovable product
-- Built by vibing — no rigid specs, just shared creative energy
-- Emphasized iteration, simplicity, and joy in coding
+### Simple Local Server
+**macOS/Linux**
+cd project-folder
+python3 -m http.server 8000
+Go to: http://localhost:8000
 
 
+**Windows (Powershell)**
+cd path\to\project
+py -m http.server 8000
+Go to: http://localhost:8000 
+
+### 🧭 How We Work
+
+- Pick a GitHub issue (ticket).
+
+- Create a branch for that issue.
+
+- Keep changes small and focused.
+
+
+
+### 🌱 Branch / PR Flow
+- git checkout main 
+- git pull
+- git checkout -b <YOUR-BRANCH-NAME> 
+- git add .
+- git commit -m "Commit Message"
+- git push -u origin <YOUR-BRANCH-Name>
+
+Then → Open PR → link the issue → move ticket to request review.
+
+### ✅ Definition of Done
+
+Runs locally at http://localhost:8000 with no console errors.
+
+Keyboard accessible (tab through controls; visible focus).
+
+Uses helpers in utilities/state.js (no direct localStorage inside components).
+
+Looks OK at mobile width (375px) in DevTools.
+
+PR links its ticket.
+
+### 🧪 Quick AI Prompts (for Copilot) - If you’re stuck, here are some quick example prompts you can paste into AI tools for guidance
+
+“Implement calculateCurrentStreak(days) in utilities/streaks.js. Explain edge cases.”
+
+“Render habit chips from data/habits.json into #habit-picker. Explain steps.”
+
+“Add :focus-visible outline for interactive elements in styles.css.”
+
+“Create toast(message) in utilities/notify.js (2s auto-remove).”
+
+### 🗂 Git Commands (Cheat Sheet)
+
+- git clone <repo-url.git> → copies the online repository to your local machine
+
+- git fetch origin → check for updates
+
+- git status → see changes
+
+- git pull → bring updates into local
+
+- git checkout -b new-branch → start a new branch
+
+- git add . → stage all changes
+
+- git commit -m "message" → save staged changes
+
+- git push -u origin branch-name → send branch online
+
+- git branch → list local branches
+
+### 🤝 Contributing
+
+See CONTRIBUTING.md for full guidelines.
+Work happens on branches + PRs linked to GitHub Project tickets.
 ---
 
 ## Contributors
 
--Ellery Dorroh (@[ADD DISCORD NAME HERE], @[ADD GITHUB NAME HERE], Github)
--Corey Knauer (@[ADD DISCORD NAME HERE] in discord, @[ADD GITHUB NAME HERE], Github)
--John Caldwell (@[ADD DISCORD NAME HERE] in discord, @[ADD GITHUB NAME HERE], Github)
--Melissa Usher (@MelissaU in discord, @[ADD GITHUB NAME HERE], Github)
--Rebecca A. Stone (@beckstone on discord and Github)
--Abu H Kamal(@kamal3235, kamal3235 in Github)
--Christina Lerch (@Chris-60191, sunny0221 in github)
+- Ellery Dorroh (@[ADD DISCORD NAME HERE], @[ADD GITHUB NAME HERE], Github)
+- Corey Knauer (@[ADD DISCORD NAME HERE] in discord, @[ADD GITHUB NAME HERE], Github)
+- John Caldwell (@[ADD DISCORD NAME HERE] in discord, @[ADD GITHUB NAME HERE], Github)
+- Melissa Usher (@MelissaU in discord, @MelEUsher in Github)
+- Rebecca A. Stone (@beckstone on discord and Github)
+- Abu H Kamal(@kamal3235, kamal3235 in Github)
+- Christina Lerch (@Chris-60191, sunny0221 in github)
 
 ---
 
