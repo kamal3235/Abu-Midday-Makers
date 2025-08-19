@@ -1,4 +1,4 @@
-# Midday-Makers — Micro-Habit Stacker
+# Midday-Makers — Micro-Habit Stacker 
 
 A simple **micro-habit tracker** for Challenge Week.  
 Runs entirely in the browser (no backend). Data is stored in `localStorage`.  
@@ -7,7 +7,6 @@ Final deploy will be on **Vercel (teacher-led on Friday).**
 ---
 
 ## 🚀 What It Does
-
 - Pick a **category** and choose micro-habits.
 - Daily checklist to **mark habits done/not done.**
 - **Streaks + XP** to reward consistency.
@@ -18,7 +17,6 @@ Final deploy will be on **Vercel (teacher-led on Friday).**
 ---
 
 ## 🛠 Tech Stack
-
 - **HTML / CSS / JavaScript** (vanilla, no build step)
 - **localStorage** for data
 - Assets in `public/assets`
@@ -29,35 +27,33 @@ Final deploy will be on **Vercel (teacher-led on Friday).**
 ## 📂 Project Structure
 
 **Where you work:**
-
-- `components/` → UI features
-- `utilities/` → helper logic
-- `data/` → JSON + docs
-- `app.js` → main app logic
-- `styles.css` → global styles
+- `components/` → UI features  
+- `utilities/` → helper logic  
+- `data/` → JSON + docs  
+- `app.js` → main app logic  
+- `styles.css` → global styles  
 
 **Please don’t edit (setup only):**
-
-- `index.html`
-- `.editorconfig`, `.prettierrc`, `.gitignore`
-- `vercel.json`, `LICENSE`, `CONTRIBUTING.md`
-- `.github/` workflows
+- `index.html`  
+- `.editorconfig`, `.prettierrc`, `.gitignore`  
+- `vercel.json`, `LICENSE`, `CONTRIBUTING.md`  
+- `.github/` workflows  
 
 ---
 
 ## 🖥 Run Locally
 
 ### Simple Local Server
-
 **macOS/Linux**
 cd project-folder
 python3 -m http.server 8000
 Go to: http://localhost:8000
 
+
 **Windows (Powershell)**
 cd path\to\project
 py -m http.server 8000
-Go to: http://localhost:8000
+Go to: http://localhost:8000 
 
 ### 🧭 How We Work
 
@@ -67,11 +63,12 @@ Go to: http://localhost:8000
 
 - Keep changes small and focused.
 
-### 🌱 Branch / PR Flow
 
-- git checkout main
+
+### 🌱 Branch / PR Flow
+- git checkout main 
 - git pull
-- git checkout -b <YOUR-BRANCH-NAME>
+- git checkout -b <YOUR-BRANCH-NAME> 
 - git add .
 - git commit -m "Commit Message"
 - git push -u origin <YOUR-BRANCH-Name>
@@ -124,18 +121,20 @@ PR links its ticket.
 
 See CONTRIBUTING.md for full guidelines.
 Work happens on branches + PRs linked to GitHub Project tickets.
-
 ---
 
 ## Contributors
 
 - Ellery Dorroh (@ellery_d, @EDORROH, Github)
-- Corey Knauer (@[ADD DISCORD NAME HERE] in discord, @[ADD GITHUB NAME HERE], Github)
+- Corey Knauer (@coreyk in discord, @cwik1, Github)
 - John Caldwell (johncaldwell4 in discord, @johncaldwell4, Github)
 - Melissa Usher (@MelissaU in discord, @MelEUsher in Github)
 - Rebecca A. Stone (@beckstone on discord and Github)
 - Abu H Kamal(@kamal3235, kamal3235 in Github)
 - Christina Lerch (@Chris-60191, sunny0221 in github)
+- Hope Barnett(@HopeBarnett_04433 on Discord)(@Hope-Barnett on Github)
+- Steven Garcia (@Steniel in discord, @Stevengdev1 in github)
+
 
 ---
 
