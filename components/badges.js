@@ -24,8 +24,9 @@ Avoid
 "Great job! Keep your streak going strong!"
 "Habit mastered—you're on a roll!"
 "Consistency is key. You’re crushing it!"
-friendly tooltip texts for badges in a habit tracker app
-
-"Awesome streak! Your habits are thriving!"
-"Badge unlocked—keep up the great work!"
-"You’re a habit hero—way to go!"
+// Tooltip texts for badges in a habit tracker app
+const badgeTooltips = [
+  "Awesome streak! Your habits are thriving!",
+  "Badge unlocked—keep up the great work!",
+  "You’re a habit hero—way to go!"
+];
