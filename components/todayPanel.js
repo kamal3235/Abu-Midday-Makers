@@ -17,16 +17,15 @@ Steps
 Avoid
 - Writing to localStorage directly; always use /utilities/state.js.
 */
-Before:
+// Before:
+// Streak: 5 days
+// Missed: 2 days
+// Complete habit to earn badge
 
-Streak: 5 days
-Missed: 2 days
-Complete habit to earn badge
-After:
-
-You’ve kept your streak for 5 days—awesome!
-Oops, you missed 2 days. Try again tomorrow!
-Complete this habit to unlock a fun badge!
+// After:
+// You’ve kept your streak for 5 days—awesome!
+// Oops, you missed 2 days. Try again tomorrow!
+// Complete this habit to unlock a fun badge!
 
 // Example function to render a badge with a tooltip
 function renderBadge(badge) {
