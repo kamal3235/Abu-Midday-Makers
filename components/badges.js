@@ -17,11 +17,26 @@ Avoid
 - Writing to localStorage directly—if you need to save earned badges, go through State helpers.
 */
 
-// Example badge state (replace with your actual logic)
+// Example streaks and history state (replace with your actual state logic)
+const streaks = { currentStreak: 8 }; // e.g. 8 consecutive days
+const history = [
+  { date: '2025-08-18', completed: true, allGreen: true },
+  { date: '2025-08-19', completed: false, allGreen: false },
+  { date: '2025-08-20', completed: true, allGreen: true },
+  // ...more days
+];
+
+// Badge logic
+const earned7DayStreak = streaks.currentStreak >= 7;
+const earnedAllGreenDay = history.some(day => day.allGreen);
+const completedDays = history.filter(day => day.completed).length;
+const notCompletedDays = history.length - completedDays;
+const earned51Club = completedDays > notCompletedDays;
+
 const badgesState = [
-  { name: '7-Day Streak', earned: true }, // Achievement: completed 7 consecutive days
-  { name: 'All-Green Day', earned: true }, // Achievement: all selected habbits were completed today
-  { name: '51% Club', earned: true } // Achievement: more completed days than not completed days in history
+  { name: '7-Day Streak',  earned: earned7DayStreak,  /* Achievement: 7 or more consecutive completed days */ },
+  { name: 'All-Green Day', earned: earnedAllGreenDay, /* Achievement: at least one day where all habits were completed */ },
+  { name: '51% Club',      earned: earned51Club,      /* Achievement: more completed days than not completed days in history */ }
 ];
 
 function renderBadges() {
