@@ -17,7 +17,7 @@ How to work on this file
 
 import { renderHabitPicker } from "./components/habitPicker.js";
 
-document.addEventListener("DOMContentLoaded", () => {
+  document.addEventListener("DOMContentLoaded", () => {
   renderHabitPicker(); // will look for #habit-list
 }); 
 
