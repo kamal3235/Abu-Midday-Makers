@@ -27,7 +27,9 @@ async function checkCategoriesJson() {
         console.log('PASS: categories.json loaded');
         return true;
       } else {
-        console.log('FAIL: categories.json loaded but data is empty or invalid');
+        console.log(
+          'FAIL: categories.json loaded but data is empty or invalid'
+        );
         return false;
       }
     } else {
@@ -40,6 +42,7 @@ async function checkCategoriesJson() {
   }
 }
 
+// Run all smoke tests
 async function runSmokeTest() {
   window.addEventListener('DOMContentLoaded', async () => {
     const appMounted = checkAppMount();
@@ -57,8 +60,7 @@ async function runSmokeTest() {
         ? '<span class="pass">PASS</span>: No uncaught errors'
         : '<span class="fail">FAIL</span>: Uncaught errors found',
     ];
-    document.getElementById('smoke-results').innerHTML =
-      results.join('<br>');
+    document.getElementById('smoke-results').innerHTML = results.join('<br>');
   });
 }
 
