@@ -1,1 +1,19 @@
-[]
+{
+  "categories": [
+    {
+      "id": "health",
+      "name": "Health",
+      "icon": "🧘‍♂️"
+    },
+    {
+      "id": "productivity",
+      "name": "Productivity",
+      "icon": "⏱️"
+    },
+    {
+      "id": "learning",
+      "name": "Learning",
+      "icon": "📚"
+    }
+  ]
+}
