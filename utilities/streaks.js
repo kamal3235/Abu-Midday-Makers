@@ -18,10 +18,10 @@ Rules
  *
  * Example:
  * calculateCurrentStreak({
- *   "2024-08-17": true,
- *   "2024-08-18": true,
- *   "2024-08-19": true, // today
- *   "2024-08-20": true  // future, ignored
+ *   "2025-08-18": true,
+ *   "2025-08-19": true,
+ *   "2025-08-20": true, // today
+ *   "2025-08-21": true  // future, ignored
  * }) // returns 3
  */
 function calculateCurrentStreak(history) {
@@ -58,15 +58,15 @@ function calculateCurrentStreak(history) {
  * Find the best (longest) streak of consecutive completed days in history.
  * @param {Object} history - { "YYYY-MM-DD": true/false, ... }
  * @returns {number} Best streak count
- *
- * Example:
- * bestStreak({
- *   "2024-08-15": true,
- *   "2024-08-16": true,
- *   "2024-08-18": true, // gap (missing 17th)
- *   "2024-08-19": true
- * }) // returns 2
- */
+*  
+* Example:
+* bestStreak({
+*    "2025-08-16": true,
+*    "2025-08-17": true,
+*    "2025-08-19": true, // gap (missing 17th)
+*    "2025-08-20": true
+*  }) // returns 2
+*/ 
 function bestStreak(history) {
   if (!history || Object.keys(history).length === 0) return 0;
 
@@ -107,12 +107,13 @@ function bestStreak(history) {
 
 // --- Commented Example Usage ---
 
-//const history = {
-//  "2024-08-15": true,
-//  "2024-08-16": true,
-//  "2024-08-18": true, // gap
-//  "2024-08-19": true,
-//  "2024-08-20": true // future
-//};
-//console.log(calculateCurrentStreak(history)); // e.g. 1 (if today is 2024-08-19)
-//console.log(bestStreak(history)); // Expected: 2
+const history = {
+  "2025-08-14": true,
+  "2025-08-15": true,
+  "2025-08-16": true,
+  "2025-08-18": true, // gap
+  "2025-08-19": true,
+  "2025-08-21": true // future
+};
+console.log(calculateCurrentStreak(history)); // Expected. 2 (if today is 2025-08-20)
+console.log(bestStreak(history)); // Expected: 3
