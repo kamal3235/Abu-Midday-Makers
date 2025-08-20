@@ -76,7 +76,7 @@ input[type="checkbox"]:focus-visible {
 }
 .badge-status {
   font-size: 0.9rem;
-  color: #555;
+  color: #01930d;
 }
 .badge-icon {
   font-size: 2rem;
