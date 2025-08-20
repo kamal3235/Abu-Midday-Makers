@@ -15,6 +15,13 @@ How to work on this file
 3) Don’t write to localStorage directly—use helpers in /utilities/state.js.
 */
 
+import { renderHabitPicker } from "./components/habitPicker.js";
+
+document.addEventListener("DOMContentLoaded", () => {
+  renderHabitPicker(); // will look for #habit-list
+}); 
+
+
 (function () {
   function applySavedTheme() {
     const saved = localStorage.getItem('theme') || 'dark';
