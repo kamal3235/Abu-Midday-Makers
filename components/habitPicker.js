@@ -31,7 +31,7 @@ export async function renderHabitPicker(containerId) {
       cat.habits.forEach((habit) => {
         const chip = document.createElement("div");
         chip.className = "habit-chip";
-        chip.textContent = habit;
+        chip.textContent = habit.name || habit;
         chip.addEventListener("click", () => {
           chip.classList.toggle("active");
         });
