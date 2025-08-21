@@ -32,8 +32,20 @@ document.addEventListener("DOMContentLoaded", () => {
   // Global listener for habit clicks (delegation)
   document.addEventListener("click", (e) => {
     if (e.target.classList.contains("habit-btn")) {
+      // Check if the habit is currently active before toggling
+      const wasActive = e.target.classList.contains("active");
+
+      // Toggle the active state
       e.target.classList.toggle("active");
-      updateXP(1);
+
+      // Update XP based on whether we're activating or deactivating
+      if (wasActive) {
+        // Was active, now deactivated - decrease XP
+        updateXP(-1);
+      } else {
+        // Was inactive, now activated - increase XP
+        updateXP(1);
+      }
     }
   });
 });
