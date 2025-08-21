@@ -10,16 +10,42 @@ What to put here
 
 How to work on this file
 1) Create functions to schedule and clear reminders using setTimeout/setInterval.
-2) Use Notify.notify(title, message) when a reminder fires.
-3) Keep this focused ONLY on scheduling — do not write UI code here.
+2) Use Notify.notify(title, message) when the reminder fires.
 */
 
-// Safe placeholder (does nothing yet, so the app won’t break)
-window.Scheduler = {
-  scheduleDaily: function (_timeHHMM) {
-    console.log("Scheduler.scheduleDaily called (not yet implemented)");
-  },
-  clearAll: function () {
-    console.log("Scheduler.clearAll called (not yet implemented)");
+// Store references to active reminders
+let activeReminders = [];
+
+/**
+ * Schedule a reminder at a specific daily time (HH:MM)
+ * @param {string} time - "HH:MM" in 24h format
+ * @param {function} callback
+ */
+export function scheduleDaily(time, callback) {
+  const now = new Date();
+  const target = new Date();
+
+  const [hours, minutes] = time.split(":").map(Number);
+  target.setHours(hours, minutes, 0, 0);
+
+  let delay = target - now;
+  if (delay < 0) {
+    // if the time is earlier today, schedule for tomorrow
+    delay += 24 * 60 * 60 * 1000;
   }
-};
+
+  const id = setTimeout(() => {
+    callback();
+    scheduleDaily(time, callback); // reschedule for next day
+  }, delay);
+
+  activeReminders.push(id);
+}
+
+/**
+ * Clear all scheduled reminders
+ */
+export function clearAll() {
+  activeReminders.forEach(clearTimeout);
+  activeReminders = [];
+}
