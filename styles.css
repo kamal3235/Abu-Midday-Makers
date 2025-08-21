@@ -1,5 +1,5 @@
 /* ==========================
-   GLOBAL RESET + BASE
+   RESET + BASE
 ========================== */
 * {
   margin: 0;
@@ -9,125 +9,139 @@
 
 body.app {
   font-family: system-ui, sans-serif;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
   background-color: var(--bg);
   color: var(--text);
   transition: background 0.3s, color 0.3s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem;
 }
 
 /* ==========================
-   THEME VARIABLES
+   THEMES
 ========================== */
 :root {
-  --bg: #ffffff;
-  --text: #222222;
-  --card-bg: #f8f9fa;
+  --bg: #f5f3ef; /* softer beige */
+  --text: #222;
+  --card-bg: #fffdf9;
+  --card-mid: #e9e4dc;
   --chip-bg: #e0e0e0;
-  --chip-hover: #d5d5d5;
-  --chip-selected: #007bff;
-  --chip-selected-text: #ffffff;
-  --pill-bg: #eeeeee;
+  --chip-hover: #ccc;
+  --chip-active: #0077cc;
+  --chip-active-text: #fff;
 }
 
 [data-theme="dark"] {
   --bg: #1a1a1a;
   --text: #f1f1f1;
   --card-bg: #2a2a2a;
-  --chip-bg: #333333;
-  --chip-hover: #444444;
-  --chip-selected: #4dabf7;
-  --chip-selected-text: #ffffff;
-  --pill-bg: #444444;
+  --card-mid: #3a3a3a;
+  --chip-bg: #333;
+  --chip-hover: #444;
+  --chip-active: #4dabf7;
+  --chip-active-text: #fff;
 }
 
 /* ==========================
-   HEADER
+   HEADER + TITLE
 ========================== */
 .app-header {
+  width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
-  padding: 1rem 1.5rem;
-  background: var(--card-bg);
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  margin-bottom: 1rem;
 }
 
-.app-header h1 {
-  font-size: 1.5rem;
-  font-weight: bold;
+.app-title {
+  text-align: center;
+  font-size: 2.5rem; /* doubled */
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  font-family: "Georgia", serif; /* softer edge font */
+  color: var(--text);
 }
 
-/* Right side controls */
-.header-right {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
+[data-theme="dark"] .app-title {
+  color: #f9f9f9; /* lighter in dark mode */
 }
 
-.pill {
-  background: var(--pill-bg);
-  padding: 0.4rem 0.75rem;
-  border-radius: 999px;
-  font-size: 0.9rem;
-}
-
-/* Theme button */
-.btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 1.25rem;
-  transition: transform 0.2s;
-}
-
-.btn:hover {
-  transform: scale(1.2);
+.instructions {
+  text-align: center;
+  font-size: 0.95rem;
+  color: #666;
+  margin-bottom: 2rem;
 }
 
 /* ==========================
-   HABIT CHIPS
+   CARDS LAYOUT
 ========================== */
-#habit-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-top: 1rem;
+.cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative;
 }
 
-.chip {
-  padding: 0.5rem 0.9rem;
-  border-radius: 999px;
-  border: 1px solid transparent;
-  background: var(--chip-bg);
-  cursor: pointer;
-  font-size: 0.9rem;
-  transition: all 0.2s ease;
-}
-
-.chip:hover {
-  background: var(--chip-hover);
-}
-
-.chip--selected {
-  background: var(--chip-selected);
-  color: var(--chip-selected-text);
-  border-color: var(--chip-selected);
-}
-
-/* ==========================
-   CARDS (FOR FUTURE PANELS)
-========================== */
 .card {
   background: var(--card-bg);
-  border-radius: 0.75rem;
-  padding: 1rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  text-align: center;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+}
+
+/* Pyramid adjustment: middle card on top, bottom two closer in */
+.cards .card:nth-child(1) {
+  grid-column: 1 / -1;
+  justify-self: center;
+  width: 60%;
+  background: var(--card-mid);
+}
+
+.cards .card:nth-child(2) {
+  justify-self: end;
+  transform: translateY(-2rem);
+}
+
+.cards .card:nth-child(3) {
+  justify-self: start;
+  transform: translateY(-2rem);
+}
+
+/* ==========================
+   HABIT BUTTONS
+========================== */
+.habit-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.habit-chip {
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  background: var(--chip-bg);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.habit-chip:hover {
+  background: var(--chip-hover);
+}
+
+.habit-chip.active {
+  background: var(--chip-active);
+  color: var(--chip-active-text);
 }
