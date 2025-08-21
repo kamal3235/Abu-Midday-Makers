@@ -66,11 +66,15 @@ function updateDailyXp(points) {
 
 /**
  * Gets current daily XP, ensuring daily reset has occurred
- * @returns {number} Current daily XP
+ * @returns {object} Object with dailyXp and reset information
  */
 function getDailyXp() {
-  const state = window.State.checkAndResetDailyXp();
-  return state.dailyXp || 0;
+  const result = window.State.checkAndResetDailyXp();
+  return {
+    dailyXp: result.dailyXp || 0,
+    wasReset: result.wasReset,
+    previousDailyXp: result.previousDailyXp || 0
+  };
 }
 
 /**
@@ -87,29 +91,6 @@ To add bonuses (e.g. streaks, achievements),
 pass an extra bonuses array/object and sum it in totalXp/history logic.
 You can refactor the internals to add bonuses without changing the function signatures.
 */
-
-// Example tests for todayXp and totalXp
-
-console.log(todayXp(3)); // Should print 30
-console.log(todayXp(0)); // Should print 0
-console.log(todayXp(-2)); // Should print 0
-console.log(todayXp()); // Should print 0
-
-const mockHistory = [
-  { doneCount: 2 },
-  { doneCount: 4 },
-  { doneCount: 0 },
-  { doneCount: -1 },
-  {},
-  null,
-  { doneCount: 3 }
-];
-
-console.log(totalXp(mockHistory)); // Should print 90 (2+4+0+0+0+0+3 = 9 habits * 10 XP)
-console.log(totalXp([])); // Should print 0
-console.log(totalXp()); // Should print 0
-//end test data
-
 
 function getHistory() {
   // For now, return empty array - this should be connected to actual state management

@@ -1,6 +1,6 @@
 // app.js
 import { renderHabits } from "./components/habitPicker.js";
-import { updateDailyXp, getDailyXp } from "./utilities/xp.js";
+import { updateDailyXp, getDailyXp, getTotalXp } from "./utilities/xp.js";
 import "./components/badges.js";
 
 // XP per habit constant (should match utilities/xp.js)
@@ -8,19 +8,67 @@ const XP_PER_HABIT = 10;
 
 document.addEventListener("DOMContentLoaded", () => {
   const xpDisplay = document.getElementById("xp");
+  const totalXpDisplay = document.getElementById("total-xp");
   const themeToggle = document.getElementById("theme-toggle");
   let darkMode = false;
 
-  // Initialize daily XP display (this will also handle daily reset if needed)
-  function initializeXP() {
-    const dailyXp = getDailyXp();
-    xpDisplay.textContent = dailyXp;
+  // Show a temporary notification
+  function showNotification(message, duration = 3000) {
+    const notification = document.createElement('div');
+    notification.textContent = message;
+    notification.style.cssText = `
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #4CAF50;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 4px;
+      z-index: 1000;
+      font-size: 14px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      animation: slideIn 0.3s ease-out;
+    `;
+    
+    // Add animation keyframes if not already added
+    if (!document.querySelector('#notification-styles')) {
+      const style = document.createElement('style');
+      style.id = 'notification-styles';
+      style.textContent = `
+        @keyframes slideIn {
+          from { transform: translateX(100%); opacity: 0; }
+          to { transform: translateX(0); opacity: 1; }
+        }
+      `;
+      document.head.appendChild(style);
+    }
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+      notification.remove();
+    }, duration);
   }
 
-  // Update XP display with new daily XP
+  // Initialize XP displays (this will also handle daily reset if needed)
+  function initializeXP() {
+    const dailyXpResult = getDailyXp();
+    const totalXp = getTotalXp();
+    
+    xpDisplay.textContent = dailyXpResult.dailyXp;
+    totalXpDisplay.textContent = totalXp;
+    
+    // Show notification if XP was reset
+    if (dailyXpResult.wasReset && dailyXpResult.previousDailyXp > 0) {
+      showNotification(`Daily XP reset! Yesterday you earned ${dailyXpResult.previousDailyXp} XP. Start fresh today! 🌅`);
+    }
+  }
+
+  // Update XP displays with new values
   function updateXPDisplay(points) {
     const state = updateDailyXp(points);
     xpDisplay.textContent = state.dailyXp;
+    totalXpDisplay.textContent = state.xp;
   }
 
   // Initialize XP on page load

@@ -57,12 +57,20 @@ What belongs here
     
     if (state.lastXpResetDate !== today) {
       // New day detected - reset daily XP
+      const previousDailyXp = state.dailyXp;
       state.dailyXp = 0;
       state.lastXpResetDate = today;
       set(state);
+      
+      // Return info about the reset
+      return { 
+        ...state, 
+        wasReset: true, 
+        previousDailyXp: previousDailyXp 
+      };
     }
     
-    return state;
+    return { ...state, wasReset: false };
   }
 
   // Expose a tiny, safe API

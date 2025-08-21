@@ -1,0 +1,72 @@
+tests/<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XP Test</title>
+</head>
+<body>
+    <h1>Daily XP Reset Test</h1>
+    <div>
+        <p>Daily XP: <span id="daily-xp">0</span></p>
+        <p>Total XP: <span id="total-xp">0</span></p>
+        <p>Last Reset Date: <span id="reset-date">None</span></p>
+        <p>Was Reset: <span id="was-reset">No</span></p>
+    </div>
+    <div>
+        <button id="add-xp">Add 10 XP</button>
+        <button id="subtract-xp">Subtract 10 XP</button>
+        <button id="simulate-new-day">Simulate New Day</button>
+        <button id="refresh-display">Refresh Display</button>
+    </div>
+
+    <script src="utilities/state.js"></script>
+    <script type="module">
+        import { updateDailyXp, getDailyXp, getTotalXp } from './utilities/xp.js';
+
+        const dailyXpEl = document.getElementById('daily-xp');
+        const totalXpEl = document.getElementById('total-xp');
+        const resetDateEl = document.getElementById('reset-date');
+        const wasResetEl = document.getElementById('was-reset');
+
+        function updateDisplay() {
+            const state = window.State.get();
+            const dailyXpResult = getDailyXp();
+            
+            dailyXpEl.textContent = dailyXpResult.dailyXp;
+            totalXpEl.textContent = getTotalXp();
+            resetDateEl.textContent = state.lastXpResetDate || 'None';
+            wasResetEl.textContent = dailyXpResult.wasReset ? 'Yes' : 'No';
+        }
+
+        document.getElementById('add-xp').addEventListener('click', () => {
+            updateDailyXp(10);
+            updateDisplay();
+        });
+
+        document.getElementById('subtract-xp').addEventListener('click', () => {
+            updateDailyXp(-10);
+            updateDisplay();
+        });
+
+        document.getElementById('simulate-new-day').addEventListener('click', () => {
+            // Manually set the reset date to yesterday to simulate a new day
+            const state = window.State.get();
+            const yesterday = new Date();
+            yesterday.setDate(yesterday.getDate() - 1);
+            state.lastXpResetDate = yesterday.toISOString().slice(0, 10);
+            window.State.set(state);
+            
+            // Now check and reset (this should reset daily XP)
+            updateDisplay();
+        });
+
+        document.getElementById('refresh-display').addEventListener('click', () => {
+            updateDisplay();
+        });
+
+        // Initial display update
+        updateDisplay();
+    </script>
+</body>
+</html>
