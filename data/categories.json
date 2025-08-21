@@ -1,19 +1,32 @@
-{
-  "categories": [
-    {
-      "id": "health",
-      "name": "Health",
-      "icon": "🧘‍♂️"
-    },
-    {
-      "id": "productivity",
-      "name": "Productivity",
-      "icon": "⏱️"
-    },
-    {
-      "id": "learning",
-      "name": "Learning",
-      "icon": "📚"
-    }
-  ]
-}
+[
+  {
+    "id": "health",
+    "name": "Health",
+    "icon": "🧘‍♂️",
+    "habits": [
+      { "id": "h1", "name": "Drink 1 glass of water" },
+      { "id": "h2", "name": "Take a 5-minute walk" },
+      { "id": "h3", "name": "Take deep breaths" }
+    ]
+  },
+  {
+    "id": "productivity",
+    "name": "Productivity",
+    "icon": "⏱️",
+    "habits": [
+      { "id": "h4", "name": "Turn off notifications" },
+      { "id": "h5", "name": "Create a quiet workspace" },
+      { "id": "h6", "name": "Set specific work hours" }
+    ]
+  },
+  {
+    "id": "learning",
+    "name": "Learning",
+    "icon": "📚",
+    "habits": [
+      { "id": "h7", "name": "Find a mentor" },
+      { "id": "h8", "name": "Practice for 15 minutes" },
+      { "id": "h9", "name": "Read 1 chapter" }
+    ]
+  }
+]
