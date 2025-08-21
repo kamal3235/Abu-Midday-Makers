@@ -7,6 +7,10 @@ export function renderHabits(categories) {
   // Clear previous content
   container.innerHTML = "";
 
+  // Create bottom row container for productivity and learning
+  const bottomRow = document.createElement("div");
+  bottomRow.classList.add("bottom-row");
+
   categories.forEach(category => {
     // Category card
     const categoryDiv = document.createElement("div");
@@ -30,6 +34,15 @@ export function renderHabits(categories) {
     });
 
     categoryDiv.appendChild(habitsDiv);
-    container.appendChild(categoryDiv);
+    
+    // Health goes directly to container, others go to bottom row
+    if (category.id === "health") {
+      container.appendChild(categoryDiv);
+    } else {
+      bottomRow.appendChild(categoryDiv);
+    }
   });
+
+  // Add bottom row to container
+  container.appendChild(bottomRow);
 }
