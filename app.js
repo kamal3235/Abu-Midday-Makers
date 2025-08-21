@@ -1,22 +1,24 @@
 import { renderHabitPicker } from "./components/habitPicker.js";
 
-(function () {
-  function applySavedTheme() {
-    const saved = localStorage.getItem("theme") || "light";
-    document.body.dataset.theme = saved;
-  }
+document.addEventListener("DOMContentLoaded", () => {
+  renderHabitPicker();
 
-  function toggleTheme() {
-    const current = document.body.dataset.theme === "dark" ? "light" : "dark";
-    document.body.dataset.theme = current;
-    localStorage.setItem("theme", current);
-  }
+  // XP counter
+  let xp = 0;
+  const xpEl = document.getElementById("xp");
 
-  applySavedTheme();
+  document.body.addEventListener("click", (e) => {
+    if (e.target.classList.contains("habit-btn")) {
+      e.target.classList.toggle("active");
+      xp += e.target.classList.contains("active") ? 10 : -10;
+      xpEl.textContent = `XP ${xp}`;
+    }
+  });
 
-  const t = document.getElementById("themeToggle");
-  if (t) t.onclick = toggleTheme;
-
-  // Boot the UI
-  renderHabitPicker(); // Render category cards
-})();
+  // Dark/light mode
+  const modeBtn = document.getElementById("mode-toggle");
+  modeBtn.addEventListener("click", () => {
+    document.body.classList.toggle("dark");
+    modeBtn.textContent = document.body.classList.contains("dark") ? "☀️" : "🌙";
+  });
+});

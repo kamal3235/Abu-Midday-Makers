@@ -4,21 +4,25 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Micro-Habit Stacker</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="data:,">
 </head>
 <body>
-  <header>
-    <h1>Micro-Habit Stacker</h1>
-    <div id="xp-display">XP 0</div>
-    <button id="themeToggle">🌓</button>
-  </header>
+  <div class="app">
+    <header>
+      <h1>Micro-Habit Stacker</h1>
+      <div class="xp-tracker">
+        <span id="xp">XP 0</span>
+        <button id="mode-toggle">🌙</button>
+      </div>
+    </header>
 
-  <main>
-    <p class="intro">
-      Microhabits are stackable. Click on habits to activate them. Build streaks and earn XP as you stack consistency.
-    </p>
-    <div id="habit-container"></div>
-  </main>
+    <section id="instructions">
+      <p>Microhabits are stackable. Click on habits to activate them. Build streaks and earn XP as you stack consistency.</p>
+    </section>
+
+    <main id="habit-container"></main>
+  </div>
 
   <script type="module" src="app.js"></script>
 </body>

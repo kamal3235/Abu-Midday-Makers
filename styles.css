@@ -1,105 +1,103 @@
-/* Reset + base */
 body {
   margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  background: var(--bg, #fafafa);
-  color: var(--text, #222);
+  font-family: Arial, sans-serif;
+  background-color: #fdfbf9;
+  color: #222;
   transition: background 0.3s, color 0.3s;
 }
 
-h1 {
+body.dark {
+  background-color: #1a1a1a;
+  color: #f9f9f9;
+}
+
+.app {
+  padding: 1rem;
   text-align: center;
-  font-size: 2.5rem;
-  margin: 1rem 0;
 }
 
 header {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  gap: 1rem;
 }
 
-#xp-display {
-  background: #fff;
-  border-radius: 6px;
-  padding: 0.3rem 0.6rem;
-  font-weight: bold;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+h1 {
+  font-size: 2.5rem;
+  margin: 0.5rem 0;
 }
 
-#themeToggle {
-  border: none;
-  background: #fff;
-  padding: 0.3rem 0.6rem;
-  border-radius: 6px;
-  cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.intro {
-  text-align: center;
+#instructions {
+  margin: 1rem auto;
   max-width: 600px;
-  margin: 0 auto 2rem;
-  padding: 0.5rem 1rem;
-  background: rgba(255,255,255,0.6);
-  border-radius: 8px;
-}
-
-/* Habit container layout */
-#habit-container {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  flex-wrap: wrap;
-  padding: 1rem;
-}
-
-/* Category cards */
-.category-card {
-  background: #fff;
+  padding: 0.8rem 1rem;
+  background: rgba(255, 255, 255, 0.7);
   border-radius: 12px;
-  padding: 1rem;
-  margin: 1rem;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  width: 280px;
-  flex: 1;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  font-size: 1rem;
 }
 
-.category-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+body.dark #instructions {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.xp-tracker {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+#habit-container {
+  display: grid;
+  grid-template-areas:
+    "center"
+    "left right";
+  grid-template-columns: 1fr 1fr;
+  justify-content: center;
+  margin-top: 2rem;
+  gap: 2rem;
+}
+
+.category-card {
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 2px 4px 8px rgba(0,0,0,0.15);
+  background: #fff;
+  transition: background 0.3s;
+}
+
+body.dark .category-card {
+  background: #2a2a2a;
 }
 
 .category-title {
   font-weight: bold;
-  font-size: 1.25rem;
   margin-bottom: 0.5rem;
 }
 
-/* Card colors */
-.category-health { background: #f5e6f9; border-left: 6px solid #a855f7; }
-.category-productivity { background: #e0f7f6; border-left: 6px solid #06b6d4; }
-.category-learning { background: #e6f0ff; border-left: 6px solid #3b82f6; }
-
-/* Habit buttons */
 .habit-btn {
   display: block;
-  width: 100%;
-  margin: 0.25rem 0;
-  padding: 0.5rem;
+  margin: 0.4rem auto;
+  padding: 0.4rem 1rem;
   border: 1px solid #ccc;
   border-radius: 6px;
-  background: #fff;
   cursor: pointer;
-  transition: background 0.2s, transform 0.1s;
+  background: #fff;
+  transition: background 0.3s, color 0.3s;
 }
 
-.habit-btn:hover {
-  background: #f0f0f0;
+.habit-btn.active {
+  background: #4cafef;
+  color: #fff;
+  border-color: #4cafef;
 }
 
-.habit-btn:active {
-  transform: scale(0.97);
+body.dark .habit-btn {
+  background: #333;
+  color: #eee;
+  border-color: #555;
+}
+
+body.dark .habit-btn.active {
+  background: #90caf9;
+  color: #000;
 }
