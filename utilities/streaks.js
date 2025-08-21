@@ -120,3 +120,8 @@ console.log(bestStreak(history)); // Expected: 3
 
 // Export the functions for ES6 modules
 export { calculateCurrentStreak, bestStreak };
+
+// Also make functions available globally for non-module scripts
+if (typeof window !== 'undefined') {
+  window.Streaks = { calculateCurrentStreak, bestStreak };
+}

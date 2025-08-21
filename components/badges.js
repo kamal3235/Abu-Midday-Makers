@@ -16,61 +16,90 @@ Steps
 Avoid
 - Writing to localStorage directly—if you need to save earned badges, go through State helpers.
 */
-/*
-COMPONENT: Badges  — renders into #badges
 
-Goal
-- Show badges the user has earned (first 7‑day streak, all‑green day, etc.).
-
-What to build
-- A simple list/grid of badge tiles.
-- Logic to decide if a badge is earned can live in a small helper or here.
-
-Steps
-1) const el = document.getElementById('badges')
-2) Check State (streaks/history) and decide which badges are earned.
-3) Render earned vs locked visuals.
-
-Avoid
-- Writing to localStorage directly—if you need to save earned badges, go through State helpers.
-*/
-
-import { bestStreak } from '../utilities/streaks.js';
-import { getHistory } from '../utilities/xp.js';
-
-// Pull real values or fallback to empty if not ready
-const streaks = { bestStreak: bestStreak?.({}) || 0 };
-const history = getHistory?.() || [];
+function calculateBadgeEligibility() {
+  const state = State.get();
+  const history = state.history || {};
+  
+  // Calculate overall streaks by looking at days with any completed habits
+  const dailyCompletionHistory = {};
+  Object.keys(history).forEach(date => {
+    const dayHabits = history[date];
+    const hasAnyCompletedHabits = Object.values(dayHabits).some(completed => completed === true);
+    dailyCompletionHistory[date] = hasAnyCompletedHabits;
+  });
+  
+  const currentStreak = Streaks.calculateCurrentStreak(dailyCompletionHistory);
+  const longestStreak = Streaks.bestStreak(dailyCompletionHistory);
+  
+  // Check for "all-green day" - a day where user completed multiple habits
+  const hasAllGreenDay = Object.keys(history).some(date => {
+    const dayHabits = history[date];
+    const completedCount = Object.values(dayHabits).filter(completed => completed === true).length;
+    return completedCount >= 3; // Consider 3+ habits as "all green"
+  });
+  
+  // Calculate total active days
+  const totalActiveDays = Object.keys(dailyCompletionHistory).filter(date => 
+    dailyCompletionHistory[date] === true
+  ).length;
+  
+  return {
+    currentStreak,
+    longestStreak,
+    hasAllGreenDay,
+    totalActiveDays
+  };
+}
 
 // Badge definitions with icons + tooltips
-const badgesState = [
-  {
-    name: '7-Day Streak',
-    earned: streaks.bestStreak >= 7,
-    iconUnlocked: '🔥',
-    iconLocked: '❌',
-    tooltip: "Great job! Keep your streak going strong!"
-  },
-  {
-    name: 'All-Green Day',
-    earned: history.some(day => day.allGreen),
-    iconUnlocked: '✅',
-    iconLocked: '❌',
-    tooltip: "Badge unlocked—keep up the great work!"
-  },
-  {
-    name: '51% Club',
-    earned: history.filter(day => day.completed).length >
-            history.filter(day => !day.completed).length,
-    iconUnlocked: '🏆',
-    iconLocked: '❌',
-    tooltip: "Consistency is key. You’re crushing it!"
-  }
-];
+function getBadgesState() {
+  const stats = calculateBadgeEligibility();
+  
+  return [
+    {
+      name: 'First Steps',
+      earned: stats.totalActiveDays >= 1,
+      iconUnlocked: '👟',
+      iconLocked: '❌',
+      tooltip: "You've started your journey! First day completed."
+    },
+    {
+      name: '7-Day Streak',
+      earned: stats.longestStreak >= 7,
+      iconUnlocked: '🔥',
+      iconLocked: '❌',
+      tooltip: "Amazing! You've maintained a 7-day streak!"
+    },
+    {
+      name: 'All-Green Day',
+      earned: stats.hasAllGreenDay,
+      iconUnlocked: '✅',
+      iconLocked: '❌',
+      tooltip: "Fantastic! You completed 3+ habits in a single day!"
+    },
+    {
+      name: 'Consistency King',
+      earned: stats.totalActiveDays >= 14,
+      iconUnlocked: '👑',
+      iconLocked: '❌',
+      tooltip: "You're building real consistency! 14+ active days!"
+    },
+    {
+      name: 'Streak Master',
+      earned: stats.longestStreak >= 21,
+      iconUnlocked: '🏆',
+      iconLocked: '❌',
+      tooltip: "Incredible! You've achieved a 21-day streak!"
+    }
+  ];
+}
 
 function renderBadges() {
   const el = document.getElementById('badges');
   if (!el) return;
+
+  const badgesState = getBadgesState();
 
   el.innerHTML = `
     <h2 style="margin-bottom:0.5rem;">Badges</h2>
@@ -93,4 +122,8 @@ function renderBadges() {
   `;
 }
 
+// Make renderBadges available globally so app.js can call it
+window.renderBadges = renderBadges;
+
+// Initial render
 renderBadges();
