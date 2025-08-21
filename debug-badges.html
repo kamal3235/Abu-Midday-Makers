@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Badges Debug</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app">
+        <h1>Badges Debug Page</h1>
+        
+        <div id="debug-info">
+            <h2>Debug Information</h2>
+            <div id="debug-output"></div>
+        </div>
+        
+        <section id="badges">
+            <!-- Badges will be rendered here -->
+        </section>
+        
+        <button onclick="testBadges()">Test Badges</button>
+        <button onclick="addTestData()">Add Test Data</button>
+        <button onclick="clearData()">Clear Data</button>
+    </div>
+
+    <!-- Load scripts in order -->
+    <script src="utilities/state.js"></script>
+    <script src="utilities/streaks.js"></script>
+    <script src="components/badges.js"></script>
+    
+    <script>
+        function updateDebugInfo() {
+            const state = window.State.get();
+            const debugOutput = document.getElementById('debug-output');
+            debugOutput.innerHTML = `
+                <p><strong>State:</strong> ${JSON.stringify(state, null, 2)}</p>
+                <p><strong>Streaks available:</strong> ${typeof window.Streaks}</p>
+                <p><strong>renderBadges available:</strong> ${typeof window.renderBadges}</p>
+            `;
+        }
+        
+        function testBadges() {
+            console.log('🧪 Testing badges...');
+            updateDebugInfo();
+            
+            if (window.renderBadges) {
+                window.renderBadges();
+            } else {
+                console.error('renderBadges not available');
+            }
+        }
+        
+        function addTestData() {
+            console.log('🧪 Adding test data...');
+            const state = window.State.get();
+            const today = new Date().toISOString().slice(0, 10);
+            const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+            const twoDaysAgo = new Date(Date.now() - 172800000).toISOString().slice(0, 10);
+            
+            // Add some test history
+            state.history = {
+                [twoDaysAgo]: { 'habit1': true, 'habit2': true, 'habit3': true },
+                [yesterday]: { 'habit1': true, 'habit2': true },
+                [today]: { 'habit1': true, 'habit2': true, 'habit3': true, 'habit4': true }
+            };
+            
+            window.State.set(state);
+            updateDebugInfo();
+            testBadges();
+        }
+        
+        function clearData() {
+            console.log('🧪 Clearing data...');
+            localStorage.removeItem('microStacker_v1');
+            updateDebugInfo();
+            testBadges();
+        }
+        
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('🧪 Debug page loaded');
+            updateDebugInfo();
+        });
+    </script>
+</body>
+</html>

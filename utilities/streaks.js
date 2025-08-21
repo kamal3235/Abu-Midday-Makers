@@ -120,8 +120,7 @@ console.log(calculateCurrentStreak(history)); // Expected. 2 (if today is 2025-0
 console.log(bestStreak(history)); // Expected: 3
 */
 
-// Export the functions for ES6 modules
-export { calculateCurrentStreak, bestStreak };
+/* Export removed to avoid syntax errors */
 
 // Also make functions available globally for non-module scripts
 if (typeof window !== 'undefined') {

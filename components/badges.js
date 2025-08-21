@@ -21,6 +21,17 @@ function calculateBadgeEligibility() {
   const state = window.State.get();
   const history = state.history || {};
 
+  // Check if Streaks is available
+  if (!window.Streaks) {
+    console.error('❌ window.Streaks is not available!');
+    return {
+      currentStreak: 0,
+      longestStreak: 0,
+      hasAllGreenDay: false,
+      totalActiveDays: 0
+    };
+  }
+
   // Calculate overall streaks by looking at days with any completed habits
   const dailyCompletionHistory = {};
   Object.keys(history).forEach(date => {
@@ -28,22 +39,22 @@ function calculateBadgeEligibility() {
     const hasAnyCompletedHabits = Object.values(dayHabits).some(completed => completed === true);
     dailyCompletionHistory[date] = hasAnyCompletedHabits;
   });
-  
-  const currentStreak = Streaks.calculateCurrentStreak(dailyCompletionHistory);
-  const longestStreak = Streaks.bestStreak(dailyCompletionHistory);
-  
+
+  const currentStreak = window.Streaks.calculateCurrentStreak(dailyCompletionHistory);
+  const longestStreak = window.Streaks.bestStreak(dailyCompletionHistory);
+
   // Check for "all-green day" - a day where user completed multiple habits
   const hasAllGreenDay = Object.keys(history).some(date => {
     const dayHabits = history[date];
     const completedCount = Object.values(dayHabits).filter(completed => completed === true).length;
     return completedCount >= 3; // Consider 3+ habits as "all green"
   });
-  
+
   // Calculate total active days
-  const totalActiveDays = Object.keys(dailyCompletionHistory).filter(date => 
+  const totalActiveDays = Object.keys(dailyCompletionHistory).filter(date =>
     dailyCompletionHistory[date] === true
   ).length;
-  
+
   return {
     currentStreak,
     longestStreak,
@@ -96,9 +107,7 @@ function getBadgesState() {
 }
 
 function renderBadges() {
-  console.log('🏆 renderBadges called');
   const el = document.getElementById('badges');
-  console.log('🏆 badges element:', el);
 
   if (!el) {
     console.error('❌ badges element not found!');
@@ -106,7 +115,6 @@ function renderBadges() {
   }
 
   const badgesState = getBadgesState();
-  console.log('🏆 badgesState:', badgesState);
 
   el.innerHTML = `
     <h2 style="margin-bottom:0.5rem;">Badges</h2>
@@ -128,7 +136,7 @@ function renderBadges() {
     </div>
   `;
 
-  console.log('🏆 badges rendered successfully');
+
 }
 
 // Make renderBadges available globally so app.js can call it
@@ -137,10 +145,8 @@ window.renderBadges = renderBadges;
 // Only render after DOM is loaded
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', () => {
-    console.log('🏆 DOM loaded, rendering badges');
     renderBadges();
   });
 } else {
-  console.log('🏆 DOM already loaded, rendering badges immediately');
   renderBadges();
 }
