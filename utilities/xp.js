@@ -34,3 +34,54 @@ export function totalXp(history) {
     return xp + todayXp(day.doneCount);
   }, 0);
 }
+
+
+/**
+ * Updates daily XP by adding points and ensures daily reset has occurred
+ * @param {number} points - Points to add (can be negative)
+ * @returns {object} Updated state with new daily XP
+ */
+function updateDailyXp(points) {
+  // Check and reset daily XP if needed (this will transfer previous day's XP to total)
+  const state = window.State.checkAndResetDailyXp();
+
+  // Update only daily XP - total XP will be updated during the next daily reset
+  state.dailyXp = Math.max(0, (state.dailyXp || 0) + points);
+
+  // Save the updated state
+  window.State.set(state);
+
+  return state;
+}
+
+/**
+ * Gets current daily XP, ensuring daily reset has occurred
+ * @returns {number} Daily XP as a number
+ */
+function getDailyXp() {
+  const result = window.State.checkAndResetDailyXp();
+  return result.dailyXp || 0;
+}
+
+/**
+ * Gets total/lifetime XP
+ * @returns {number} Total XP earned
+ */
+function getTotalXp() {
+  const state = window.State.get();
+  return state.xp || 0;
+}
+
+/*
+To add bonuses (e.g. streaks, achievements), 
+pass an extra bonuses array/object and sum it in totalXp/history logic.
+You can refactor the internals to add bonuses without changing the function signatures.
+*/
+
+function getHistory() {
+  // For now, return empty array - this should be connected to actual state management
+  return [];
+}
+
+// Export functions for ES6 modules
+export { todayXp, totalXp, getHistory, updateDailyXp, getDailyXp, getTotalXp };

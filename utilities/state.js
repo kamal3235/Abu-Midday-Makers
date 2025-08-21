@@ -18,7 +18,9 @@ What belongs here
     selectedCategory: null,
     history: {},          // { 'YYYY-MM-DD': { [habitId]: true } }
     streaks: {},          // { [habitId]: number }
-    xp: 0,
+    xp: 0,                // Total/lifetime XP
+    dailyXp: 0,           // XP earned today (resets daily)
+    lastXpResetDate: null, // Date when XP was last reset (YYYY-MM-DD format)
     badges: {},           // { [badgeId]: true }
     timers: {},           // { [habitId]: { durationSec, remainingSec, running, lastStart } }
     reminders: []         // [{ id, scope:'global'|'habit', habitId?, type:'DAILY'|'WEEKLY', daysOfWeek?, times:[] }]
@@ -48,6 +50,36 @@ What belongs here
     return local.toISOString().slice(0, 10);
   }
 
+  // Check if daily XP needs to be reset and reset it if necessary
+  function checkAndResetDailyXp() {
+    const state = get();
+    const today = todayKey();
+
+    if (state.lastXpResetDate !== today) {
+      // New day detected - transfer daily XP to total XP, then reset daily XP
+      const previousDailyXp = state.dailyXp || 0;
+
+      // Add yesterday's daily XP to total XP (only if there was daily XP to transfer)
+      if (previousDailyXp > 0) {
+        state.xp = (state.xp || 0) + previousDailyXp;
+      }
+
+      // Reset daily XP for the new day
+      state.dailyXp = 0;
+      state.lastXpResetDate = today;
+      set(state);
+
+      // Return info about the reset
+      return {
+        ...state,
+        wasReset: true,
+        previousDailyXp: previousDailyXp
+      };
+    }
+
+    return { ...state, wasReset: false };
+  }
+
   // Expose a tiny, safe API
-  window.State = { get, set, todayKey };
+  window.State = { get, set, todayKey, checkAndResetDailyXp };
 })();

@@ -14,3 +14,12 @@ A quick manual checklist to confirm the app’s core features work locally.
 - [ ] Can tab through all interactive controls (keyboard navigation)
 - [ ] Visible focus indicator on controls
 - [ ] Layout looks OK at mobile width
+
+
+Smoke Test — App Entry
+
+How to Run:
+1. Start a local server in your project folder:python3 -m http.server 8000 
+2. Open http://localhost:8000/tests/manual/smoke.html in Chrome. 
+3. Check the Console (Cmd+Option+I) for PASS/FAIL messages. 
+Works in latest Chrome; Firefox optional. 

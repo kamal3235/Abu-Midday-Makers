@@ -1,65 +1,63 @@
-export async function renderHabitPicker(containerId) {
-  const container = document.getElementById(containerId);
-  if (!container) return;
 
-  const fallbackCategories = [
-    {
-      id: "health",
-      name: "Health",
-      habits: ["Drink 1 glass of water", "Take a 5-minute walk", "Take deep breaths"]
-    },
-    {
-      id: "productivity",
-      name: "Productivity",
-      habits: ["Turn off notifications", "Create a quiet workspace", "Set specific work hours"]
-    },
-    {
-      id: "learning",
-      name: "Learning",
-      habits: ["Find a mentor", "Practice for 15 minutes", "Read 1 chapter"]
-    }
-  ];
+// components/habitPicker.js
+console.log('📋 habitPicker.js loading...');
 
-  try {
-    const res = await fetch("data/categories.json");
-    if (!res.ok) throw new Error("Failed to fetch categories.json");
-    const categories = await res.json();
-    renderCategories(categories, container);
-  } catch (err) {
-    console.warn("Falling back to default categories:", err);
-    renderCategories(fallbackCategories, container);
+export function renderHabits(categories) {
+  console.log('📋 renderHabits called with categories:', categories);
+
+  const container = document.getElementById("habit-container");
+  console.log('📋 Container element:', container);
+
+  if (!container) {
+    console.error('❌ habit-container element not found!');
+    return;
   }
-}
 
-function renderCategories(categories, container) {
+  // Clear previous content
   container.innerHTML = "";
+  console.log('📋 Container cleared');
 
-  categories.forEach((cat) => {
-    // Create a category section
-    const catSection = document.createElement("div");
-    catSection.className = `category-section ${cat.name.toLowerCase()}`;
+  categories.forEach((category, index) => {
+    console.log(`📋 Rendering category ${index + 1}:`, category.name);
+    
+    // Category card
+    const categoryDiv = document.createElement("div");
+    categoryDiv.classList.add("category-card", category.id); // 🔑 hooks for CSS
+    console.log('📋 Created category div with classes:', categoryDiv.className);
 
-    // Add category title
-    const catTitle = document.createElement("h2");
-    catTitle.className = "category-title";
-    catTitle.textContent = cat.name;
-    catSection.appendChild(catTitle);
+    // Category title
+    const title = document.createElement("h2");
+    title.classList.add("category-title");
+    title.textContent = `${category.icon} ${category.name}`;
+    categoryDiv.appendChild(title);
+    console.log('📋 Added title:', title.textContent);
 
-    // Habit chips wrapper
-    const habitWrapper = document.createElement("div");
-    habitWrapper.className = "habit-wrapper";
+    // Habit buttons
+    const habitsDiv = document.createElement("div");
+    habitsDiv.classList.add("habits");
 
-    cat.habits.forEach((habit) => {
-      const chip = document.createElement("div");
-      chip.className = "habit-chip";
-      chip.textContent = habit.name || habit;
-      chip.addEventListener("click", () => {
-        chip.classList.toggle("active");
+    category.habits.forEach((habit, habitIndex) => {
+      console.log(`📋 Creating habit button ${habitIndex + 1}:`, habit.name);
+      
+      const habitBtn = document.createElement("button");
+      habitBtn.textContent = habit.name;
+      habitBtn.classList.add("habit-btn");
+      habitBtn.dataset.habitId = habit.id;
+      habitsDiv.appendChild(habitBtn);
+      
+      console.log('📋 Added habit button:', {
+        text: habitBtn.textContent,
+        id: habitBtn.dataset.habitId,
+        classes: habitBtn.className
       });
-      habitWrapper.appendChild(chip);
     });
 
-    catSection.appendChild(habitWrapper);
-    container.appendChild(catSection);
+    categoryDiv.appendChild(habitsDiv);
+    container.appendChild(categoryDiv);
+    
+    console.log(`📋 Category ${category.name} added to container`);
   });
+  
+  console.log('📋 All categories rendered. Container HTML length:', container.innerHTML.length);
+  console.log('📋 Container children count:', container.children.length);
 }

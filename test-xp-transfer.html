@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XP Transfer Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; border-radius: 8px; }
+        button { margin: 5px; padding: 8px 16px; cursor: pointer; }
+        .xp-display { font-size: 18px; font-weight: bold; margin: 10px 0; }
+        .info { background: #f0f8ff; padding: 10px; border-radius: 4px; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <h1>XP Transfer System Test</h1>
+    
+    <div class="test-section">
+        <h2>Current XP Status</h2>
+        <div class="xp-display">Daily XP: <span id="daily-xp">0</span></div>
+        <div class="xp-display">Total XP: <span id="total-xp">0</span></div>
+        <div class="info">Last Reset Date: <span id="last-reset">None</span></div>
+        <div class="info">Was Reset: <span id="was-reset">No</span></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Test Actions</h2>
+        <button onclick="addDailyXP(10)">Add 10 Daily XP</button>
+        <button onclick="addDailyXP(25)">Add 25 Daily XP</button>
+        <button onclick="simulateNewDay()">Simulate New Day</button>
+        <button onclick="refreshDisplay()">Refresh Display</button>
+        <button onclick="resetAll()">Reset All Data</button>
+    </div>
+
+    <div class="test-section">
+        <h2>Test Log</h2>
+        <div id="log" style="height: 200px; overflow-y: auto; border: 1px solid #ddd; padding: 10px; background: #f9f9f9;"></div>
+    </div>
+
+    <script src="utilities/state.js"></script>
+    <script type="module">
+        import { updateDailyXp, getDailyXp, getTotalXp } from './utilities/xp.js';
+
+        // Make functions global for button onclick
+        window.updateDailyXp = updateDailyXp;
+        window.getDailyXp = getDailyXp;
+        window.getTotalXp = getTotalXp;
+
+        function log(message) {
+            const logDiv = document.getElementById('log');
+            const timestamp = new Date().toLocaleTimeString();
+            logDiv.innerHTML += `<div>[${timestamp}] ${message}</div>`;
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+
+        window.addDailyXP = function(points) {
+            const beforeDaily = getDailyXp().dailyXp;
+            const beforeTotal = getTotalXp();
+            
+            updateDailyXp(points);
+            
+            const afterDaily = getDailyXp().dailyXp;
+            const afterTotal = getTotalXp();
+            
+            log(`Added ${points} XP. Daily: ${beforeDaily} → ${afterDaily}, Total: ${beforeTotal} → ${afterTotal}`);
+            refreshDisplay();
+        };
+
+        window.simulateNewDay = function() {
+            const currentDaily = getDailyXp().dailyXp;
+            const currentTotal = getTotalXp();
+            
+            // Set the last reset date to yesterday to trigger a reset
+            const state = window.State.get();
+            const yesterday = new Date();
+            yesterday.setDate(yesterday.getDate() - 1);
+            state.lastXpResetDate = yesterday.toISOString().slice(0, 10);
+            window.State.set(state);
+            
+            log(`Simulated new day. Previous daily XP: ${currentDaily}, Previous total XP: ${currentTotal}`);
+            
+            // Trigger the reset by calling getDailyXp
+            const result = getDailyXp();
+            const newTotal = getTotalXp();
+            
+            if (result.wasReset) {
+                log(`✅ Daily reset occurred! ${result.previousDailyXp} XP transferred to total. New total: ${newTotal}`);
+            } else {
+                log(`❌ No reset occurred`);
+            }
+            
+            refreshDisplay();
+        };
+
+        window.refreshDisplay = function() {
+            const dailyResult = getDailyXp();
+            const totalXp = getTotalXp();
+            const state = window.State.get();
+            
+            document.getElementById('daily-xp').textContent = dailyResult.dailyXp;
+            document.getElementById('total-xp').textContent = totalXp;
+            document.getElementById('last-reset').textContent = state.lastXpResetDate || 'None';
+            document.getElementById('was-reset').textContent = dailyResult.wasReset ? 'Yes' : 'No';
+        };
+
+        window.resetAll = function() {
+            const state = window.State.get();
+            state.dailyXp = 0;
+            state.xp = 0;
+            state.lastXpResetDate = null;
+            window.State.set(state);
+            log('🔄 All XP data reset');
+            refreshDisplay();
+        };
+
+        // Initialize display
+        refreshDisplay();
+        log('XP Transfer Test initialized');
+    </script>
+</body>
+</html>

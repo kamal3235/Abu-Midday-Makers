@@ -1,213 +1,215 @@
-/* Base styles */
+bugfix2-final-sweep-day
+
 body {
   font-family: Arial, sans-serif;
   margin: 0;
-  padding: 0;
-  background: #f9f9f9;
-  color: #333;
+
+  font-family: Arial, sans-serif;
+  background-color: #f5f1eb;
+  color: #222;
+  transition: background 0.3s, color 0.3s;
 }
 
-/* Light theme */
-body.light {
-  background: #e9e4da;  /* soft oatmeal background */
-  color: #333333;
-}
-
-
-/* Dark theme */
 body.dark {
-  background: #121212;
+  background-color: #1a1a1a;
   color: #f9f9f9;
 }
 
-#app {
-  padding: 20px;
+.app {
+  padding: 1rem;
+  text-align: center;
 }
 
-/* Theme toggle button */
-#theme-toggle {
-  padding: 6px 12px;
-  cursor: pointer;
-  border: none;
-  border-radius: 6px;
-  background: #eee;
-  color: #333;
-}
-body.dark #theme-toggle {
-  background: #333;
-  color: #f9f9f9;
+header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin-bottom: 1.5rem;
 }
 
-.header-right {
+h1 {
+  font-size: 2.5rem;
+  margin: 0.5rem 0;
+  text-align: center;
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-weight: 300;
+  letter-spacing: 0.5px;
+}
+
+/* Soft divider line between title and instructions */
+header::after {
+  content: '';
+  position: absolute;
+  bottom: -0.75rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(139, 125, 107, 0.3), transparent);
+}
+
+body.dark header::after {
+  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent);
+}
+
+#instructions {
+  margin: 1rem auto;
+  max-width: 600px;
+  padding: 0.8rem 1rem;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 12px;
+  font-size: 1rem;
+}
+
+body.dark #instructions {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.xp-tracker {
+  position: absolute;
+  right: 0;
   display: flex;
   align-items: center;
-  gap: 0.75rem;   /* space between XP pill and toggle */
+  gap: 0.5rem;
 }
 
-.app-header {
-  display: flex;
-  flex-direction: column;   /* stack title above controls */
-  align-items: center;      /* center everything horizontally */
-  padding: 10px 20px;
-  gap: 10px;                /* space between title and controls */
-}
-
-/* Header */
-.app-title {
-  font-family: "Poppins", "Segoe UI", sans-serif;  /* softer font */
-  font-size: 2.5rem;   /* about twice what you had */
-  text-align: center;
-  margin: 20px 0 10px 0;
-  color: #2c3e50;
-  font-weight: 600;
-  letter-spacing: 1px;
-}
-
-/* Title in dark mode */
-body.dark .app-title {
-  color: #5e97ca;   /* light off-white for contrast */
-}
-
-
-.app-header h1::after {
-  content: "";
-  display: block;
-  width: 60px;
-  height: 3px;
-  background: #0b8a7e; /* teal accent to match cards */
-  margin: 8px auto 0;
-  border-radius: 2px;
-}
-
-
-.pill {
-  padding: 4px 8px;
-  border-radius: 12px;
-  background: #eee;
-  font-weight: bold;
-}
-
-/* Instructions styling */
-.instructions {
-  max-width: 700px;
-  margin: 0 auto 20px auto;   /* centers it under the title */
-  padding: 12px 18px;
-  background: #fffdf9;        /* soft cream background in light mode */
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  font-size: 1rem;
-  text-align: center;
-  line-height: 1.5;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-  color: #444;
-}
-
-/* Dark theme instructions */
-body.dark .instructions {
-  background: #1e1e1e;
-  border: 1px solid #444;
-  color: #eaeaea;
-}
-
-
-/* ------------------ CATEGORY CARDS ------------------ */
-#habit-picker {
+#habit-container {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  justify-items: center;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  justify-content: center;
+  margin-top: 2rem;
+  gap: 2rem;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-/* Pyramid positioning */
-/* Pyramid Layout */
-#habit-picker {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;          /* tighter gap overall */
-  justify-items: center;
-  margin-top: 30px;
-  row-gap: 40px;   /* reduce space between rows */
+.category-card.health {
+  /* All cards now use the same grid layout */
 }
 
-/* Top card centered */
-#habit-picker .category-section:nth-child(1) {
-  grid-column: 2;   /* middle */
-  transform: none;  /* reset any shift */
-}
-
-/* Bottom left card */
-#habit-picker .category-section:nth-child(2) {
-  grid-column: 1;
-  transform: translateX(40px) translateY(-100px); /* move inward + higher */
-}
-
-/* Bottom right card */
-#habit-picker .category-section:nth-child(3) {
-  grid-column: 3;
-  transform: translateX(-40px) translateY(-100px); /* move inward + higher */
-}
-
-
-
-.category-section {
-  flex: 1;
-  min-width: 250px;
-  padding: 15px;
+.category-card {
+  padding: 1.5rem;
   border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  margin: 10px;
+  box-shadow: 2px 4px 8px rgba(0,0,0,0.15);
+  background: #fff;
+  transition: all 0.3s;
+  min-height: 220px;
+  /* Added max-width to ensure consistent sizing */
+  max-width: 350px;
+  width: 100%;
+}
+
+body.dark .category-card {
+  background: #2a2a2a;
 }
 
 .category-title {
-  background: rgba(0,0,0,0.05);
-  padding: 6px 10px;
-  border-radius: 8px 8px 0 0;
   font-weight: bold;
+  margin-bottom: 0.5rem;
 }
 
-
-.habit-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-/* Habit Chips */
-.habit-chip {
-  padding: 8px 12px;
-  border-radius: 8px;
+.habit-btn {
+  display: block;
+  margin: 0.4rem auto;
+  padding: 0.4rem 1rem;
   border: 1px solid #ccc;
+  border-radius: 6px;
   cursor: pointer;
-  user-select: none;
-  background: #f9f9f9;
-  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  background: #fff;
+  transition: background 0.3s, color 0.3s;
 }
 
-/* ------------------ THEME COLORS ------------------ */
-
-/* Health (purple) */
-.category-section.health {
-  border-top: 4px solid #9c27b0;
-  background: #f8e6fa;
-}
-.category-section.health .habit-chip:hover {
-  background: #e1bee7;
-  border-color: #9c27b0;
-}
-.category-section.health .habit-chip.active {
-  background: #9c27b0;
+.habit-btn.active {
+  background: #4cafef;
   color: #fff;
-  border-color: #9c27b0;
+  border-color: #4cafef;
 }
 
-/* Productivity (teal) */
-.category-section.productivity {
-  border-top: 4px solid #009688;
-  background: #e0f7f5;
+body.dark .habit-btn {
+  background: #333;
+  color: #eee;
+  border-color: #555;
 }
-.category-section.productivity .habit-chip:hover {
-  background: #b2dfdb;
-  border-color: #009688;
+
+body.dark .habit-btn.active {
+  background: #90caf9;
+  color: #000;
+}
+
+/* === Category Cards Colors === */
+.category-card.health {
+  background: linear-gradient(135deg, #f3e5f5, #e1bee7);
+  border-left: 4px solid #9c27b0;
+}
+
+.category-card.productivity {
+  background: linear-gradient(135deg, #e0f2f1, #b2dfdb);
+  border-left: 4px solid #00695c;
+}
+
+.category-card.learning {
+  background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+  border-left: 4px solid #1976d2;
+}
+
+.category-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Dark mode adjustments */
+body.dark .category-card.health {
+  background: linear-gradient(135deg, #4a148c, #6a1b9a);
+  color: #fff;
+}
+
+body.dark .category-card.productivity {
+  background: linear-gradient(135deg, #004d40, #00695c);
+  color: #fff;
+}
+
+body.dark .category-card.learning {
+  background: linear-gradient(135deg, #0d47a1, #1565c0);
+  color: #fff;
+}
+
+/* === Badges Styling === */
+#badges {
+  margin: 2rem auto;
+  max-width: 600px;
+  text-align: center;
+}
+
+.badges-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.badge-card {
+  padding: 1rem;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 2px 4px 8px rgba(0,0,0,0.1);
+  transition: all 0.3s;
+  text-align: center;
+  width: 150px;
+  flex-shrink: 0;
+}
+
+.badge-card.locked {
+  opacity: 0.5;
+  background: #f5f5f5;
+}
+
+body.dark .badge-card {
+  background: #2a2a2a;
+
 }
 .category-section.productivity .habit-chip.active {
   background: #009688;
@@ -216,73 +218,28 @@ body.dark .instructions {
 }
 
 
-/* Learning (blue) */
-.category-section.learning {
-  border-top: 4px solid #2196f3;
-  background: #f0f7ff;
-}
-.category-section.learning .habit-chip:hover {
-  background: #bbdefb;
-  border-color: #2196f3;
-}
-.category-section.learning .habit-chip.active {
-  background: #2196f3;
-  color: #fff;
-  border-color: #2196f3;
+body.dark .badge-card.locked {
+  background: #1a1a1a;
 }
 
-/* Hover lift effect for category cards */
-.category-section {
-  flex: 1;
-  min-width: 250px;
-  padding: 15px;
-  border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  margin: 10px;
-
-  /* Add transition + baseline */
-  transform: translateY(0);
-  transition: transform 0.2s, box-shadow 0.2s;
+.badge-icon {
+  font-size: 2rem;
+  display: block;
+  margin-bottom: 0.5rem;
 }
 
-.category-section:hover {
-  box-shadow: 0 6px 12px rgba(0,0,0,0.12);
-  transform: translateY(-5px);
+.badge-label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 0.25rem;
 }
 
-
-/* Dark mode card overrides */
-/* Dark mode purple override */
-body.dark .category-section.health {
-  background: #2a0b33;
-  border-color: #7b1fa2;
+.badge-status {
+  font-size: 0.8rem;
+  color: #666;
 }
 
+body.dark .badge-status {
+  color: #aaa;
 
-/* Dark mode teal override */
-body.dark .category-section.productivity {
-  background: #004d40;
-  border-color: #00796b;
-}
-
-
-body.dark .category-section.learning {
-  background: #3a0d0d;   /* deep burgundy */
-  border-color: #7b1f1f;
-}
-
-body.dark .category-title {
-  color: #fff; /* keep titles readable */
-}
-
-body.dark .habit-chip {
-  background: #2c2c2c;
-  border-color: #555;
-  color: #eee;
-}
-
-body.dark .habit-chip.active {
-  background: #4caf50;
-  border-color: #4caf50;
-  color: #fff;
 }
