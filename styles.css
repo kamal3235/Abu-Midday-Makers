@@ -117,19 +117,19 @@ body.dark #theme-toggle {
   border-color: #4caf50;
 }
 
-/* Productivity (purple) */
+/* Productivity (teal) */
 .category-section.productivity {
-  border-top: 4px solid #9c27b0;
-  background: #f8e6fa;
+  border-top: 4px solid #009688;
+  background: #e0f7f5;
 }
 .category-section.productivity .habit-chip:hover {
-  background: #e1bee7;
-  border-color: #9c27b0;
+  background: #b2dfdb;
+  border-color: #009688;
 }
 .category-section.productivity .habit-chip.active {
-  background: #9c27b0;
+  background: #009688;
   color: #fff;
-  border-color: #9c27b0;
+  border-color: #009688;
 }
 
 
@@ -175,10 +175,10 @@ body.dark .category-section.health {
 }
 
 
-/* Dark mode purple override */
+/* Dark mode teal override */
 body.dark .category-section.productivity {
-  background: #2a0b33;
-  border-color: #7b1fa2;
+  background: #004d40;
+  border-color: #00796b;
 }
 
 
