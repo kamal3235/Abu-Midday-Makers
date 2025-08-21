@@ -1,34 +1,33 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Micro-Habit Stacker</title>
   <link rel="icon" href="./public/favicon.png" />
   <link rel="stylesheet" href="./styles.css" />
-
-  <!--
-  Root HTML file.
-  ✅ Purpose:
-  - Defines the app shell (header, containers).
-  - Loads CSS + JS.
-
-  ⚠ Do NOT add habit cards, timers, or chips directly here.
-  Those are rendered by components in /components.
-  -->
 </head>
-<body class="app">
+
+<body class="app light">
   <header class="app-header">
-    <h1>Micro-Habit Stacker</h1>
-    <div id="habit-container"></div> <!-- Chips render here -->
+    <h1 class="app-title">Micro-Habit Stacker</h1>
+    <div class="instructions">
+      Microhabits are stackable. Click on habits to activate them. Build streaks and earn XP as you stack consistency.
+    </div>
     <div class="header-right">
       <span id="xpTotal" class="pill" aria-live="polite">XP 0</span>
-      <button id="themeToggle" class="btn" aria-pressed="false" title="Toggle theme">🌗</button>
+      <button id="theme-toggle" class="btn" aria-pressed="false" title="Toggle theme">🌙</button>
     </div>
   </header>
 
-  <!-- App entry point -->
+  <main>
+    <!-- Cards render here -->
+    <div id="habit-picker"></div>
+    <div id="today-panel"></div>
+    <div id="tower-view"></div>
+  </main>
+
+  <!-- App entry -->
   <script type="module" src="./app.js"></script>
 </body>
 </html>
-
