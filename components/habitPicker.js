@@ -11,7 +11,7 @@ export async function renderHabitPicker(containerId) {
     categories.forEach((cat) => {
       // Create a category section
       const catSection = document.createElement("div");
-      catSection.className = "category-section";
+      catSection.className = `category-section ${cat.name.toLowerCase()}`;
 
       // Add category title
       const catTitle = document.createElement("h2");
