@@ -24,26 +24,29 @@ import { getHistory } from '../utilities/xp.js';
 const streaks = { bestStreak: getBestStreak?.() || 0 };
 const history = getHistory?.() || [];
 
-// Badge definitions with icons built in
+// Badge definitions with icons + tooltips
 const badgesState = [
   {
     name: '7-Day Streak',
     earned: streaks.bestStreak >= 7,
     iconUnlocked: '🔥',
-    iconLocked: '❌'
+    iconLocked: '❌',
+    tooltip: "Great job! Keep your streak going strong!"
   },
   {
     name: 'All-Green Day',
     earned: history.some(day => day.allGreen),
     iconUnlocked: '✅',
-    iconLocked: '❌'
+    iconLocked: '❌',
+    tooltip: "Badge unlocked—keep up the great work!"
   },
   {
     name: '51% Club',
     earned: history.filter(day => day.completed).length >
             history.filter(day => !day.completed).length,
     iconUnlocked: '🏆',
-    iconLocked: '❌'
+    iconLocked: '❌',
+    tooltip: "Consistency is key. You’re crushing it!"
   }
 ];
 
@@ -59,6 +62,7 @@ function renderBadges() {
           class="badge-card${badge.earned ? '' : ' locked'}" 
           role="listitem" 
           aria-label="${badge.name} badge ${badge.earned ? 'unlocked' : 'locked'}"
+          title="${badge.tooltip}"
         >
           <span class="badge-icon" aria-hidden="true">
             ${badge.earned ? badge.iconUnlocked : badge.iconLocked}
@@ -72,4 +76,3 @@ function renderBadges() {
 }
 
 renderBadges();
-
