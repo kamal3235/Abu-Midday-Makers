@@ -14,43 +14,18 @@ How to work on this file
 2) Keep this file small. Put feature logic in /components or /utilities.
 3) Don’t write to localStorage directly—use helpers in /utilities/state.js.
 */
-
-
 import { renderHabitPicker } from "./components/habitPicker.js";
 
+document.addEventListener("DOMContentLoaded", () => {
+  // Initial render
+  renderHabitPicker("habit-picker");
 
-(function () {
-  function applySavedTheme() {
-    const saved = localStorage.getItem('theme') || 'dark';
-    document.documentElement.setAttribute('data-theme', saved);
-    const toggle = document.getElementById('themeToggle');
-    if (toggle) toggle.setAttribute('aria-pressed', saved === 'light' ? 'true' : 'false');
+  // Theme toggle
+  const themeToggle = document.getElementById("theme-toggle");
+  if (themeToggle) {
+    themeToggle.addEventListener("click", () => {
+      document.body.classList.toggle("dark");
+      document.body.classList.toggle("light");
+    });
   }
-
-  function toggleTheme() {
-    const cur = document.documentElement.getAttribute('data-theme') || 'dark';
-    const next = cur === 'dark' ? 'light' : 'dark';
-    document.documentElement.setAttribute('data-theme', next);
-    localStorage.setItem('theme', next);
-    const toggle = document.getElementById('themeToggle');
-    if (toggle) toggle.setAttribute('aria-pressed', next === 'light' ? 'true' : 'false');
-  }
-
-  function init() {
-    applySavedTheme();
-    const t = document.getElementById('themeToggle');
-    if (t) t.onclick = toggleTheme;
-
-    // Boot the UI (safe even if components are still stubs)
-    renderHabitPicker(); // Render the habit picker
-    if (window.HabitPicker?.mount) window.HabitPicker.mount();
-    if (window.TodayPanel?.mount) window.TodayPanel.mount();
-    if (window.TowerView?.mount) window.TowerView.mount();
-    if (window.Badges?.mount) window.Badges.mount();
-    if (window.Reminders?.mount) window.Reminders.mount();
-  }
-
-  window.addEventListener('DOMContentLoaded', init);
-})();
-
-
+});
