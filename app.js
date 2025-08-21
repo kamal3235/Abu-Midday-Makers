@@ -1,7 +1,8 @@
 // app.js
-import { renderHabits } from "./components/habitPicker.js";
-import { updateDailyXp, getDailyXp, getTotalXp } from "./utilities/xp.js";
-import "./components/badges.js";
+// app.js
+import { renderHabits } from "./components/habitPicker.js?v=2";
+import { updateDailyXp, getDailyXp, getTotalXp } from "./utilities/xp.js?v=2";
+import "./components/badges.js?v=2";
 
 // XP per habit constant (should match utilities/xp.js)
 const XP_PER_HABIT = 10;

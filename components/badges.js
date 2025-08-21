@@ -18,9 +18,9 @@ Avoid
 */
 
 function calculateBadgeEligibility() {
-  const state = State.get();
+  const state = window.State.get();
   const history = state.history || {};
-  
+
   // Calculate overall streaks by looking at days with any completed habits
   const dailyCompletionHistory = {};
   Object.keys(history).forEach(date => {
