@@ -1,18 +1,30 @@
 // app.js
-// app.js
-import { renderHabits } from "./components/habitPicker.js?v=3";
-import { updateDailyXp, getDailyXp, getTotalXp } from "./utilities/xp.js?v=3";
-import "./components/badges.js?v=3";
+console.log('🚀 App.js loading...');
+
+import { renderHabits } from "./components/habitPicker.js?v=5";
+import { updateDailyXp, getDailyXp, getTotalXp } from "./utilities/xp.js?v=5";
+import "./components/badges.js?v=5";
+
+console.log('📦 All modules imported successfully');
 
 // XP per habit constant (should match utilities/xp.js)
 const XP_PER_HABIT = 10;
 
-
 document.addEventListener("DOMContentLoaded", () => {
+  console.log('🎯 DOM Content Loaded');
+  
   const xpDisplay = document.getElementById("xp");
   const totalXpDisplay = document.getElementById("total-xp");
   const themeToggle = document.getElementById("theme-toggle");
   let darkMode = false;
+
+  console.log('🔍 DOM Elements found:', {
+    xpDisplay: !!xpDisplay,
+    totalXpDisplay: !!totalXpDisplay,
+    themeToggle: !!themeToggle,
+    habitContainer: !!document.getElementById("habit-container"),
+    badges: !!document.getElementById("badges")
+  });
 
   function showNotification(message, duration = 3000) {
     // Remove any existing notification
@@ -31,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
       position: 'fixed',
       top: '20px',
       right: '20px',
-      backgroundColor: '#4CAF50',
+      background: '#4caf50',
       color: 'white',
       padding: '12px 20px',
       borderRadius: '8px',
@@ -44,7 +56,6 @@ document.addEventListener("DOMContentLoaded", () => {
       transition: 'all 0.3s ease'
     });
 
-    // Add to page
     document.body.appendChild(notification);
 
     // Animate in
@@ -59,41 +70,48 @@ document.addEventListener("DOMContentLoaded", () => {
       notification.style.transform = 'translateY(-10px)';
       setTimeout(() => {
         if (notification.parentNode) {
-          notification.remove();
+          notification.parentNode.removeChild(notification);
         }
       }, 300);
     }, duration);
   }
 
   function initializeXP() {
-    const result = getDailyXp();
+    console.log('💰 Initializing XP...');
+    // Check and reset daily XP if needed
+    window.State.checkAndResetDailyXp();
+    
+    const dailyXp = getDailyXp();
     const totalXp = getTotalXp();
-
-    xpDisplay.textContent = result.dailyXp;
-    totalXpDisplay.textContent = totalXp;
-
-    if (result.wasReset) {
-      showNotification(`Daily XP reset! Yesterday's ${result.previousDailyXp} XP added to total.`);
-    }
+    
+    console.log('💰 XP Values:', { dailyXp, totalXp });
+    
+    if (xpDisplay) xpDisplay.textContent = dailyXp;
+    if (totalXpDisplay) totalXpDisplay.textContent = totalXp;
   }
 
   function updateXPDisplay(points) {
+    console.log('💰 Updating XP display with points:', points);
     updateDailyXp(points);
-    const newDailyXp = getDailyXp().dailyXp;
+    
+    const newDailyXp = getDailyXp();
     const newTotalXp = getTotalXp();
-    xpDisplay.textContent = newDailyXp;
-    totalXpDisplay.textContent = newTotalXp;
+    
+    if (xpDisplay) xpDisplay.textContent = newDailyXp;
+    if (totalXpDisplay) totalXpDisplay.textContent = newTotalXp;
+    
+    showNotification(points > 0 ? `+${points} XP earned!` : `${points} XP lost!`);
   }
 
-  // Function to restore habit button states from localStorage
   function restoreHabitStates() {
-    const completedHabits = Habits.getTodaysCompletedHabits();
-
-    // Find all habit buttons and set their active state based on stored data
-    document.querySelectorAll('.habit-btn').forEach(button => {
-      const habitId = button.dataset.habitId;
-      if (completedHabits[habitId]) {
-        button.classList.add('active');
+    console.log('🔄 Restoring habit states...');
+    const habitButtons = document.querySelectorAll('.habit-btn');
+    console.log('🔄 Found habit buttons:', habitButtons.length);
+    
+    habitButtons.forEach(btn => {
+      const habitId = btn.dataset.habitId;
+      if (window.Habits && window.Habits.isHabitCompletedToday(habitId)) {
+        btn.classList.add('active');
       }
     });
   }
@@ -102,51 +120,65 @@ document.addEventListener("DOMContentLoaded", () => {
   initializeXP();
 
   // Load and render habits
+  console.log('📋 Loading categories...');
   fetch("./data/categories.json")
-    .then(res => res.json())
-    .then(categories => {
-      renderHabits(categories);
-      // Restore habit states after rendering
-      restoreHabitStates();
+    .then(res => {
+      console.log('📋 Categories fetch response:', res.status);
+      return res.json();
     })
-    .catch(err => console.error("Error loading categories:", err));
+    .then(categories => {
+      console.log('📋 Categories loaded:', categories);
+      renderHabits(categories);
+      console.log('📋 renderHabits called');
+      // Restore habit states after rendering
+      setTimeout(() => {
+        restoreHabitStates();
+      }, 100);
+    })
+    .catch(err => {
+      console.error("❌ Error loading categories:", err);
+    });
 
   // Theme toggle
-  themeToggle.addEventListener("click", () => {
-    darkMode = !darkMode;
-    document.body.classList.toggle("dark", darkMode);
-    themeToggle.textContent = darkMode ? "🌗" : "🌓";
-  });
+  if (themeToggle) {
+    console.log('🌓 Setting up theme toggle');
+    themeToggle.addEventListener("click", () => {
+      console.log('🌓 Theme toggle clicked');
+      darkMode = !darkMode;
+      document.body.classList.toggle("dark", darkMode);
+      themeToggle.textContent = darkMode ? "🌗" : "🌓";
+    });
+  }
 
   // Global listener for habit clicks (delegation)
   document.addEventListener("click", (e) => {
     if (e.target.classList.contains("habit-btn")) {
+      console.log('🎯 Habit button clicked:', e.target.dataset.habitId);
       const habitId = e.target.dataset.habitId;
-
+      
       if (!habitId) {
-        console.error("Habit button missing data-habit-id attribute");
+        console.warn('⚠️ No habit ID found on button');
         return;
       }
 
-      // Toggle habit completion in storage
-      const isCompleted = Habits.toggleHabitCompletion(habitId);
-
-      // Update button visual state
-      e.target.classList.toggle("active", isCompleted);
-
-      // Update XP based on new completion status
-      if (isCompleted) {
-        // Habit was completed - increase daily XP
-        updateXPDisplay(XP_PER_HABIT);
-      } else {
-        // Habit was uncompleted - decrease daily XP
-        updateXPDisplay(-XP_PER_HABIT);
-      }
-
-      // Re-render badges to reflect any newly earned badges
+      // Toggle habit completion
+      const newStatus = window.Habits.toggleHabitCompletion(habitId);
+      console.log('🎯 Habit status changed:', { habitId, newStatus });
+      
+      // Update button appearance
+      e.target.classList.toggle("active", newStatus);
+      
+      // Update XP
+      const xpChange = newStatus ? XP_PER_HABIT : -XP_PER_HABIT;
+      updateXPDisplay(xpChange);
+      
+      // Re-render badges to reflect new progress
       if (window.renderBadges) {
+        console.log('🏆 Re-rendering badges');
         window.renderBadges();
       }
     }
   });
+
+  console.log('✅ App initialization complete');
 });

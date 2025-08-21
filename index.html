@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Micro-Habit Stacker</title>
-  <link rel="stylesheet" href="styles.css?v=3" />
+  <link rel="stylesheet" href="styles.css?v=5" />
   <link rel="icon" href="data:,">
 </head>
 <body>
@@ -22,14 +22,24 @@
       <p>Microhabits are stackable. Click on habits to activate them. Build streaks and earn XP as you stack consistency. Daily XP resets each day!</p>
     </section>
 
-    <main id="habit-container"></main>
+    <main id="habit-container">
+      <!-- Habits will be rendered here -->
+    </main>
 
-    <section id="badges"></section>
+    <section id="badges">
+      <!-- Badges will be rendered here -->
+    </section>
   </div>
 
-  <script src="utilities/state.js?v=3"></script>
-  <script src="utilities/habits.js?v=3"></script>
-  <script src="utilities/streaks.js?v=3"></script>
-  <script type="module" src="app.js?v=3"></script>
+  <script>
+    console.log('🌟 HTML loaded, starting script loading...');
+  </script>
+  <script src="utilities/state.js?v=5"></script>
+  <script src="utilities/habits.js?v=5"></script>
+  <script src="utilities/streaks.js?v=5"></script>
+  <script type="module" src="app.js?v=5"></script>
+  <script>
+    console.log('📜 All scripts loaded');
+  </script>
 </body>
 </html>
