@@ -48,3 +48,19 @@ input[type="checkbox"]:focus-visible {
    .habit-chip { outline: none; }  <-- avoid this unless replaced.
    If .habit-chip isn't a native control, give it role="button" and tabindex="0".
 */
+/* Ensure custom "chip" is keyboard-focusable somewhere in markup.
+   If .habit-chip isn't a native control, give it role="button" and tabindex="0". */
+
+.habit-chip {
+  background: #f5f5f5;
+  transition: background 0.2s;
+  outline: none;
+}
+
+.habit-chip:hover {
+  background: #e0e7ff; /* subtle color change on hover */
+}
+
+.habit-chip:active {
+  background: #c7d2fe; /* darker pressed effect */
+}

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Smoke Test — App Entry</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        margin: 2em;
+      }
+      .pass {
+        color: #2d7a2d;
+      }
+      .fail {
+        color: #b30000;
+      }
+      .instructions {
+        margin-bottom: 2em;
+        background: #f8f8f8;
+        padding: 1em;
+        border-radius: 6px;
+      }
+      code {
+        background: #eee;
+        padding: 2px 4px;
+        border-radius: 3px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="instructions">
+      <strong>How to Run:</strong>
+      <ol>
+        <li>
+          Start a local server in your project folder:<br />
+          <code>python3 -m http.server 8000</code>
+        </li>
+        <li>
+          Open <code>http://localhost:8000/tests/manual/smoke.html</code> in
+          Chrome.
+        </li>
+        <li>
+          Check the Console (<code>Cmd+Option+I</code>) for PASS/FAIL messages.
+        </li>
+      </ol>
+      <em>Works in latest Chrome; Firefox optional.</em>
+    </div>
+    <div id="smoke-results"></div>
+
+    <!-- External JS file -->
+    <script src="./smoke.js"></script>
+  </body>
+</html>
