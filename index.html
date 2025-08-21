@@ -8,12 +8,27 @@
   <link rel="stylesheet" href="./styles.css" />
 </head>
 <body class="app light">
+
   <header class="app-header">
-  <div class="header-right">
-    <span class="pill">XP 0</span>
-    <button id="theme-toggle">🌗</button>
-  </div>
-</header>
+    <h1 class="app-title">Micro-Habit Stacker</h1>
+    <div class="instructions">
+      Microhabits are stackable. Click on habits to activate them. Build streaks and earn XP as you stack consistency.
+    </div>
+    <div class="header-right">
+      <span class="pill">XP 0</span>
+      <button id="theme-toggle">🌗</button>
+    </div>
+  </header>
+
+  <main>
+    <div id="habit-picker"></div>
+  </main>
+
+  <!-- App entry -->
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
+
 
 <!-- Title + Instructions -->
 <h1 class="app-title">Micro-Habit Stacker</h1>
@@ -25,9 +40,6 @@
     <div id="habit-picker"></div> <!-- Chips render here -->
   </main>
 
-  <!-- App entry -->
-  <script type="module" src="./app.js"></script>
-</body>
-</html>
+ 
 
 
