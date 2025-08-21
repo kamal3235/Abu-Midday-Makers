@@ -51,12 +51,15 @@ body.dark #theme-toggle {
   padding: 10px 20px;
   gap: 10px;                /* space between title and controls */
 }
+
+/* Header */
 .app-header h1 {
   text-align: center;
-  font-size: 2rem;
+  font-size:3.5rem;
   font-weight: 700;
+  font-family: "Poppins", "Segoe UI", sans-serif;  /* softer rounded font */
   color: #374d65;  /* softer than pure black */
-  margin-bottom: 20px;
+  margin-bottom: 0 0 10px 0;
   letter-spacing: 1px;
 }
 
@@ -87,17 +90,33 @@ body.dark #theme-toggle {
 }
 
 /* Pyramid positioning */
+/* Pyramid Layout */
+#habit-picker {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;          /* tighter gap overall */
+  justify-items: center;
+  margin-top: 30px;
+}
+
+/* Top card centered */
 #habit-picker .category-section:nth-child(1) {
-  grid-column: 2; /* Center top card */
+  grid-column: 2;   /* middle */
+  transform: none;  /* reset any shift */
 }
 
+/* Bottom left card */
 #habit-picker .category-section:nth-child(2) {
-  grid-column: 1; /* Bottom left */
+  grid-column: 1;
+  transform: translateX(40px);  /* move toward center */
 }
 
+/* Bottom right card */
 #habit-picker .category-section:nth-child(3) {
-  grid-column: 3; /* Bottom right */
+  grid-column: 3;
+  transform: translateX(-40px); /* move toward center */
 }
+
 
 
 .category-section {
