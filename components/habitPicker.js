@@ -1,36 +1,31 @@
-export async function renderHabitPicker() {
+// components/habitPicker.js
+export function renderHabits(categories) {
   const container = document.getElementById("habit-container");
-  if (!container) return;
+  container.innerHTML = "";
 
-  try {
-    const res = await fetch("./data/categories.json");
-    const categories = await res.json();
+  categories.forEach(category => {
+    // Create category card
+    const card = document.createElement("div");
+    card.className = "habit-card";
 
-    container.innerHTML = "";
+    // Category header
+    const header = document.createElement("h3");
+    header.innerHTML = `${category.icon} ${category.name}`;
+    card.appendChild(header);
 
-    // Assign pyramid positions
-    categories.forEach((cat, idx) => {
-      const card = document.createElement("div");
-      card.className = `category-card`;
-      if (idx === 0) card.style.gridArea = "center";
-      if (idx === 1) card.style.gridArea = "left";
-      if (idx === 2) card.style.gridArea = "right";
+    // Habit buttons
+    category.habits.forEach(habit => {
+      const btn = document.createElement("button");
+      btn.className = "habit-btn";
+      btn.textContent = habit.name;
 
-      const title = document.createElement("h3");
-      title.className = "category-title";
-      title.textContent = `${cat.icon} ${cat.name}`;
-      card.appendChild(title);
-
-      cat.habits.forEach(habit => {
-        const btn = document.createElement("button");
-        btn.textContent = habit.name;
-        btn.className = "habit-btn";
-        card.appendChild(btn);
+      btn.addEventListener("click", () => {
+        btn.classList.toggle("active");
       });
 
-      container.appendChild(card);
+      card.appendChild(btn);
     });
-  } catch (err) {
-    console.error("Failed to load categories:", err);
-  }
+
+    container.appendChild(card);
+  });
 }
