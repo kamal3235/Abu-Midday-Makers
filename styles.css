@@ -169,9 +169,10 @@ body.dark #theme-toggle {
 
 
 /* Dark mode card overrides */
+/* Dark mode purple override */
 body.dark .category-section.health {
-  background: #1b2e1b;   /* deep green */
-  border-color: #2e7d32;
+  background: #2a0b33;
+  border-color: #7b1fa2;
 }
 
 
