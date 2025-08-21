@@ -25,46 +25,20 @@
   Those belong in JS components, not in this HTML.
   -->
 </head>
-<body>
+<body class="app">
   <header class="app-header">
-    <h1>Micro‑Habit Stacker</h1>
-
-    <div id="habit-container"></div>     <!-- Add the container here -->
-
+    <h1>Micro-Habit Stacker</h1>
+    <div id="habit-container"></div> <!-- Chips render here -->
     <div class="header-right">
       <span id="xpTotal" class="pill" aria-live="polite">XP 0</span>
-      <button id="themeToggle" class="btn" aria-pressed="false" title="Toggle theme">🌓</button>
+      <button id="themeToggle" class="btn" aria-pressed="false" title="Toggle theme">🌗</button>
     </div>
   </header>
 
-  <main class="container">
-    <section id="categoryPicker" class="card"></section>
-    <section id="habitPicker" class="card"></section>
-    <section id="todayPanel" class="card"></section>
-    <section id="towerView" class="card"></section>
-    <section id="badges" class="card"></section>
-    <section id="reminders" class="card"></section>
-  </main>
-
-  <!-- Utilities (helpers) -->
-  <script src="./utilities/state.js"></script>
-  <script src="./utilities/streaks.js"></script>
-  <script src="./utilities/xp.js"></script>
-  <script src="./utilities/notify.js"></script>
-  <script src="./utilities/ics.js"></script>
-  <script src="./utilities/scheduler.js"></script>
-
-  <!-- Components (render UI) -->
-  <script src="./components/habitPicker.js"></script>
-  <script src="./components/todayPanel.js"></script>
-  <script src="./components/towerView.js"></script>
-  <script src="./components/badges.js"></script>
-  <script src="./components/reminders.js"></script>
-
   <!-- App entry -->
   <script src="./app.js"></script>
-  
 </body>
+
 
 
 </html>
