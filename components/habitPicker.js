@@ -1,64 +1,55 @@
 // components/habitPicker.js
 
-const fallbackCategories = [
-  {
-    id: "health",
-    name: "Health",
-    habits: [
-      { id: "h1", name: "Drink 1 glass of water" },
-      { id: "h2", name: "Take a 5-minute walk" },
-      { id: "h3", name: "Take deep breaths" }
-    ]
-  },
-  {
-    id: "productivity",
-    name: "Productivity",
-    habits: [
-      { id: "p1", name: "Turn off notifications" },
-      { id: "p2", name: "Create a quiet workspace" },
-      { id: "p3", name: "Set specific work hours" }
-    ]
-  },
-  {
-    id: "learning",
-    name: "Learning",
-    habits: [
-      { id: "l1", name: "Find a mentor" },
-      { id: "l2", name: "Practice for 15 minutes" },
-      { id: "l3", name: "Read 1 chapter" }
-    ]
-  }
-];
-
 export async function renderHabitPicker(containerId = "habit-container") {
   const container = document.getElementById(containerId);
-  if (!container) {
-    console.error(`Container with id '${containerId}' not found`);
-    return;
-  }
+  if (!container) return;
+
+  // Fallback categories in case JSON fails
+  const fallbackCategories = [
+    {
+      id: "health",
+      name: "Health",
+      habits: ["Drink 1 glass of water", "Take a 5-minute walk", "Take deep breaths"]
+    },
+    {
+      id: "productivity",
+      name: "Productivity",
+      habits: ["Turn off notifications", "Create a quiet workspace", "Set specific work hours"]
+    },
+    {
+      id: "learning",
+      name: "Learning",
+      habits: ["Find a mentor", "Practice for 15 minutes", "Read 1 chapter"]
+    }
+  ];
 
   container.innerHTML = ""; // Clear old
 
-  let categories = fallbackCategories;
   try {
     const res = await fetch("data/categories.json");
-    if (res.ok) {
-      categories = await res.json();
-    }
-  } catch (err) {
-    console.warn("Using fallback categories:", err);
-  }
+    if (!res.ok) throw new Error("Failed to fetch categories.json");
+    const categories = await res.json();
 
-  // Flatten habits
+    // Restore your card/chip rendering logic
+    renderHabits(categories, container);
+  } catch (err) {
+    console.warn("Falling back to default categories:", err);
+    renderHabits(fallbackCategories, container);
+  }
+}
+
+// ✅ This restores your chip/card UI
+function renderHabits(categories, container) {
+  // Flatten all habits with category info
   const habits = categories.flatMap(cat =>
     cat.habits.map(habit => ({
-      id: habit.id || `${cat.id}-${habit}`,
+      id: habit.id || habit, // fallback if string only
       name: habit.name || habit,
       category: cat.name
     }))
   );
 
-  // Load saved state
+  // Load persisted selections
   const saved = JSON.parse(localStorage.getItem("selectedHabits") || "[]");
 
   habits.forEach(habit => {
@@ -66,7 +57,7 @@ export async function renderHabitPicker(containerId = "habit-container") {
     chip.classList.add("chip");
     chip.textContent = habit.name;
 
-    // Restore selection
+    // Restore saved selections
     if (saved.includes(habit.id)) {
       chip.classList.add("chip--selected");
     }
@@ -88,6 +79,7 @@ export async function renderHabitPicker(containerId = "habit-container") {
   });
 }
 
+// ✅ Keep updateSelection to persist in localStorage
 function updateSelection(habitId, isSelected) {
   const saved = JSON.parse(localStorage.getItem("selectedHabits") || "[]");
   let updated = [...saved];
