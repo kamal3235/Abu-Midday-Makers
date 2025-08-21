@@ -14,44 +14,57 @@ Rules
 */
 // Example: Request Notification permission, fallback to custom toast if not supported
 
-function requestNotificationPermission() {
-  if ('Notification' in window) {
-    Notification.requestPermission().then(permission => {
-      if (permission === 'granted') {
-        new Notification('Notifications enabled!');
-      } else {
-        showToast('Notifications permission denied.');
-      }
-    });
-  } else {
-    showToast('Notifications not supported in this browser.');
+/*
+utilities/notify.js
+Helpers for Notifications + fallback toast.
+*/
+
+// Track if we've already asked for permission this session
+let askedPermission = false;
+
+// Request browser notification permission with graceful fallback
+export function requestPermission() {
+  if (!('Notification' in window)) {
+    toast('Notifications not supported in this browser.');
+    return;
   }
+
+  if (askedPermission) return;
+  askedPermission = true;
+
+  Notification.requestPermission().then(permission => {
+    if (permission === 'granted') {
+      new Notification('Notifications enabled!');
+    } else {
+      toast('Notifications permission denied.');
+    }
+  });
 }
 
 // Simple toast implementation with cleanup
-function showToast(message) {
+export function toast(message) {
   // Remove any existing toast
   const oldToast = document.getElementById('custom-toast');
   if (oldToast) oldToast.remove();
 
   // Create new toast
-  const toast = document.createElement('div');
-  toast.id = 'custom-toast';
-  toast.textContent = message;
-  toast.style.position = 'fixed';
-  toast.style.bottom = '24px';
-  toast.style.left = '50%';
-  toast.style.transform = 'translateX(-50%)';
-  toast.style.background = '#333';
-  toast.style.color = '#fff';
-  toast.style.padding = '12px 24px';
-  toast.style.borderRadius = '8px';
-  toast.style.zIndex = '9999';
-  toast.style.boxShadow = '0 2px 8px rgba(0,0,0,0.2)';
-  document.body.appendChild(toast);
+  const toastEl = document.createElement('div');
+  toastEl.id = 'custom-toast';
+  toastEl.textContent = message;
+  toastEl.style.position = 'fixed';
+  toastEl.style.bottom = '24px';
+  toastEl.style.left = '50%';
+  toastEl.style.transform = 'translateX(-50%)';
+  toastEl.style.background = '#333';
+  toastEl.style.color = '#fff';
+  toastEl.style.padding = '12px 24px';
+  toastEl.style.borderRadius = '8px';
+  toastEl.style.zIndex = '9999';
+  toastEl.style.boxShadow = '0 2px 8px rgba(0,0,0,0.2)';
+  document.body.appendChild(toastEl);
 
-  // Remove toast after 3 seconds
+  // Remove toast after 2 seconds
   setTimeout(() => {
-    toast.remove();
-  }, 3000);
+    toastEl.remove();
+  }, 2000);
 }
