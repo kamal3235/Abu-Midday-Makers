@@ -72,7 +72,7 @@ body.dark #theme-toggle {
 .header-right {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px; /* adds breathing space between XP and toggle */
 }
 
 .pill {
