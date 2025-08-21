@@ -18,37 +18,21 @@ How to work on this file
 
 import { renderHabitPicker } from "./components/habitPicker.js";
 
-
 (function () {
   function applySavedTheme() {
-    const saved = localStorage.getItem('theme') || 'dark';
-    document.documentElement.setAttribute('data-theme', saved);
-    const toggle = document.getElementById('themeToggle');
-    if (toggle) toggle.setAttribute('aria-pressed', saved === 'light' ? 'true' : 'false');
+    const saved = localStorage.getItem("theme") || "dark";
+    document.body.dataset.theme = saved;
   }
 
-  function toggleTheme() {
-    const cur = document.documentElement.getAttribute('data-theme') || 'dark';
-    const next = cur === 'dark' ? 'light' : 'dark';
-    document.documentElement.setAttribute('data-theme', next);
-    localStorage.setItem('theme', next);
-    const toggle = document.getElementById('themeToggle');
-    if (toggle) toggle.setAttribute('aria-pressed', next === 'light' ? 'true' : 'false');
-  }
+  applySavedTheme();
 
-  function init() {
-    applySavedTheme();
-    const t = document.getElementById('themeToggle');
-    if (t) t.onclick = toggleTheme;
+  const t = document.getElementById("themeToggle");
+  if (t) t.onclick = toggleTheme;
 
-    // Boot the UI (safe even if components are still stubs)
-    renderHabitPicker(); // Render the habit picker
-    if (window.HabitPicker?.mount) window.HabitPicker.mount();
-    if (window.TodayPanel?.mount) window.TodayPanel.mount();
-    if (window.TowerView?.mount) window.TowerView.mount();
-    if (window.Badges?.mount) window.Badges.mount();
-    if (window.Reminders?.mount) window.Reminders.mount();
-  }
+  // Boot the UI
+  renderHabitPicker(); // Render chips from JSON
 
-  window.addEventListener('DOMContentLoaded', init);
+  if (window.TodayPanel?.mount) window.TodayPanel.mount();
+  if (window.TowerView?.mount) window.TowerView.mount();
 })();
+
