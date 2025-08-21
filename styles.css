@@ -1,159 +1,288 @@
-/*
-GLOBAL STYLES
-
-What this file is for
-- Colors, fonts, layout, shared classes used by multiple components.
-
-How to update
-- Group styles with clear comments, e.g.:
-  /* Habit Picker */ /* Today Panel */ /* Tower */ /* Badges */ /* Reminders */
-/*- Keep good contrast and visible focus outlines (accessibility).
-- Prefer class names over targeting HTML tags.
-
-Avoid
-- Deleting teammates’ styles. Add or extend instead.
-*/
-
-:root {
-  --bg: #0b0d10;
-  --fg: #e7ecf3;
-  --muted: #9fb0c3;
-  --card: #12161b;
-  --accent: #6ae3ff;
-}
-[data-theme='light'] {
-  --bg: #f6f7fb;
-  --fg: #0f141a;
-  --muted: #4c5b6a;
-  --card: #ffffff;
-  --accent: #0066ee;
-}
-* {
-  box-sizing: border-box;
-}
-html,
+/* Base styles */
 body {
+  font-family: Arial, sans-serif;
   margin: 0;
-  height: 100%;
+  padding: 0;
+  background: #f9f9f9;
+  color: #333;
 }
-body {
-  background: var(--bg);
-  color: var(--fg);
-  font: 16px/1.5 system-ui, Segoe UI, Roboto, Helvetica, Arial;
+
+/* Light theme */
+body.light {
+  background: #e9e4da;  /* soft oatmeal background */
+  color: #333333;
 }
+
+
+/* Dark theme */
+body.dark {
+  background: #121212;
+  color: #f9f9f9;
+}
+
+#app {
+  padding: 20px;
+}
+
+/* Theme toggle button */
+#theme-toggle {
+  padding: 6px 12px;
+  cursor: pointer;
+  border: none;
+  border-radius: 6px;
+  background: #eee;
+  color: #333;
+}
+body.dark #theme-toggle {
+  background: #333;
+  color: #f9f9f9;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;   /* space between XP pill and toggle */
+}
+
 .app-header {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 16px;
-  border-bottom: 1px solid #20242b;
-}
-.container {
-  display: grid;
-  gap: 16px;
-  padding: 16px;
-  grid-template-columns: 1fr;
-}
-@media (min-width: 900px) {
-  .container {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-.card {
-  background: var(--card);
-  border: 1px solid #1e242b;
-  border-radius: 14px;
-  padding: 14px;
-  min-height: 60px;
-}
-.btn {
-  background: transparent;
-  border: 1px solid #2b3440;
-  color: var(--fg);
-  padding: 8px 10px;
-  border-radius: 10px;
-  cursor: pointer;
-}
-.btn:focus {
-  outline: 3px solid var(--accent);
-  outline-offset: 2px;
+  flex-direction: column;   /* stack title above controls */
+  align-items: center;      /* center everything horizontally */
+  padding: 10px 20px;
+  gap: 10px;                /* space between title and controls */
 }
 
-/* Visible focus indicator for interactive elements */
-button:focus-visible,
-a:focus-visible,
-input:focus-visible,
-select:focus-visible,
-textarea:focus-visible,
-[tabindex]:not([tabindex="-1"]):focus-visible,
-.habit-chip:focus-visible,
-input[type="checkbox"]:focus-visible {
- /* High-visibility ring that doesn't shift layout */
-outline: 3px solid var(--accent); /* align with global accent */
-outline-offset: 2px;
-
-
-  /* Soft halo for rounded UIs (since outline isn't rounded) */
-  box-shadow: 0 0 0 4px rgba(25, 118, 210, 0.2);
-}
-
-/* Accessibility note:
-   Ensure custom "chip" is keyboard-focusable somewhere in markup.
-   If .habit-chip isn't a native control, give it role="button" and tabindex="0". */
-
-.habit-chip {
-  background: #f5f5f5;
-  transition: background 0.2s;
-  outline: none; /* replaced by custom high-contrast focus ring above */
-}
-
-.habit-chip:hover {
-  background: #d6e0ff; /* darker hover for better contrast */
-}
-
-.habit-chip:active {
-  background: #a5b8ff; /* darker active state */
-}
-
-/* Badges */
-.badges-grid {
-  display: flex;
-  gap: 1rem;
-  margin: 1rem 0;
-  flex-wrap: wrap; /* prevents overflow on small screens */
-}
-
-.badge-card {
-  border: 2px solid #ccc;
-  border-radius: 8px;
-  padding: 1rem;
-  width: 120px;
+/* Header */
+.app-title {
+  font-family: "Poppins", "Segoe UI", sans-serif;  /* softer font */
+  font-size: 2.5rem;   /* about twice what you had */
   text-align: center;
-  background: #f9f9f9;
-  position: relative;
+  margin: 20px 0 10px 0;
+  color: #2c3e50;
+  font-weight: 600;
+  letter-spacing: 1px;
 }
 
-.badge-card.locked {
-  opacity: 0.6;
+/* Title in dark mode */
+body.dark .app-title {
+  color: #5e97ca;   /* light off-white for contrast */
+}
+
+
+.app-header h1::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 3px;
+  background: #0b8a7e; /* teal accent to match cards */
+  margin: 8px auto 0;
+  border-radius: 2px;
+}
+
+
+.pill {
+  padding: 4px 8px;
+  border-radius: 12px;
   background: #eee;
-}
-
-.badge-label {
-  font-size: 1rem;
   font-weight: bold;
-  margin-bottom: 0.5rem;
-  display: block;
-  color: #004085; /* darker blue for accessible contrast */
 }
 
-.badge-status {
-  font-size: 0.9rem;
-  color: #333; /* good contrast on light bg */
+/* Instructions styling */
+.instructions {
+  max-width: 700px;
+  margin: 0 auto 20px auto;   /* centers it under the title */
+  padding: 12px 18px;
+  background: #fffdf9;        /* soft cream background in light mode */
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  font-size: 1rem;
+  text-align: center;
+  line-height: 1.5;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  color: #444;
 }
 
-.badge-icon {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
-  display: block;
+/* Dark theme instructions */
+body.dark .instructions {
+  background: #1e1e1e;
+  border: 1px solid #444;
+  color: #eaeaea;
 }
 
+
+/* ------------------ CATEGORY CARDS ------------------ */
+#habit-picker {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  justify-items: center;
+}
+
+/* Pyramid positioning */
+/* Pyramid Layout */
+#habit-picker {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;          /* tighter gap overall */
+  justify-items: center;
+  margin-top: 30px;
+  row-gap: 40px;   /* reduce space between rows */
+}
+
+/* Top card centered */
+#habit-picker .category-section:nth-child(1) {
+  grid-column: 2;   /* middle */
+  transform: none;  /* reset any shift */
+}
+
+/* Bottom left card */
+#habit-picker .category-section:nth-child(2) {
+  grid-column: 1;
+  transform: translateX(40px) translateY(-100px); /* move inward + higher */
+}
+
+/* Bottom right card */
+#habit-picker .category-section:nth-child(3) {
+  grid-column: 3;
+  transform: translateX(-40px) translateY(-100px); /* move inward + higher */
+}
+
+
+
+.category-section {
+  flex: 1;
+  min-width: 250px;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  margin: 10px;
+}
+
+.category-title {
+  background: rgba(0,0,0,0.05);
+  padding: 6px 10px;
+  border-radius: 8px 8px 0 0;
+  font-weight: bold;
+}
+
+
+.habit-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Habit Chips */
+.habit-chip {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  user-select: none;
+  background: #f9f9f9;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+/* ------------------ THEME COLORS ------------------ */
+
+/* Health (purple) */
+.category-section.health {
+  border-top: 4px solid #9c27b0;
+  background: #f8e6fa;
+}
+.category-section.health .habit-chip:hover {
+  background: #e1bee7;
+  border-color: #9c27b0;
+}
+.category-section.health .habit-chip.active {
+  background: #9c27b0;
+  color: #fff;
+  border-color: #9c27b0;
+}
+
+/* Productivity (teal) */
+.category-section.productivity {
+  border-top: 4px solid #009688;
+  background: #e0f7f5;
+}
+.category-section.productivity .habit-chip:hover {
+  background: #b2dfdb;
+  border-color: #009688;
+}
+.category-section.productivity .habit-chip.active {
+  background: #009688;
+  color: #fff;
+  border-color: #009688;
+}
+
+
+/* Learning (blue) */
+.category-section.learning {
+  border-top: 4px solid #2196f3;
+  background: #f0f7ff;
+}
+.category-section.learning .habit-chip:hover {
+  background: #bbdefb;
+  border-color: #2196f3;
+}
+.category-section.learning .habit-chip.active {
+  background: #2196f3;
+  color: #fff;
+  border-color: #2196f3;
+}
+
+/* Hover lift effect for category cards */
+.category-section {
+  flex: 1;
+  min-width: 250px;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  margin: 10px;
+
+  /* Add transition + baseline */
+  transform: translateY(0);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.category-section:hover {
+  box-shadow: 0 6px 12px rgba(0,0,0,0.12);
+  transform: translateY(-5px);
+}
+
+
+/* Dark mode card overrides */
+/* Dark mode purple override */
+body.dark .category-section.health {
+  background: #2a0b33;
+  border-color: #7b1fa2;
+}
+
+
+/* Dark mode teal override */
+body.dark .category-section.productivity {
+  background: #004d40;
+  border-color: #00796b;
+}
+
+
+body.dark .category-section.learning {
+  background: #3a0d0d;   /* deep burgundy */
+  border-color: #7b1f1f;
+}
+
+body.dark .category-title {
+  color: #fff; /* keep titles readable */
+}
+
+body.dark .habit-chip {
+  background: #2c2c2c;
+  border-color: #555;
+  color: #eee;
+}
+
+body.dark .habit-chip.active {
+  background: #4caf50;
+  border-color: #4caf50;
+  color: #fff;
+}

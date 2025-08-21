@@ -1,94 +1,65 @@
-/*
-COMPONENT: Habit Picker — renders into #habit-container
-
-Goal
-- Show a list of habits the user can choose to work on.
-- (Later) May also show recommended next habits by category.
-
-What to build
-- Render clickable "chips" or buttons for habits.
-- When the user picks one, update state via State.* and refresh the UI.
-
-Steps
-1) Find the container: const el = document.getElementById('habit-container')
-2) Build the list of habits (from /data or State).
-3) On click: update State (do not use localStorage directly), then re-render what changed.
-
-Avoid
-- Editing HTML outside this section.
-- Storing data anywhere except through /utilities/state.js.
-*/
-
-// components/habitPicker.js
-
-// Fetch + render habits from JSON
-export async function renderHabitPicker(containerId = "habit-container") {
+export async function renderHabitPicker(containerId) {
   const container = document.getElementById(containerId);
+  if (!container) return;
 
-  if (!container) {
-    console.error(`Container with id '${containerId}' not found`);
-    return;
-  }
-
-  container.innerHTML = ""; // Clear old
+  const fallbackCategories = [
+    {
+      id: "health",
+      name: "Health",
+      habits: ["Drink 1 glass of water", "Take a 5-minute walk", "Take deep breaths"]
+    },
+    {
+      id: "productivity",
+      name: "Productivity",
+      habits: ["Turn off notifications", "Create a quiet workspace", "Set specific work hours"]
+    },
+    {
+      id: "learning",
+      name: "Learning",
+      habits: ["Find a mentor", "Practice for 15 minutes", "Read 1 chapter"]
+    }
+  ];
 
   try {
-    const res = await fetch("./data/categories.json");
+    const res = await fetch("data/categories.json");
+    if (!res.ok) throw new Error("Failed to fetch categories.json");
     const categories = await res.json();
-
-    // Flatten all habits
-    const habits = categories.flatMap(cat =>
-      cat.habits.map(habit => ({
-        id: habit.id,
-        name: habit.name,
-        category: cat.name
-      }))
-    );
-
-    // Load persisted selections
-    const saved = JSON.parse(localStorage.getItem("selectedHabits") || "[]");
-
-    habits.forEach(habit => {
-      const chip = document.createElement("button");
-      chip.classList.add("chip");
-      chip.setAttribute("tabindex", "0");
-      chip.setAttribute("role", "button");
-      chip.textContent = habit.name;
-
-      // Restore selected state
-      if (saved.includes(habit.id)) {
-        chip.classList.add("chip--selected");
-      }
-
-      const toggle = () => {
-        chip.classList.toggle("chip--selected");
-        updateSelection(habit.id, chip.classList.contains("chip--selected"));
-      };
-
-      chip.addEventListener("click", toggle);
-      chip.addEventListener("keydown", e => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          toggle();
-        }
-      });
-
-      container.appendChild(chip);
-    });
+    renderCategories(categories, container);
   } catch (err) {
-    console.error("Failed to load categories.json", err);
+    console.warn("Falling back to default categories:", err);
+    renderCategories(fallbackCategories, container);
   }
 }
 
-function updateSelection(habitId, isSelected) {
-  const saved = JSON.parse(localStorage.getItem("selectedHabits") || "[]");
-  let updated = [...saved];
+function renderCategories(categories, container) {
+  container.innerHTML = "";
 
-  if (isSelected) {
-    if (!updated.includes(habitId)) updated.push(habitId);
-  } else {
-    updated = updated.filter(id => id !== habitId);
-  }
+  categories.forEach((cat) => {
+    // Create a category section
+    const catSection = document.createElement("div");
+    catSection.className = `category-section ${cat.name.toLowerCase()}`;
 
-  localStorage.setItem("selectedHabits", JSON.stringify(updated));
+    // Add category title
+    const catTitle = document.createElement("h2");
+    catTitle.className = "category-title";
+    catTitle.textContent = cat.name;
+    catSection.appendChild(catTitle);
+
+    // Habit chips wrapper
+    const habitWrapper = document.createElement("div");
+    habitWrapper.className = "habit-wrapper";
+
+    cat.habits.forEach((habit) => {
+      const chip = document.createElement("div");
+      chip.className = "habit-chip";
+      chip.textContent = habit.name || habit;
+      chip.addEventListener("click", () => {
+        chip.classList.toggle("active");
+      });
+      habitWrapper.appendChild(chip);
+    });
+
+    catSection.appendChild(habitWrapper);
+    container.appendChild(catSection);
+  });
 }
