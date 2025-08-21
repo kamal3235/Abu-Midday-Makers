@@ -81,6 +81,23 @@ body.dark #theme-toggle {
   font-weight: bold;
 }
 
+/* Instructions */
+.instructions {
+  text-align: center;
+  margin: 10px auto 20px;
+  font-size: 1.1rem;
+  color: #555;
+  max-width: 600px;
+  line-height: 1.4;
+  background: rgba(255, 255, 255, 0.6);
+  padding: 10px 16px;
+  border-radius: 8px;
+}
+body.dark .instructions {
+  background: rgba(30, 30, 30, 0.6);
+  color: #ddd;
+}
+
 /* ------------------ CATEGORY CARDS ------------------ */
 #habit-picker {
   display: grid;
