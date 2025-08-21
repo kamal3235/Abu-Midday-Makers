@@ -44,11 +44,8 @@ input[type="checkbox"]:focus-visible {
   box-shadow: 0 0 0 4px rgba(25, 118, 210, 0.2);
 }
 
-/ Ensure custom "chip" is keyboard-focusable somewhere in markup:
-   .habit-chip { outline: none; }  <-- avoid this unless replaced.
-   If .habit-chip isn't a native control, give it role="button" and tabindex="0".
-*/
-/* Ensure custom "chip" is keyboard-focusable somewhere in markup.
+/* Accessibility note:
+   Ensure custom "chip" is keyboard-focusable somewhere in markup.
    If .habit-chip isn't a native control, give it role="button" and tabindex="0". */
 
 .habit-chip {
@@ -58,9 +55,51 @@ input[type="checkbox"]:focus-visible {
 }
 
 .habit-chip:hover {
-  background: #e0e7ff; /* subtle color change on hover */
+  background: #d6e0ff; /* darker hover for better contrast */
 }
 
 .habit-chip:active {
-  background: #c7d2fe; /* darker pressed effect */
+  background: #a5b8ff; /* darker active state */
+}
+
+/* Badges */
+.badges-grid {
+  display: flex;
+  gap: 1rem;
+  margin: 1rem 0;
+  flex-wrap: wrap; /* prevents overflow on small screens */
+}
+
+.badge-card {
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  padding: 1rem;
+  width: 120px;
+  text-align: center;
+  background: #f9f9f9;
+  position: relative;
+}
+
+.badge-card.locked {
+  opacity: 0.6;
+  background: #eee;
+}
+
+.badge-label {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  display: block;
+  color: #004085; /* darker blue for accessible contrast */
+}
+
+.badge-status {
+  font-size: 0.9rem;
+  color: #333; /* good contrast on light bg */
+}
+
+.badge-icon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  display: block;
 }
