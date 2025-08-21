@@ -24,8 +24,8 @@
       <p>Microhabits are stackable. Click on habits to activate them. Build streaks and earn XP as you stack consistency. Daily XP resets each day!</p>
     </section>
 
-    <main id="habit-container">
-      <!-- Habits will be rendered here -->
+    <main>
+      <div id="habit-container"></div>
     </main>
 
     <section id="badges">
@@ -37,15 +37,7 @@
     console.log('🌟 HTML loaded, starting script loading...');
   </script>
 
-  <!-- Load utility scripts first (synchronously) -->
-  <script src="utilities/state.js?v=7"></script>
-  <script src="utilities/habits.js?v=7"></script>
-  <script src="utilities/streaks.js?v=7"></script>
-
-  <!-- Load components that depend on utilities -->
-  <script src="components/badges.js?v=7"></script>
-
-  <!-- Load main app logic last -->
+  <!-- Load main app logic -->
   <script type="module" src="app.js?v=7"></script>
 
   <script>

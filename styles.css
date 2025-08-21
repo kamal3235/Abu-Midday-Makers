@@ -74,6 +74,7 @@ body.dark #instructions {
   gap: 0.5rem;
 }
 
+/* === Habit Container Layout === */
 #habit-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -83,59 +84,7 @@ body.dark #instructions {
   max-width: 1000px;
   margin-left: auto;
   margin-right: auto;
-}
-
-.category-card.health {
-  /* All cards now use the same grid layout */
-}
-
-.category-card {
-  padding: 1.5rem;
-  border-radius: 12px;
-  box-shadow: 2px 4px 8px rgba(0,0,0,0.15);
-  background: #fff;
-  transition: all 0.3s;
-  min-height: 220px;
-  /* Added max-width to ensure consistent sizing */
-  max-width: 350px;
-  width: 100%;
-}
-
-body.dark .category-card {
-  background: #2a2a2a;
-}
-
-.category-title {
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-}
-
-.habit-btn {
-  display: block;
-  margin: 0.4rem auto;
-  padding: 0.4rem 1rem;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  cursor: pointer;
-  background: #fff;
-  transition: background 0.3s, color 0.3s;
-}
-
-.habit-btn.active {
-  background: #4cafef;
-  color: #fff;
-  border-color: #4cafef;
-}
-
-body.dark .habit-btn {
-  background: #333;
-  color: #eee;
-  border-color: #555;
-}
-
-body.dark .habit-btn.active {
-  background: #90caf9;
-  color: #000;
+  padding: 0 1rem;
 }
 
 /* === Category Cards Colors === */
@@ -241,5 +190,104 @@ body.dark .badge-card.locked {
 
 body.dark .badge-status {
   color: #aaa;
+}
 
+.badge-description {
+  font-size: 0.75rem;
+  color: #888;
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
+}
+
+body.dark .badge-description {
+  color: #ccc;
+}
+
+/* === Category Cards Styling === */
+.category-card {
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 2px 4px 8px rgba(0,0,0,0.15);
+  background: #fff;
+  transition: all 0.3s;
+  min-height: 220px;
+  max-width: 350px;
+  width: 100%;
+}
+
+body.dark .category-card {
+  background: #2a2a2a;
+}
+
+.category-title {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+.habits {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* === Habit Buttons === */
+.habit-btn {
+  display: block;
+  margin: 0.4rem auto;
+  padding: 0.6rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  cursor: pointer;
+  background: #fff;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+  min-width: 200px;
+}
+
+.habit-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.habit-btn.active {
+  background: #4caf50;
+  color: #fff;
+  border-color: #4caf50;
+  transform: scale(1.02);
+}
+
+body.dark .habit-btn {
+  background: #333;
+  color: #eee;
+  border-color: #555;
+}
+
+body.dark .habit-btn.active {
+  background: #4caf50;
+  color: #fff;
+}
+
+/* === Notifications === */
+.notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #4caf50;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  z-index: 1000;
+  font-size: 14px;
+  font-weight: 500;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+}
+
+.notification.show {
+  opacity: 1;
+  transform: translateY(0);
 }

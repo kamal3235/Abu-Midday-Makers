@@ -43,6 +43,7 @@ export function renderHabits(categories) {
       habitBtn.textContent = habit.name;
       habitBtn.classList.add("habit-btn");
       habitBtn.dataset.habitId = habit.id;
+      
       habitsDiv.appendChild(habitBtn);
       
       console.log('📋 Added habit button:', {
