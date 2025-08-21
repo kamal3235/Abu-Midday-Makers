@@ -143,3 +143,34 @@ body.dark #theme-toggle {
   color: #fff;
   border-color: #2196f3;
 }
+/* Dark mode card overrides */
+body.dark .category-section.health {
+  background: #1b2e1b;   /* deep green */
+  border-color: #2e7d32;
+}
+
+body.dark .category-section.productivity {
+  background: #1a237e;   /* deep navy */
+  border-color: #3949ab;
+}
+
+body.dark .category-section.learning {
+  background: #311b92;   /* deep purple */
+  border-color: #673ab7;
+}
+
+body.dark .category-title {
+  color: #fff; /* make titles readable */
+}
+
+body.dark .habit-chip {
+  background: #2c2c2c;
+  border-color: #555;
+  color: #eee;
+}
+
+body.dark .habit-chip.active {
+  background: #4caf50;
+  border-color: #4caf50;
+  color: #fff;
+}
