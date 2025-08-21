@@ -117,20 +117,21 @@ body.dark #theme-toggle {
   border-color: #4caf50;
 }
 
-/* Productivity (orange) */
+/* Productivity (purple) */
 .category-section.productivity {
-  border-top: 4px solid #ff9800;
-  background: #fff7f0;
+  border-top: 4px solid #9c27b0;
+  background: #f8e6fa;
 }
 .category-section.productivity .habit-chip:hover {
-  background: #ffe0b2;
-  border-color: #ff9800;
+  background: #e1bee7;
+  border-color: #9c27b0;
 }
 .category-section.productivity .habit-chip.active {
-  background: #ff9800;
+  background: #9c27b0;
   color: #fff;
-  border-color: #ff9800;
+  border-color: #9c27b0;
 }
+
 
 /* Learning (blue) */
 .category-section.learning {
@@ -173,10 +174,13 @@ body.dark .category-section.health {
   border-color: #2e7d32;
 }
 
+
+/* Dark mode purple override */
 body.dark .category-section.productivity {
-  background: #1a237e;   /* deep navy */
-  border-color: #3949ab;
+  background: #2a0b33;
+  border-color: #7b1fa2;
 }
+
 
 body.dark .category-section.learning {
   background: #3a0d0d;   /* deep burgundy */
