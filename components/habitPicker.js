@@ -1,5 +1,5 @@
 /*
-COMPONENT: Habit Picker  — renders into #habitPicker
+COMPONENT: Habit Picker — renders into #habit-container
 
 Goal
 - Show a list of habits the user can choose to work on.
@@ -10,7 +10,7 @@ What to build
 - When the user picks one, update state via State.* and refresh the UI.
 
 Steps
-1) Find the container: const el = document.getElementById('habitPicker')
+1) Find the container: const el = document.getElementById('habit-container')
 2) Build the list of habits (from /data or State).
 3) On click: update State (do not use localStorage directly), then re-render what changed.
 
@@ -19,12 +19,12 @@ Avoid
 - Storing data anywhere except through /utilities/state.js.
 */
 
-
 // components/habitPicker.js
 
 // Fetch + render habits from JSON
 export async function renderHabitPicker(containerId = "habit-container") {
   const container = document.getElementById(containerId);
+
   if (!container) {
     console.error(`Container with id '${containerId}' not found`);
     return;
