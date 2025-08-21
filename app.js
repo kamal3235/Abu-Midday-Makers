@@ -1,30 +1,18 @@
 import { renderHabitPicker } from "./components/habitPicker.js";
 
-(function () {
-  function applySavedTheme() {
-    const saved = localStorage.getItem("theme") || "dark";
-    document.body.classList.remove("light", "dark");
-    document.body.classList.add(saved);
+document.addEventListener("DOMContentLoaded", () => {
+  // Render habit cards
+  renderHabitPicker("habit-picker");
+
+  // Theme toggle
+  const themeToggle = document.getElementById("theme-toggle");
+  if (themeToggle) {
+    themeToggle.addEventListener("click", () => {
+      document.body.classList.toggle("dark");
+      document.body.classList.toggle("light");
+    });
   }
 
-  function toggleTheme() {
-    const current = document.body.classList.contains("dark") ? "dark" : "light";
-    const next = current === "dark" ? "light" : "dark";
-    document.body.classList.remove("light", "dark");
-    document.body.classList.add(next);
-    localStorage.setItem("theme", next);
-  }
-
-  // Apply saved theme on load
-  applySavedTheme();
-
-  // Theme toggle button
-  const t = document.getElementById("themeToggle");
-  if (t) t.onclick = toggleTheme;
-
-  // Boot the UI
-  renderHabitPicker(); // Render chips from JSON
-
-  if (window.TodayPanel?.mount) window.TodayPanel.mount();
-  if (window.TowerView?.mount) window.TowerView.mount();
-})();
+  // Initialize XP
+  document.getElementById("xpTotal").textContent = "XP 0";
+});
