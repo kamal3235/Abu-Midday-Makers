@@ -9,9 +9,10 @@ body {
 
 /* Light theme */
 body.light {
-  background: #ffffff;
+  background: #f7f3ee;  /* warm beige background instead of stark white */
   color: #333333;
 }
+
 
 /* Dark theme */
 body.dark {
