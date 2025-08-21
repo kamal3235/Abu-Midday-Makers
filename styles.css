@@ -97,6 +97,7 @@ body.dark #theme-toggle {
   gap: 20px;          /* tighter gap overall */
   justify-items: center;
   margin-top: 30px;
+  row-gap: 30px;   /* reduce space between rows */
 }
 
 /* Top card centered */
