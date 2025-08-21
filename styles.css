@@ -1,197 +1,91 @@
-/* ==================== Base Layout ==================== */
-body {
-  font-family: system-ui, sans-serif;
-  line-height: 1.5;
+/* Reset */
+body, h1, div, span, button {
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: system-ui, sans-serif;
+}
+
+body.app.light {
   background: #f9f9f9;
-  color: #333;
+  color: #222;
 }
 
-#app {
-  padding: 20px;
+body.app.dark {
+  background: #1e1e1e;
+  color: #f5f5f5;
 }
 
-/* ==================== Theme Toggle Button ==================== */
-#theme-toggle {
-  padding: 6px 12px;
-  cursor: pointer;
-  border: none;
-  border-radius: 6px;
-  background: #eee;
-  color: #333;
-}
-
-body.dark #theme-toggle {
-  background: #333;
-  color: #f9f9f9;
-}
-
-/* ==================== Header ==================== */
-.header-right {
+/* Header */
+.app-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 0.75rem; /* space between XP pill and toggle */
-  padding: 12px 16px;
-  border-bottom: 1px solid #20242b;
+  padding: 1rem 2rem;
+  background: var(--header-bg, #4CAF50);
+  color: white;
 }
 
-/* ==================== Container ==================== */
-.container {
-  display: grid;
-  gap: 16px;
-  padding: 16px;
-  grid-template-columns: 1fr;
+.app-title {
+  font-size: 1.8rem;
+  font-weight: bold;
 }
 
-@media (min-width: 900px) {
-  .container {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-/* ==================== Instructions ==================== */
 .instructions {
-  padding: 12px;
-  background: #f5f5f5;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  font-size: 0.95rem;
-  line-height: 1.5;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  color: #444;
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: inherit;
 }
 
-body.dark .instructions {
-  background: #1e1e1e;
-  border: 1px solid #444;
-  color: #eaeaea;
+/* Pill */
+.pill {
+  background: #222;
+  color: #fff;
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  margin-right: 1rem;
 }
 
-/* ==================== Habit Picker ==================== */
+/* Button */
+.btn {
+  background: transparent;
+  border: 2px solid currentColor;
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+}
+
+/* Cards (Habits) */
 #habit-picker {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  justify-items: center;
-  margin-top: 30px;
-  row-gap: 40px; /* spacing between rows */
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 1rem;
+  padding: 2rem;
 }
 
-/* Top card centered */
-#habit-picker .category-section:nth-child(1) {
-  grid-column: 2;
-  transform: none;
-}
-
-/* Bottom left card */
-#habit-picker .category-section:nth-child(2) {
-  grid-column: 1;
-}
-
-/* Bottom right card */
-#habit-picker .category-section:nth-child(3) {
-  grid-column: 3;
-}
-
-/* ==================== Category Cards ==================== */
-.category-section {
-  background: #fff;
+.habit-card {
+  background: white;
   border-radius: 12px;
-  padding: 16px;
+  padding: 1rem;
   text-align: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  transition: background 0.2s, color 0.2s, border-color 0.2s;
-  border: 1px solid #ccc;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
   cursor: pointer;
-  user-select: none;
-  position: relative;
+  transition: transform 0.2s, box-shadow 0.3s;
 }
 
-/* ==================== Habit Chips ==================== */
-.habit-chip {
-  display: inline-block;
-  padding: 8px 12px;
-  margin: 6px;
-  border-radius: 20px;
-  background: #f5f5f5;
-  border: 1px solid #ccc;
-  cursor: pointer;
-  transition: background 0.2s, border-color 0.2s, color 0.2s;
-  font-size: 0.9rem;
+.habit-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
 }
 
-/* ==================== Badge Styling ==================== */
-.badge-card {
-  display: inline-block;
-  padding: 10px;
-  margin: 8px;
-  border-radius: 12px;
-  background: #fff;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  text-align: center;
-}
-
-.badge-card.locked {
-  opacity: 0.6;
-  background: #eee;
-}
-
-.badge-label {
-  font-size: 1rem;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-  display: block;
-  color: #004085; /* darker blue for accessibility */
-}
-
-.badge-status {
-  font-size: 0.9rem;
-  color: #333; /* good contrast on light bg */
-}
-
-/* ==================== Theme Colors ==================== */
-/* Health (purple) */
-.category-section.health {
-  border-top: 4px solid #9c27b0;
-  background: #f8e6fa;
-}
-.category-section.health .habit-chip:hover {
-  background: #e1bee7;
-  border-color: #9c27b0;
-}
-.category-section.health .habit-chip.active {
-  background: #9c27b0;
-  color: #fff;
-  border-color: #9c27b0;
-}
-
-/* Productivity (teal) */
-.category-section.productivity {
-  border-top: 4px solid #009688;
-  background: #e0f7f5;
-}
-.category-section.productivity .habit-chip:hover {
-  background: #b2dfdb;
-  border-color: #009688;
-}
-.category-section.productivity .habit-chip.active {
-  background: #009688;
-  color: #fff;
-  border-color: #009688;
-}
-
-/* Learning (blue) */
-.category-section.learning {
-  border-top: 4px solid #2196f3;
-  background: #e0f7ff;
-}
-.category-section.learning .habit-chip:hover {
-  background: #bbdefb;
-  border-color: #2196f3;
-}
-.category-section.learning .habit-chip.active {
-  background: #2196f3;
-  color: #fff;
-  border-color: #2196f3;
+body.dark .habit-card {
+  background: #333;
+  color: #eee;
 }
