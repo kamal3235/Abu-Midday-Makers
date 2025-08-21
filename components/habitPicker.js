@@ -6,11 +6,15 @@ export async function renderHabitPicker() {
     const res = await fetch("./data/categories.json");
     const categories = await res.json();
 
-    container.innerHTML = ""; // clear
+    container.innerHTML = "";
 
-    categories.forEach(cat => {
+    // Assign pyramid positions
+    categories.forEach((cat, idx) => {
       const card = document.createElement("div");
-      card.className = `category-card category-${cat.id}`;
+      card.className = `category-card`;
+      if (idx === 0) card.style.gridArea = "center";
+      if (idx === 1) card.style.gridArea = "left";
+      if (idx === 2) card.style.gridArea = "right";
 
       const title = document.createElement("h3");
       title.className = "category-title";
