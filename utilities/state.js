@@ -54,22 +54,29 @@ What belongs here
   function checkAndResetDailyXp() {
     const state = get();
     const today = todayKey();
-    
+
     if (state.lastXpResetDate !== today) {
-      // New day detected - reset daily XP
-      const previousDailyXp = state.dailyXp;
+      // New day detected - transfer daily XP to total XP, then reset daily XP
+      const previousDailyXp = state.dailyXp || 0;
+
+      // Add yesterday's daily XP to total XP (only if there was daily XP to transfer)
+      if (previousDailyXp > 0) {
+        state.xp = (state.xp || 0) + previousDailyXp;
+      }
+
+      // Reset daily XP for the new day
       state.dailyXp = 0;
       state.lastXpResetDate = today;
       set(state);
-      
+
       // Return info about the reset
-      return { 
-        ...state, 
-        wasReset: true, 
-        previousDailyXp: previousDailyXp 
+      return {
+        ...state,
+        wasReset: true,
+        previousDailyXp: previousDailyXp
       };
     }
-    
+
     return { ...state, wasReset: false };
   }
 

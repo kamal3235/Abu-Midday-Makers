@@ -54,21 +54,22 @@ document.addEventListener("DOMContentLoaded", () => {
   function initializeXP() {
     const dailyXpResult = getDailyXp();
     const totalXp = getTotalXp();
-    
+
     xpDisplay.textContent = dailyXpResult.dailyXp;
     totalXpDisplay.textContent = totalXp;
-    
-    // Show notification if XP was reset
+
+    // Show notification if XP was reset and transferred to total
     if (dailyXpResult.wasReset && dailyXpResult.previousDailyXp > 0) {
-      showNotification(`Daily XP reset! Yesterday you earned ${dailyXpResult.previousDailyXp} XP. Start fresh today! 🌅`);
+      showNotification(`Daily XP reset! ${dailyXpResult.previousDailyXp} XP added to your total. Start fresh today! 🌅`);
     }
   }
 
   // Update XP displays with new values
   function updateXPDisplay(points) {
     const state = updateDailyXp(points);
+    const totalXp = getTotalXp(); // Get the current total XP from state
     xpDisplay.textContent = state.dailyXp;
-    totalXpDisplay.textContent = state.xp;
+    totalXpDisplay.textContent = totalXp;
   }
 
   // Initialize XP on page load

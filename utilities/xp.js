@@ -44,23 +44,18 @@ function totalXp(history) {
 /**
  * Updates daily XP by adding points and ensures daily reset has occurred
  * @param {number} points - Points to add (can be negative)
- * @returns {object} Updated state with new daily and total XP
+ * @returns {object} Updated state with new daily XP
  */
 function updateDailyXp(points) {
-  // Check and reset daily XP if needed
+  // Check and reset daily XP if needed (this will transfer previous day's XP to total)
   const state = window.State.checkAndResetDailyXp();
-  
-  // Update daily XP
-  state.dailyXp = Math.max(0, state.dailyXp + points);
-  
-  // Update total XP (lifetime XP never decreases, only increases)
-  if (points > 0) {
-    state.xp += points;
-  }
-  
+
+  // Update only daily XP - total XP will be updated during the next daily reset
+  state.dailyXp = Math.max(0, (state.dailyXp || 0) + points);
+
   // Save the updated state
   window.State.set(state);
-  
+
   return state;
 }
 
