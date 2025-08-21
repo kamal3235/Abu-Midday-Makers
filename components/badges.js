@@ -35,11 +35,11 @@ Avoid
 - Writing to localStorage directly—if you need to save earned badges, go through State helpers.
 */
 
-import { getBestStreak } from '../utilities/streaks.js';
-import { getHistory } from '../utilities/xp.js'; 
+import { bestStreak } from '../utilities/streaks.js';
+import { getHistory } from '../utilities/xp.js';
 
 // Pull real values or fallback to empty if not ready
-const streaks = { bestStreak: getBestStreak?.() || 0 };
+const streaks = { bestStreak: bestStreak?.({}) || 0 };
 const history = getHistory?.() || [];
 
 // Badge definitions with icons + tooltips

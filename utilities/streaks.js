@@ -117,3 +117,6 @@ const history = {
 };
 console.log(calculateCurrentStreak(history)); // Expected. 2 (if today is 2025-08-20)
 console.log(bestStreak(history)); // Expected: 3
+
+// Export the functions for ES6 modules
+export { calculateCurrentStreak, bestStreak };

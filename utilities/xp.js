@@ -70,5 +70,11 @@ console.log(totalXp()); // Should print 0
 //end test data
 
 
-module.exports = { todayXp, totalXp };
+function getHistory() {
+  // For now, return empty array - this should be connected to actual state management
+  return [];
+}
+
+// Export functions for ES6 modules
+export { todayXp, totalXp, getHistory };
 

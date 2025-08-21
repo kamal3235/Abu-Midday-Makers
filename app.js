@@ -1,6 +1,6 @@
-
 // app.js
 import { renderHabits } from "./components/habitPicker.js";
+import "./components/badges.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   const xpDisplay = document.getElementById("xp");
