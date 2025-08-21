@@ -81,3 +81,27 @@ body.dark #theme-toggle {
   background: #eee;
   font-weight: bold;
 }
+
+/* Habit Picker Layout */
+#habit-picker {
+  display: flex;
+  flex-wrap: wrap;   /* allows chips to wrap onto new rows */
+  gap: 10px;         /* space between chips */
+  margin: 20px;      /* breathing room below header */
+}
+
+.habit-chip {
+  padding: 8px 12px;
+  border-radius: 16px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  user-select: none;
+  background: #f9f9f9;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.habit-chip.active {
+  background: #4caf50;
+  color: #fff;
+  border-color: #4caf50;
+}
