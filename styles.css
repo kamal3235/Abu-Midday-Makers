@@ -53,15 +53,16 @@ body.dark #theme-toggle {
 }
 
 /* Header */
-.app-header h1 {
+.app-title {
+  font-family: "Poppins", "Segoe UI", sans-serif;  /* softer font */
+  font-size: 2.5rem;   /* about twice what you had */
   text-align: center;
-  font-size:3.5rem;
-  font-weight: 700;
-  font-family: "Poppins", "Segoe UI", sans-serif;  /* softer rounded font */
-  color: #374d65;  /* softer than pure black */
-  margin-bottom: 0 0 10px 0;
+  margin: 20px 0 10px 0;
+  color: #2c3e50;
+  font-weight: 600;
   letter-spacing: 1px;
 }
+
 
 .app-header h1::after {
   content: "";
