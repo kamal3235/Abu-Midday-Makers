@@ -44,11 +44,8 @@ body.dark {
   border-color: #4caf50;
 }
 
-/* Theme toggle button */
+/* Remove the fixed positioning */
 #theme-toggle {
-  position: fixed;
-  top: 10px;
-  right: 10px;
   padding: 6px 12px;
   cursor: pointer;
   border: none;
@@ -62,6 +59,13 @@ body.dark #theme-toggle {
   color: #f9f9f9;
 }
 
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;   /* adds space between XP pill and toggle */
+}
+
+
 .app-header {
   display: flex;
   justify-content: space-between;
@@ -69,10 +73,6 @@ body.dark #theme-toggle {
   padding: 10px 20px;
 }
 
-<div class="header-right">
-  <span id="xpTotal" class="pill" aria-live="polite">XP 0</span>
-  <button id="theme-toggle" class="btn" aria-pressed="false" title="Toggle theme">🌗</button>
-</div>
 
 .pill {
   padding: 4px 8px;
