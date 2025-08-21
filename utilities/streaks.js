@@ -2,7 +2,7 @@
 UTILITY: Streaks
 
 Goal
-- Calculate per‑habit streaks based on State.history.
+- Calculate per-habit streaks based on State.history.
 
 What belongs here
 - Pure functions like Streaks.calc(state) that return updated streak counts.
@@ -11,94 +11,41 @@ What belongs here
 Rules
 - No DOM changes here. No alerts/notifications. Pure logic only.
 */
+
 /**
- * Calculate the current streak of consecutive completed days ending at today or the latest valid date.
- * @param {Object} history - { "YYYY-MM-DD": true/false, ... }
- * @returns {number} Current streak count
- *
- * Example:
- * calculateCurrentStreak({
- *   "2025-08-18": true,
- *   "2025-08-19": true,
- *   "2025-08-20": true, // today
- *   "2025-08-21": true  // future, ignored
- * }) // returns 3
+ * Calculate the current streak of consecutive completed days ending at today.
+ * @param {Array} history - Array of day objects with {date, completed}
  */
-function calculateCurrentStreak(history) {
-  if (!history || Object.keys(history).length === 0) return 0;
-
-  const today = new Date().toISOString().slice(0, 10);
-  // Filter out future dates
-  const validDates = Object.keys(history)
-    .filter(date => date <= today)
-    .sort((a, b) => new Date(b) - new Date(a)); // Descending by UTC
-
+export function calculateCurrentStreak(history) {
   let streak = 0;
-  let prevDate = today;
 
-  for (const date of validDates) {
-    if (date < prevDate) {
-      // Check if dates are consecutive
-      const expected = new Date(prevDate);
-      expected.setDate(expected.getDate() - 1);
-      const expectedStr = expected.toISOString().slice(0, 10);
-      if (date !== expectedStr) break; // gap breaks streak
-    }
-    if (history[date]) {
+  for (let i = history.length - 1; i >= 0; i--) {
+    if (history[i].completed) {
       streak++;
-      prevDate = date;
     } else {
-      break; // false breaks streak
+      break;
     }
   }
+
   return streak;
 }
 
 /**
- * Find the best (longest) streak of consecutive completed days in history.
- * @param {Object} history - { "YYYY-MM-DD": true/false, ... }
- * @returns {number} Best streak count
-*  
-* Example:
-* bestStreak({
-*    "2025-08-16": true,
-*    "2025-08-17": true,
-*    "2025-08-19": true, // gap (missing 17th)
-*    "2025-08-20": true
-*  }) // returns 2
-*/ 
-function bestStreak(history) {
-  if (!history || Object.keys(history).length === 0) return 0;
+ * Calculate the best streak in history
+ * @param {Array} history
+ */
+export function bestStreak(history) {
+  let best = 0;
+  let current = 0;
 
-  const today = new Date().toISOString().slice(0, 10);
-  // Filter out future dates
-  const validDates = Object.keys(history)
-    .filter(date => date <= today)
-    .sort((a, b) => new Date(a) - new Date(b)); // Ascending by UTC
-
-  let maxStreak = 0;
-  let currentStreak = 0;
-  let prevDate = null;
-
-  for (const date of validDates) {
-    if (!history[date]) {
-      currentStreak = 0;
-      prevDate = null;
-      continue;
-    }
-    if (prevDate) {
-      // Check if dates are consecutive
-      const expected = new Date(prevDate);
-      expected.setDate(expected.getDate() + 1);
-      const expectedStr = expected.toISOString().slice(0, 10);
-      if (date !== expectedStr) {
-        currentStreak = 1; // restart streak
-      } else {
-        currentStreak++;
-      }
+  history.forEach((day) => {
+    if (day.completed) {
+      current++;
+      if (current > best) best = current;
     } else {
-      currentStreak = 1;
+      current = 0;
     }
+
     maxStreak = Math.max(maxStreak, currentStreak);
     prevDate = date;
   }
@@ -126,3 +73,4 @@ console.log(bestStreak(history)); // Expected: 3
 if (typeof window !== 'undefined') {
   window.Streaks = { calculateCurrentStreak, bestStreak };
 }
+

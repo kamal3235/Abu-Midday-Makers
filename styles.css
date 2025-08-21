@@ -1,5 +1,9 @@
+bugfix2-final-sweep-day
+
 body {
+  font-family: Arial, sans-serif;
   margin: 0;
+
   font-family: Arial, sans-serif;
   background-color: #f5f1eb;
   color: #222;
@@ -205,7 +209,14 @@ body.dark .category-card.learning {
 
 body.dark .badge-card {
   background: #2a2a2a;
+
 }
+.category-section.productivity .habit-chip.active {
+  background: #009688;
+  color: #fff;
+  border-color: #009688;
+}
+
 
 body.dark .badge-card.locked {
   background: #1a1a1a;
@@ -230,4 +241,5 @@ body.dark .badge-card.locked {
 
 body.dark .badge-status {
   color: #aaa;
+
 }

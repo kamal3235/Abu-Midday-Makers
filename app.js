@@ -1,3 +1,4 @@
+
 // app.js
 console.log('🚀 App.js loading...');
 
@@ -229,3 +230,4 @@ document.addEventListener("DOMContentLoaded", async () => {
     console.error('❌ App initialization failed:', error);
   }
 });
+
