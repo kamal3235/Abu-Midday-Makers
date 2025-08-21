@@ -15,11 +15,8 @@ How to work on this file
 3) Don’t write to localStorage directly—use helpers in /utilities/state.js.
 */
 
-import { renderHabitPicker } from "./components/habitPicker.js";
 
-  document.addEventListener("DOMContentLoaded", () => {
-  renderHabitPicker(); // will look for #habit-list
-}); 
+import { renderHabitPicker } from "./components/habitPicker.js";
 
 
 (function () {
@@ -45,6 +42,7 @@ import { renderHabitPicker } from "./components/habitPicker.js";
     if (t) t.onclick = toggleTheme;
 
     // Boot the UI (safe even if components are still stubs)
+    renderHabitPicker(); // Render the habit picker
     if (window.HabitPicker?.mount) window.HabitPicker.mount();
     if (window.TodayPanel?.mount) window.TodayPanel.mount();
     if (window.TowerView?.mount) window.TowerView.mount();
