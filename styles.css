@@ -1,104 +1,63 @@
-/*
-GLOBAL STYLES
-
-What this file is for
-- Colors, fonts, layout, shared classes used by multiple components.
-
-How to update
-- Group styles with clear comments, e.g.:
-  /* Habit Picker */ /* Today Panel */ /* Tower */ /* Badges */ /* Reminders */
-/*- Keep good contrast and visible focus outlines (accessibility).
-- Prefer class names over targeting HTML tags.
-
-Avoid
-- Deleting teammates’ styles. Add or extend instead.
-*/
-
-:root {
-  --bg: #0b0d10;
-  --fg: #e7ecf3;
-  --muted: #9fb0c3;
-  --card: #12161b;
-  --accent: #6ae3ff;
-}
-[data-theme='light'] {
-  --bg: #f6f7fb;
-  --fg: #0f141a;
-  --muted: #4c5b6a;
-  --card: #ffffff;
-  --accent: #0066ee;
-}
-* {
-  box-sizing: border-box;
-}
-html,
+/* Base styles */
 body {
+  font-family: Arial, sans-serif;
   margin: 0;
-  height: 100%;
+  padding: 0;
+  background: #f9f9f9;
+  color: #333;
 }
-body {
-  background: var(--bg);
-  color: var(--fg);
-  font: 16px/1.5 system-ui, Segoe UI, Roboto, Helvetica, Arial;
+
+/* Light theme */
+body.light {
+  background: #ffffff;
+  color: #333333;
 }
-.app-header {
+
+/* Dark theme */
+body.dark {
+  background: #121212;
+  color: #f9f9f9;
+}
+
+#app {
+  padding: 20px;
+}
+
+/* Habit Picker */
+#habit-picker {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 16px;
-  border-bottom: 1px solid #20242b;
+  flex-wrap: wrap;
+  gap: 10px;
 }
-.container {
-  display: grid;
-  gap: 16px;
-  padding: 16px;
-  grid-template-columns: 1fr;
-}
-@media (min-width: 900px) {
-  .container {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-.card {
-  background: var(--card);
-  border: 1px solid #1e242b;
-  border-radius: 14px;
-  padding: 14px;
-  min-height: 60px;
-}
-.btn {
-  background: transparent;
-  border: 1px solid #2b3440;
-  color: var(--fg);
-  padding: 8px 10px;
-  border-radius: 10px;
+
+.habit-chip {
+  padding: 8px 12px;
+  border-radius: 16px;
+  border: 1px solid #ccc;
   cursor: pointer;
-}
-.btn:focus {
-  outline: 3px solid var(--accent);
-  outline-offset: 2px;
+  user-select: none;
 }
 
-/* Visible focus indicator for interactive elements */
-button:focus-visible,
-a:focus-visible,
-input:focus-visible,
-select:focus-visible,
-textarea:focus-visible,
-[tabindex]:not([tabindex="-1"]):focus-visible,
-.habit-chip:focus-visible,
-input[type="checkbox"]:focus-visible {
- /* High-visibility ring that doesn't shift layout */
-outline: 3px solid var(--accent); /* align with global accent */
-outline-offset: 2px;
-
-
-  /* Soft halo for rounded UIs (since outline isn't rounded) */
-  box-shadow: 0 0 0 4px rgba(25, 118, 210, 0.2);
+.habit-chip.active {
+  background: #4caf50;
+  color: #fff;
+  border-color: #4caf50;
 }
 
-/ Ensure custom "chip" is keyboard-focusable somewhere in markup:
-   .habit-chip { outline: none; }  <-- avoid this unless replaced.
-   If .habit-chip isn't a native control, give it role="button" and tabindex="0".
-*/
-/* Add to your styles.css */
+/* Theme toggle button */
+#theme-toggle {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  padding: 6px 12px;
+  cursor: pointer;
+  border: none;
+  border-radius: 6px;
+  background: #eee;
+  color: #333;
+}
+
+body.dark #theme-toggle {
+  background: #333;
+  color: #f9f9f9;
+}
