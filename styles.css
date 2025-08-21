@@ -105,3 +105,9 @@ body.dark #theme-toggle {
   color: #fff;
   border-color: #4caf50;
 }
+
+.habit-chip:hover {
+  background: #e0f7e9;   /* soft green background */
+  border-color: #4caf50;
+  color: #333;
+}
