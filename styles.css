@@ -143,6 +143,8 @@ body.dark #theme-toggle {
   color: #fff;
   border-color: #2196f3;
 }
+
+
 /* Dark mode card overrides */
 body.dark .category-section.health {
   background: #1b2e1b;   /* deep green */
@@ -155,12 +157,12 @@ body.dark .category-section.productivity {
 }
 
 body.dark .category-section.learning {
-  background: #311b92;   /* deep purple */
-  border-color: #673ab7;
+  background: #3a0d0d;   /* deep burgundy */
+  border-color: #7b1f1f;
 }
 
 body.dark .category-title {
-  color: #fff; /* make titles readable */
+  color: #fff; /* keep titles readable */
 }
 
 body.dark .habit-chip {
