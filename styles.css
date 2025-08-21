@@ -101,3 +101,42 @@ body.dark .habit-btn.active {
   background: #90caf9;
   color: #000;
 }
+
+/* === Category Cards === */
+.category-card {
+  border-radius: 12px;
+  padding: 1.2rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  color: #222;
+}
+
+.category-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+}
+
+/* Light mode card colors */
+.light .category-card.health {
+  background-color: #e6f4ea; /* soft green */
+}
+.light .category-card.productivity {
+  background-color: #f3e8ff; /* soft purple */
+}
+.light .category-card.learning {
+  background-color: #e0f0ff; /* soft blue */
+}
+
+/* Dark mode card colors */
+.dark .category-card.health {
+  background-color: #4b2c5e; /* deep purple */
+  color: #fff;
+}
+.dark .category-card.productivity {
+  background-color: #134e4a; /* teal */
+  color: #fff;
+}
+.dark .category-card.learning {
+  background-color: #581c1c; /* burgundy */
+  color: #fff;
+}
