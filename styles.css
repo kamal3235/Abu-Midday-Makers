@@ -48,21 +48,39 @@ body.dark #instructions {
 
 #habit-container {
   display: grid;
-  grid-template-areas:
-    "center"
-    "left right";
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto;
+  grid-template-areas: 
+    "health"
+    "bottom";
   justify-content: center;
   margin-top: 2rem;
+  gap: 2rem;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.category-card.health {
+  grid-area: health;
+  justify-self: center;
+  max-width: 400px;
+}
+
+.bottom-row {
+  grid-area: bottom;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 2rem;
 }
 
 .category-card {
-  padding: 1rem;
+  padding: 1.5rem;
   border-radius: 12px;
   box-shadow: 2px 4px 8px rgba(0,0,0,0.15);
   background: #fff;
-  transition: background 0.3s;
+  transition: all 0.3s;
+  min-height: 220px;
 }
 
 body.dark .category-card {
@@ -102,57 +120,39 @@ body.dark .habit-btn.active {
   color: #000;
 }
 
-/* === Category Cards === */
-.category-card {
-  border-radius: 12px;
-  padding: 1.2rem;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  color: #222;
+/* === Category Cards Colors === */
+.category-card.health {
+  background: linear-gradient(135deg, #f3e5f5, #e1bee7);
+  border-left: 4px solid #9c27b0;
+}
+
+.category-card.productivity {
+  background: linear-gradient(135deg, #e0f2f1, #b2dfdb);
+  border-left: 4px solid #00695c;
+}
+
+.category-card.learning {
+  background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+  border-left: 4px solid #1976d2;
 }
 
 .category-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
 }
 
-/* Light mode card colors */
-.light .category-card.health {
-  background-color: #e6f4ea; /* soft green */
-}
-.light .category-card.productivity {
-  background-color: #f3e8ff; /* soft purple */
-}
-.light .category-card.learning {
-  background-color: #e0f0ff; /* soft blue */
-}
-
-/* Dark mode card colors */
-.dark .category-card.health {
-  background-color: #4b2c5e; /* deep purple */
-  color: #fff;
-}
-.dark .category-card.productivity {
-  background-color: #134e4a; /* teal */
-  color: #fff;
-}
-.dark .category-card.learning {
-  background-color: #581c1c; /* burgundy */
+/* Dark mode adjustments */
+body.dark .category-card.health {
+  background: linear-gradient(135deg, #4a148c, #6a1b9a);
   color: #fff;
 }
 
-
-/* Base category card */
-.category-card {
-  border-radius: 12px;
-  padding: 1rem;
-  margin: 1rem;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+body.dark .category-card.productivity {
+  background: linear-gradient(135deg, #004d40, #00695c);
+  color: #fff;
 }
 
-/* Hover lift */
-.category-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+body.dark .category-card.learning {
+  background: linear-gradient(135deg, #0d47a1, #1565c0);
+  color: #fff;
 }
