@@ -10,15 +10,17 @@
 <body class="app light">
   <header class="app-header">
     <h1>Micro-Habit Stacker</h1>
-    <div id="habit-picker"></div> <!-- Chips render here -->
     <div class="header-right">
       <span id="xpTotal" class="pill" aria-live="polite">XP 0</span>
       <button id="theme-toggle" class="btn" aria-pressed="false" title="Toggle theme">🌗</button>
     </div>
   </header>
 
+  <main>
+    <div id="habit-picker"></div> <!-- Chips render here -->
+  </main>
+
   <!-- App entry -->
   <script type="module" src="./app.js"></script>
-
 </body>
 </html>
