@@ -1,12 +1,30 @@
 // app.js
 import { renderHabits } from "./components/habitPicker.js";
+import { updateDailyXp, getDailyXp } from "./utilities/xp.js";
 import "./components/badges.js";
+
+// XP per habit constant (should match utilities/xp.js)
+const XP_PER_HABIT = 10;
 
 document.addEventListener("DOMContentLoaded", () => {
   const xpDisplay = document.getElementById("xp");
   const themeToggle = document.getElementById("theme-toggle");
-  let xp = 0;
   let darkMode = false;
+
+  // Initialize daily XP display (this will also handle daily reset if needed)
+  function initializeXP() {
+    const dailyXp = getDailyXp();
+    xpDisplay.textContent = dailyXp;
+  }
+
+  // Update XP display with new daily XP
+  function updateXPDisplay(points) {
+    const state = updateDailyXp(points);
+    xpDisplay.textContent = state.dailyXp;
+  }
+
+  // Initialize XP on page load
+  initializeXP();
 
   // Load categories from JSON
   fetch("./data/categories.json")
@@ -15,12 +33,6 @@ document.addEventListener("DOMContentLoaded", () => {
       renderHabits(categories);
     })
     .catch(err => console.error("Error loading categories:", err));
-
-  // Update XP display
-  function updateXP(points) {
-    xp += points;
-    xpDisplay.textContent = xp;
-  }
 
   // Theme toggle (light/dark)
   themeToggle.addEventListener("click", () => {
@@ -40,11 +52,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Update XP based on whether we're activating or deactivating
       if (wasActive) {
-        // Was active, now deactivated - decrease XP
-        updateXP(-1);
+        // Was active, now deactivated - decrease daily XP
+        updateXPDisplay(-XP_PER_HABIT);
       } else {
-        // Was inactive, now activated - increase XP
-        updateXP(1);
+        // Was inactive, now activated - increase daily XP
+        updateXPDisplay(XP_PER_HABIT);
       }
     }
   });

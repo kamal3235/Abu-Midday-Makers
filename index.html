@@ -12,13 +12,13 @@
     <header>
       <h1>Micro-Habit Stacker</h1>
       <div class="xp-tracker">
-        <span>XP <span id="xp">0</span></span>
+        <span>Daily XP <span id="xp">0</span></span>
         <button id="theme-toggle">🌓</button>
       </div>
     </header>
 
     <section id="instructions">
-      <p>Microhabits are stackable. Click on habits to activate them. Build streaks and earn XP as you stack consistency.</p>
+      <p>Microhabits are stackable. Click on habits to activate them. Build streaks and earn XP as you stack consistency. XP resets daily!</p>
     </section>
 
     <main id="habit-container"></main>
@@ -26,6 +26,7 @@
     <section id="badges"></section>
   </div>
 
+  <script src="utilities/state.js"></script>
   <script type="module" src="app.js"></script>
 </body>
 </html>
