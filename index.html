@@ -4,30 +4,22 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Micro-Habit Stacker</title>
-  <link rel="icon" href="./public/favicon.png" />
-  <link rel="stylesheet" href="./styles.css" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
-
-<body class="app light">
-  <header class="app-header">
-    <h1 class="app-title">Micro-Habit Stacker</h1>
-    <div class="instructions">
-      Microhabits are stackable. Click on habits to activate them. Build streaks and earn XP as you stack consistency.
-    </div>
-    <div class="header-right">
-      <span id="xpTotal" class="pill" aria-live="polite">XP 0</span>
-      <button id="theme-toggle" class="btn" aria-pressed="false" title="Toggle theme">🌙</button>
-    </div>
+<body>
+  <header>
+    <h1>Micro-Habit Stacker</h1>
+    <div id="xp-display">XP 0</div>
+    <button id="themeToggle">🌓</button>
   </header>
 
   <main>
-    <!-- Cards render here -->
-    <div id="habit-picker"></div>
-    <div id="today-panel"></div>
-    <div id="tower-view"></div>
+    <p class="intro">
+      Microhabits are stackable. Click on habits to activate them. Build streaks and earn XP as you stack consistency.
+    </p>
+    <div id="habit-container"></div>
   </main>
 
-  <!-- App entry -->
-  <script type="module" src="./app.js"></script>
+  <script type="module" src="app.js"></script>
 </body>
 </html>

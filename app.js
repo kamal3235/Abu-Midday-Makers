@@ -1,18 +1,22 @@
 import { renderHabitPicker } from "./components/habitPicker.js";
 
-document.addEventListener("DOMContentLoaded", () => {
-  // Render habit cards
-  renderHabitPicker("habit-picker");
-
-  // Theme toggle
-  const themeToggle = document.getElementById("theme-toggle");
-  if (themeToggle) {
-    themeToggle.addEventListener("click", () => {
-      document.body.classList.toggle("dark");
-      document.body.classList.toggle("light");
-    });
+(function () {
+  function applySavedTheme() {
+    const saved = localStorage.getItem("theme") || "light";
+    document.body.dataset.theme = saved;
   }
 
-  // Initialize XP
-  document.getElementById("xpTotal").textContent = "XP 0";
-});
+  function toggleTheme() {
+    const current = document.body.dataset.theme === "dark" ? "light" : "dark";
+    document.body.dataset.theme = current;
+    localStorage.setItem("theme", current);
+  }
+
+  applySavedTheme();
+
+  const t = document.getElementById("themeToggle");
+  if (t) t.onclick = toggleTheme;
+
+  // Boot the UI
+  renderHabitPicker(); // Render category cards
+})();

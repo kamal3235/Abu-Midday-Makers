@@ -1,91 +1,105 @@
-/* Reset */
-body, h1, div, span, button {
+/* Reset + base */
+body {
   margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: system-ui, sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg, #fafafa);
+  color: var(--text, #222);
+  transition: background 0.3s, color 0.3s;
 }
 
-body.app.light {
-  background: #f9f9f9;
-  color: #222;
+h1 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin: 1rem 0;
 }
 
-body.app.dark {
-  background: #1e1e1e;
-  color: #f5f5f5;
-}
-
-/* Header */
-.app-header {
+header {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  padding: 1rem 2rem;
-  background: var(--header-bg, #4CAF50);
-  color: white;
-}
-
-.app-title {
-  font-size: 1.8rem;
-  font-weight: bold;
-}
-
-.instructions {
-  margin-top: 0.5rem;
-  font-size: 0.9rem;
-  color: inherit;
-}
-
-/* Pill */
-.pill {
-  background: #222;
-  color: #fff;
-  padding: 0.4rem 0.8rem;
-  border-radius: 20px;
-  font-size: 0.9rem;
-  margin-right: 1rem;
-}
-
-/* Button */
-.btn {
-  background: transparent;
-  border: 2px solid currentColor;
-  padding: 0.4rem 0.8rem;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background 0.3s, transform 0.2s;
-}
-
-.btn:hover {
-  background: rgba(255, 255, 255, 0.2);
-  transform: scale(1.05);
-}
-
-/* Cards (Habits) */
-#habit-picker {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   gap: 1rem;
-  padding: 2rem;
 }
 
-.habit-card {
-  background: white;
+#xp-display {
+  background: #fff;
+  border-radius: 6px;
+  padding: 0.3rem 0.6rem;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+#themeToggle {
+  border: none;
+  background: #fff;
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.intro {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto 2rem;
+  padding: 0.5rem 1rem;
+  background: rgba(255,255,255,0.6);
+  border-radius: 8px;
+}
+
+/* Habit container layout */
+#habit-container {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 1rem;
+}
+
+/* Category cards */
+.category-card {
+  background: #fff;
   border-radius: 12px;
   padding: 1rem;
-  text-align: center;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.3s;
+  margin: 1rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  width: 280px;
+  flex: 1;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.habit-card:hover {
+.category-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.15);
 }
 
-body.dark .habit-card {
-  background: #333;
-  color: #eee;
+.category-title {
+  font-weight: bold;
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Card colors */
+.category-health { background: #f5e6f9; border-left: 6px solid #a855f7; }
+.category-productivity { background: #e0f7f6; border-left: 6px solid #06b6d4; }
+.category-learning { background: #e6f0ff; border-left: 6px solid #3b82f6; }
+
+/* Habit buttons */
+.habit-btn {
+  display: block;
+  width: 100%;
+  margin: 0.25rem 0;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #fff;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.habit-btn:hover {
+  background: #f0f0f0;
+}
+
+.habit-btn:active {
+  transform: scale(0.97);
 }
