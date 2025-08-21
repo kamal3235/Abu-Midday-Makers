@@ -63,6 +63,11 @@ body.dark #theme-toggle {
   letter-spacing: 1px;
 }
 
+/* Title in dark mode */
+body.dark .app-title {
+  color: #5e97ca;   /* light off-white for contrast */
+}
+
 
 .app-header h1::after {
   content: "";
