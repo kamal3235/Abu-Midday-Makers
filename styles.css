@@ -97,7 +97,7 @@ body.dark #theme-toggle {
   gap: 20px;          /* tighter gap overall */
   justify-items: center;
   margin-top: 30px;
-  row-gap: 10px;   /* reduce space between rows */
+  row-gap: 40px;   /* reduce space between rows */
 }
 
 /* Top card centered */
@@ -109,13 +109,13 @@ body.dark #theme-toggle {
 /* Bottom left card */
 #habit-picker .category-section:nth-child(2) {
   grid-column: 1;
-  transform: translateX(40px);  /* move toward center */
+  transform: translateX(40px) translateY(-100px); /* move inward + higher */
 }
 
 /* Bottom right card */
 #habit-picker .category-section:nth-child(3) {
   grid-column: 3;
-  transform: translateX(-40px); /* move toward center */
+  transform: translateX(-40px) translateY(-100px); /* move inward + higher */
 }
 
 
