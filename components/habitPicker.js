@@ -20,34 +20,75 @@ Avoid
 */
 
 
+// components/habitPicker.js
 
-const habits = [
-  { id: 1, category: "Health", name: "Drink 1 glass of water" },
-  { id: 2, category: "Health", name: "Take a 5-minute walk" },
-  { id: 3, category: "Health", name: "Take deep breaths" },
-  { id: 4, category: "Productivity", name: "Turn off notifications" },
-  { id: 5, category: "Productivity", name: "Create a quiet workspace" },
-  { id: 6, category: "Productivity", name: "Set specific work hours" },
-  { id: 7, category: "Learning", name: "Find a mentor" },
-  { id: 8, category: "Learning", name: "Practice for 15 minutes" },
-  { id: 9, category: "Learning", name: "Read 1 chapter" },
-];
-
-export function renderHabitPicker(containerId = "habitPicker") {
+// Fetch + render habits from JSON
+export async function renderHabitPicker(containerId = "habit-container") {
   const container = document.getElementById(containerId);
-
   if (!container) {
     console.error(`Container with id '${containerId}' not found`);
     return;
   }
 
-  // Clear but don’t mess with parent container styling
-  container.innerHTML = "";
+  container.innerHTML = ""; // Clear old
 
-  habits.forEach(habit => {
-    const div = document.createElement("div");
-    div.classList.add("habit");
-    div.textContent = `${habit.category}: ${habit.name}`;
-    container.appendChild(div);
-  });
+  try {
+    const res = await fetch("./data/categories.json");
+    const categories = await res.json();
+
+    // Flatten all habits
+    const habits = categories.flatMap(cat =>
+      cat.habits.map(habit => ({
+        id: habit.id,
+        name: habit.name,
+        category: cat.name
+      }))
+    );
+
+    // Load persisted selections
+    const saved = JSON.parse(localStorage.getItem("selectedHabits") || "[]");
+
+    habits.forEach(habit => {
+      const chip = document.createElement("button");
+      chip.classList.add("chip");
+      chip.setAttribute("tabindex", "0");
+      chip.setAttribute("role", "button");
+      chip.textContent = habit.name;
+
+      // Restore selected state
+      if (saved.includes(habit.id)) {
+        chip.classList.add("chip--selected");
+      }
+
+      const toggle = () => {
+        chip.classList.toggle("chip--selected");
+        updateSelection(habit.id, chip.classList.contains("chip--selected"));
+      };
+
+      chip.addEventListener("click", toggle);
+      chip.addEventListener("keydown", e => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          toggle();
+        }
+      });
+
+      container.appendChild(chip);
+    });
+  } catch (err) {
+    console.error("Failed to load categories.json", err);
   }
+}
+
+function updateSelection(habitId, isSelected) {
+  const saved = JSON.parse(localStorage.getItem("selectedHabits") || "[]");
+  let updated = [...saved];
+
+  if (isSelected) {
+    if (!updated.includes(habitId)) updated.push(habitId);
+  } else {
+    updated = updated.filter(id => id !== habitId);
+  }
+
+  localStorage.setItem("selectedHabits", JSON.stringify(updated));
+}
