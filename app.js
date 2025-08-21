@@ -15,7 +15,6 @@ How to work on this file
 3) Don’t write to localStorage directly—use helpers in /utilities/state.js.
 */
 
-
 import { renderHabitPicker } from "./components/habitPicker.js";
 
 (function () {
@@ -24,8 +23,17 @@ import { renderHabitPicker } from "./components/habitPicker.js";
     document.body.dataset.theme = saved;
   }
 
+  function toggleTheme() {
+    const current = document.body.dataset.theme || "dark";
+    const next = current === "dark" ? "light" : "dark";
+    document.body.dataset.theme = next;
+    localStorage.setItem("theme", next);
+  }
+
+  // Apply saved theme on load
   applySavedTheme();
 
+  // Theme toggle button
   const t = document.getElementById("themeToggle");
   if (t) t.onclick = toggleTheme;
 
@@ -35,5 +43,3 @@ import { renderHabitPicker } from "./components/habitPicker.js";
   if (window.TodayPanel?.mount) window.TodayPanel.mount();
   if (window.TowerView?.mount) window.TowerView.mount();
 })();
-
-
