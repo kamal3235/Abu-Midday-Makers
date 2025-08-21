@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
   themeToggle.addEventListener("click", () => {
     darkMode = !darkMode;
     document.body.classList.toggle("dark", darkMode);
-    themeToggle.textContent = darkMode ? “🌗” : “🌓”;
+    themeToggle.textContent = darkMode ? "🌗" : "🌓";
   });
 
   // Global listener for habit clicks (delegation)
