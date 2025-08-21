@@ -52,11 +52,7 @@ body.dark #instructions {
 
 #habit-container {
   display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: auto auto;
-  grid-template-areas: 
-    "health"
-    "bottom";
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   justify-content: center;
   margin-top: 2rem;
   gap: 2rem;
@@ -66,16 +62,7 @@ body.dark #instructions {
 }
 
 .category-card.health {
-  grid-area: health;
-  justify-self: center;
-  max-width: 400px;
-}
-
-.bottom-row {
-  grid-area: bottom;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
+  /* All cards now use the same grid layout */
 }
 
 .category-card {
@@ -85,6 +72,9 @@ body.dark #instructions {
   background: #fff;
   transition: all 0.3s;
   min-height: 220px;
+  /* Added max-width to ensure consistent sizing */
+  max-width: 350px;
+  width: 100%;
 }
 
 body.dark .category-card {
