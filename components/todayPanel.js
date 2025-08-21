@@ -1,5 +1,5 @@
 /*
-COMPONENT: Today Panel  — renders into #todayPanel
+COMPONENT: Today Panel — renders into #todayPanel
 
 Goal
 - Show today's active habits as checkboxes or buttons.
@@ -9,72 +9,85 @@ What to build
 - A list of today's habits with a control to mark "done".
 - Display the current streak next to each habit (optional).
 
-Steps
-1) const el = document.getElementById('todayPanel')
-2) Render each active habit with a checkbox/button.
-3) On toggle: State.toggleToday(...) (or similar), then refresh streaks/xp using utilities.
-
 Avoid
 - Writing to localStorage directly; always use /utilities/state.js.
 */
-// Before:
-// Streak: 5 days
-// Missed: 2 days
-// Complete habit to earn badge
 
-// After:
-// You’ve kept your streak for 5 days—awesome!
-// Oops, you missed 2 days. Try again tomorrow!
-// Complete this habit to unlock a fun badge!
+import { getTodayHabits, getTodayStatus, toggleToday, getStreak } from '../utilities/state.js';
 
-// Example function to render a badge with a tooltip
-function renderBadge(badge) {
-  // badge: { name, icon, type }
-  // Add a friendly description for each badge type
-  const badgeDescriptions = {
-    streak: "Awesome streak! Your habits are thriving!",
-    consistency: "Consistency is key. You’re crushing it!",
-    completion: "Badge unlocked—keep up the great work!",
-    // Add more badge types as needed
-  };
-  const description = badgeDescriptions[badge.type] || "You earned a badge—way to go!";
-  return `
-    <span class="badge" title="${description}">
-      <img src="${badge.icon}" alt="${badge.name} badge" />
-    </span>
-  `;
-}
+export const TodayPanel = {
+  mount() {
+    const el = document.getElementById('todayPanel');
+    if (!el) return;
 
-// Example usage in your habit rendering logic
-function renderHabit(habit) {
-  // ...existing code...
-  // Assume habit.badges is an array of badge objects
-  const badgesHtml = habit.badges
-    .map(renderBadge)
-    .join('');
-  return `
-    <div class="habit">
-      <label>
-        <input type="checkbox" ${habit.doneToday ? 'checked' : ''} />
-        ${habit.name}
-      </label>
-      <span class="streak">Streak: ${habit.streak} days</span>
-      <div class="badges">
-        ${badgesHtml}
-      </div>
-    </div>
-  `;
-}
+    const habits = getTodayHabits(); // [{ id, name }]
+    const status = getTodayStatus(); // { habitId: true/false }
 
-function renderTodayPanel(habits) {
-  const el = document.getElementById('todayPanel');
-  if (!habits || habits.length === 0) {
-    el.innerHTML = `
-      <div class="empty-state">
-        No habits selected for today. Add one to get started!
-      </div>
-    `;
-    return;
+    // Empty state
+    if (!habits || habits.length === 0) {
+      el.innerHTML = `
+        <div class="empty-state">
+          No habits selected for today. <a href="#habitPicker">Add one to get started!</a>
+        </div>
+      `;
+      return;
+    }
+
+    el.innerHTML = '';
+    habits.forEach(habit => {
+      const checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.id = `habit-${habit.id}`;
+      checkbox.checked = status[habit.id] === true;
+
+      const label = document.createElement('label');
+      label.className = 'habit-chip';
+      label.setAttribute('for', checkbox.id);
+      label.tabIndex = 0;
+      label.textContent = habit.name;
+
+      // Events
+      checkbox.addEventListener('change', () => {
+        toggleToday(habit.id, checkbox.checked);
+        renderSummary();
+        renderStreak(label, habit.id);
+      });
+
+      checkbox.addEventListener('keydown', (e) => {
+        if (e.key === ' ' || e.key === 'Enter') {
+          e.preventDefault();
+          checkbox.checked = !checkbox.checked;
+          checkbox.dispatchEvent(new Event('change'));
+        }
+      });
+
+      el.appendChild(label);
+      label.prepend(checkbox);
+
+      // Show streak
+      renderStreak(label, habit.id);
+    });
+
+    renderSummary();
   }
-  el.innerHTML = habits.map(renderHabit).join('');
+};
+
+function renderStreak(label, habitId) {
+  const streak = getStreak(habitId);
+  let streakEl = label.querySelector('.streak');
+  if (!streakEl) {
+    streakEl = document.createElement('span');
+    streakEl.className = 'streak';
+    label.appendChild(streakEl);
+  }
+  streakEl.textContent = ` (${streak}🔥)`;
+}
+
+function renderSummary() {
+  const habits = getTodayHabits();
+  const status = getTodayStatus();
+  const done = habits.filter(h => status[h.id]).length;
+  const total = habits.length;
+  const summary = document.getElementById('summary');
+  if (summary) summary.textContent = `Done: ${done} / ${total}`;
 }
