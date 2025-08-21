@@ -1,31 +1,35 @@
 // components/habitPicker.js
+
 export function renderHabits(categories) {
   const container = document.getElementById("habit-container");
+  if (!container) return;
+
+  // Clear previous content
   container.innerHTML = "";
 
   categories.forEach(category => {
-    // Create category card
-    const card = document.createElement("div");
-    card.className = "habit-card";
+    // Category card
+    const categoryDiv = document.createElement("div");
+    categoryDiv.classList.add("category-card", category.id); // 🔑 hooks for CSS
 
-    // Category header
-    const header = document.createElement("h3");
-    header.innerHTML = `${category.icon} ${category.name}`;
-    card.appendChild(header);
+    // Category title
+    const title = document.createElement("h2");
+    title.textContent = `${category.icon} ${category.name}`;
+    categoryDiv.appendChild(title);
 
     // Habit buttons
+    const habitsDiv = document.createElement("div");
+    habitsDiv.classList.add("habits");
+
     category.habits.forEach(habit => {
-      const btn = document.createElement("button");
-      btn.className = "habit-btn";
-      btn.textContent = habit.name;
-
-      btn.addEventListener("click", () => {
-        btn.classList.toggle("active");
-      });
-
-      card.appendChild(btn);
+      const habitBtn = document.createElement("button");
+      habitBtn.textContent = habit.name;
+      habitBtn.classList.add("habit-btn");
+      habitBtn.dataset.habitId = habit.id;
+      habitsDiv.appendChild(habitBtn);
     });
 
-    container.appendChild(card);
+    categoryDiv.appendChild(habitsDiv);
+    container.appendChild(categoryDiv);
   });
 }
