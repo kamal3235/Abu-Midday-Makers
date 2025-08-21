@@ -9,22 +9,22 @@ Goal: Handle habit completion tracking and state persistence
  * @returns {boolean} - The new completion status (true = completed, false = not completed)
  */
 function toggleHabitCompletion(habitId) {
-  const state = State.get();
-  const today = State.todayKey();
-  
+  const state = window.State.get();
+  const today = window.State.todayKey();
+
   // Initialize today's history if it doesn't exist
   if (!state.history[today]) {
     state.history[today] = {};
   }
-  
+
   // Toggle the habit completion status
   const currentStatus = state.history[today][habitId] || false;
   const newStatus = !currentStatus;
   state.history[today][habitId] = newStatus;
-  
+
   // Save the updated state
-  State.set(state);
-  
+  window.State.set(state);
+
   return newStatus;
 }
 
@@ -34,9 +34,9 @@ function toggleHabitCompletion(habitId) {
  * @returns {boolean} - True if completed today, false otherwise
  */
 function isHabitCompletedToday(habitId) {
-  const state = State.get();
-  const today = State.todayKey();
-  
+  const state = window.State.get();
+  const today = window.State.todayKey();
+
   return state.history[today]?.[habitId] || false;
 }
 
@@ -45,9 +45,9 @@ function isHabitCompletedToday(habitId) {
  * @returns {Object} - Object with habitId as keys and true as values for completed habits
  */
 function getTodaysCompletedHabits() {
-  const state = State.get();
-  const today = State.todayKey();
-  
+  const state = window.State.get();
+  const today = window.State.todayKey();
+
   return state.history[today] || {};
 }
 
@@ -57,9 +57,9 @@ function getTodaysCompletedHabits() {
  * @returns {Object} - History object with dates as keys and completion status as values
  */
 function getHabitHistory(habitId) {
-  const state = State.get();
+  const state = window.State.get();
   const habitHistory = {};
-  
+
   // Extract this habit's data from the full history
   Object.keys(state.history).forEach(date => {
     if (state.history[date][habitId] !== undefined) {
