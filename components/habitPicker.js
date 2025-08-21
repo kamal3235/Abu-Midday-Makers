@@ -1,27 +1,32 @@
-import categories from "../data/categories.json" assert { type: "json" };
-
-export function renderHabitPicker() {
+export async function renderHabitPicker() {
   const container = document.getElementById("habit-container");
   if (!container) return;
 
-  container.innerHTML = ""; // clear
+  try {
+    const res = await fetch("./data/categories.json");
+    const categories = await res.json();
 
-  categories.forEach(cat => {
-    const card = document.createElement("div");
-    card.className = `category-card category-${cat.id}`;
+    container.innerHTML = ""; // clear
 
-    const title = document.createElement("h3");
-    title.className = "category-title";
-    title.textContent = `${cat.icon} ${cat.name}`;
-    card.appendChild(title);
+    categories.forEach(cat => {
+      const card = document.createElement("div");
+      card.className = `category-card category-${cat.id}`;
 
-    cat.habits.forEach(habit => {
-      const btn = document.createElement("button");
-      btn.textContent = habit.name;
-      btn.className = "habit-btn";
-      card.appendChild(btn);
+      const title = document.createElement("h3");
+      title.className = "category-title";
+      title.textContent = `${cat.icon} ${cat.name}`;
+      card.appendChild(title);
+
+      cat.habits.forEach(habit => {
+        const btn = document.createElement("button");
+        btn.textContent = habit.name;
+        btn.className = "habit-btn";
+        card.appendChild(btn);
+      });
+
+      container.appendChild(card);
     });
-
-    container.appendChild(card);
-  });
+  } catch (err) {
+    console.error("Failed to load categories:", err);
+  }
 }
