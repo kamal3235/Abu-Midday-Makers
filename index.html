@@ -4,7 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Micro-Habit Stacker</title>
-  <link rel="stylesheet" href="styles.css?v=5" />
+
+  <link rel="stylesheet" href="styles.css?v=7" />
   <link rel="icon" href="data:,">
 </head>
 <body>
@@ -34,10 +35,18 @@
   <script>
     console.log('🌟 HTML loaded, starting script loading...');
   </script>
-  <script src="utilities/state.js?v=5"></script>
-  <script src="utilities/habits.js?v=5"></script>
-  <script src="utilities/streaks.js?v=5"></script>
-  <script type="module" src="app.js?v=5"></script>
+
+  <!-- Load utility scripts first (synchronously) -->
+  <script src="utilities/state.js?v=7"></script>
+  <script src="utilities/habits.js?v=7"></script>
+  <script src="utilities/streaks.js?v=7"></script>
+
+  <!-- Load components that depend on utilities -->
+  <script src="components/badges.js?v=7"></script>
+
+  <!-- Load main app logic last -->
+  <script type="module" src="app.js?v=7"></script>
+
   <script>
     console.log('📜 All scripts loaded');
   </script>

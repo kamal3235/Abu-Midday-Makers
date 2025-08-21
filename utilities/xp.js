@@ -61,15 +61,11 @@ function updateDailyXp(points) {
 
 /**
  * Gets current daily XP, ensuring daily reset has occurred
- * @returns {object} Object with dailyXp and reset information
+ * @returns {number} Daily XP as a number
  */
 function getDailyXp() {
   const result = window.State.checkAndResetDailyXp();
-  return {
-    dailyXp: result.dailyXp || 0,
-    wasReset: result.wasReset,
-    previousDailyXp: result.previousDailyXp || 0
-  };
+  return result.dailyXp || 0;
 }
 
 /**

@@ -3,10 +3,10 @@ console.log('📋 habitPicker.js loading...');
 
 export function renderHabits(categories) {
   console.log('📋 renderHabits called with categories:', categories);
-  
+
   const container = document.getElementById("habit-container");
   console.log('📋 Container element:', container);
-  
+
   if (!container) {
     console.error('❌ habit-container element not found!');
     return;

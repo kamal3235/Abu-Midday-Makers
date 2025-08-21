@@ -96,18 +96,25 @@ function getBadgesState() {
 }
 
 function renderBadges() {
+  console.log('🏆 renderBadges called');
   const el = document.getElementById('badges');
-  if (!el) return;
+  console.log('🏆 badges element:', el);
+
+  if (!el) {
+    console.error('❌ badges element not found!');
+    return;
+  }
 
   const badgesState = getBadgesState();
+  console.log('🏆 badgesState:', badgesState);
 
   el.innerHTML = `
     <h2 style="margin-bottom:0.5rem;">Badges</h2>
     <div class="badges-grid" role="list">
       ${badgesState.map(badge => `
-        <div 
-          class="badge-card${badge.earned ? '' : ' locked'}" 
-          role="listitem" 
+        <div
+          class="badge-card${badge.earned ? '' : ' locked'}"
+          role="listitem"
           aria-label="${badge.name} badge ${badge.earned ? 'unlocked' : 'locked'}"
           title="${badge.tooltip}"
         >
@@ -120,10 +127,20 @@ function renderBadges() {
       `).join('')}
     </div>
   `;
+
+  console.log('🏆 badges rendered successfully');
 }
 
 // Make renderBadges available globally so app.js can call it
 window.renderBadges = renderBadges;
 
-// Initial render
-renderBadges();
+// Only render after DOM is loaded
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => {
+    console.log('🏆 DOM loaded, rendering badges');
+    renderBadges();
+  });
+} else {
+  console.log('🏆 DOM already loaded, rendering badges immediately');
+  renderBadges();
+}
