@@ -17,26 +17,34 @@ Avoid
 - Writing to localStorage directly—if you need to save earned badges, go through State helpers.
 */
 
-// Example streaks and history state (replace with your actual state logic)
-const streaks = { currentStreak: 8 }; // e.g. 8 consecutive days
-const history = [
-  { date: '2025-08-18', completed: true, allGreen: true },
-  { date: '2025-08-19', completed: false, allGreen: false },
-  { date: '2025-08-20', completed: true, allGreen: true },
-  // ...more days
-];
+import { getBestStreak } from '../utilities/streaks.js';
+import { getHistory } from '../utilities/xp.js'; 
 
-// Badge logic
-const earned7DayStreak = streaks.currentStreak >= 7;
-const earnedAllGreenDay = history.some(day => day.allGreen);
-const completedDays = history.filter(day => day.completed).length;
-const notCompletedDays = history.length - completedDays;
-const earned51Club = completedDays > notCompletedDays;
+// Pull real values or fallback to empty if not ready
+const streaks = { bestStreak: getBestStreak?.() || 0 };
+const history = getHistory?.() || [];
 
+// Badge definitions with icons built in
 const badgesState = [
-  { name: '7-Day Streak',  earned: earned7DayStreak,  /* Achievement: 7 or more consecutive completed days */ },
-  { name: 'All-Green Day', earned: earnedAllGreenDay, /* Achievement: at least one day where all habits were completed */ },
-  { name: '51% Club',      earned: earned51Club,      /* Achievement: more completed days than not completed days in history */ }
+  {
+    name: '7-Day Streak',
+    earned: streaks.bestStreak >= 7,
+    iconUnlocked: '🔥',
+    iconLocked: '❌'
+  },
+  {
+    name: 'All-Green Day',
+    earned: history.some(day => day.allGreen),
+    iconUnlocked: '✅',
+    iconLocked: '❌'
+  },
+  {
+    name: '51% Club',
+    earned: history.filter(day => day.completed).length >
+            history.filter(day => !day.completed).length,
+    iconUnlocked: '🏆',
+    iconLocked: '❌'
+  }
 ];
 
 function renderBadges() {
@@ -49,24 +57,14 @@ function renderBadges() {
       ${badgesState.map(badge => `
         <div 
           class="badge-card${badge.earned ? '' : ' locked'}" 
-          role="listitem"
+          role="listitem" 
           aria-label="${badge.name} badge ${badge.earned ? 'unlocked' : 'locked'}"
         >
           <span class="badge-icon" aria-hidden="true">
-            ${
-              badge.name === '7-Day Streak'
-                ? (badge.earned ? '🔥' : '🔒')
-                : badge.name === 'All-Green Day'
-                  ? (badge.earned ? '✅' : '🔒')
-                : badge.name === '51% Club'
-                  ? (badge.earned ? '⭐' : '🔒')
-                  : (badge.earned ? '🏆' : '🔒')
-            }
+            ${badge.earned ? badge.iconUnlocked : badge.iconLocked}
           </span>
           <span class="badge-label">${badge.name}</span>
-          <span class="badge-status">
-            ${badge.earned ? 'Unlocked' : 'Locked'}
-          </span>
+          <span class="badge-status">${badge.earned ? 'Unlocked' : 'Locked'}</span>
         </div>
       `).join('')}
     </div>
@@ -74,3 +72,4 @@ function renderBadges() {
 }
 
 renderBadges();
+
