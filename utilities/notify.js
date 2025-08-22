@@ -68,3 +68,51 @@ export function toast(message) {
     toastEl.remove();
   }, 2000);
 }
+
+// utilities/notify.js
+export function showNotification(message) {
+  // Remove existing notification
+  const existing = document.querySelector('.notification');
+  if (existing) existing.remove();
+  
+  const notification = document.createElement('div');
+  notification.className = 'notification';
+  notification.textContent = message;
+  
+  // Style the notification
+  Object.assign(notification.style, {
+    position: 'fixed',
+    top: '20px',
+    right: '20px',
+    background: '#4caf50',
+    color: 'white',
+    padding: '12px 20px',
+    borderRadius: '8px',
+    boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+    zIndex: '1000',
+    fontSize: '14px',
+    fontWeight: '500',
+    opacity: '0',
+    transform: 'translateY(-10px)',
+    transition: 'all 0.3s ease'
+  });
+  
+  document.body.appendChild(notification);
+  
+  // Animate in
+  requestAnimationFrame(() => {
+    notification.style.opacity = '1';
+    notification.style.transform = 'translateY(0)';
+  });
+  
+  // Remove after 3 seconds
+  setTimeout(() => {
+    notification.style.opacity = '0';
+    notification.style.transform = 'translateY(-10px)';
+    setTimeout(() => {
+      if (notification.parentNode) {
+        notification.parentNode.removeChild(notification);
+      }
+    }, 300);
+  }, 2000);
+}
