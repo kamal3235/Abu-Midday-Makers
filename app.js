@@ -156,11 +156,8 @@ function saveCompletedHabits() {
 
 // Get current streak (simplified - you can enhance this)
 function getCurrentStreak() {
-  console.log('🔄 getCurrentStreak() called');
   const streak = localStorage.getItem('currentStreak') || 0;
-  const result = parseInt(streak);
-  console.log('📈 Current streak from localStorage:', streak, 'Parsed as:', result);
-  return result;
+  return parseInt(streak);
 }
 
 // Check if habits were completed today
@@ -170,11 +167,8 @@ function hasCompletedHabitsToday() {
 
 // Update streak - only increment if habits were completed today
 function updateStreak() {
-  console.log('🔄 updateStreak() called');
   const today = new Date().toDateString();
   const lastStreakUpdate = localStorage.getItem('lastStreakUpdate');
-  
-  console.log('📅 Today:', today, 'Last update:', lastStreakUpdate);
   
   // Only update streak once per day
   if (lastStreakUpdate !== today) {
@@ -182,12 +176,9 @@ function updateStreak() {
     const newStreak = currentStreak + 1;
     localStorage.setItem('currentStreak', newStreak.toString());
     localStorage.setItem('lastStreakUpdate', today);
-    console.log('📈 Streak updated to:', newStreak);
     return newStreak;
   } else {
-    const currentStreak = getCurrentStreak();
-    console.log('📈 Streak already updated today, current streak:', currentStreak);
-    return currentStreak;
+    return getCurrentStreak();
   }
 }
 
@@ -195,8 +186,33 @@ function updateStreak() {
 function resetDailyStreak() {
   localStorage.setItem('currentStreak', '0');
   localStorage.removeItem('lastStreakUpdate'); // Allow streak to be updated again
-  console.log('🔄 Daily streak reset to 0');
 }
+
+// Reset all data and start fresh
+function resetAllData() {
+  console.log('🔄 Reset button clicked!');
+  
+  try {
+    if (confirm('⚠️ Are you sure you want to reset ALL data? This will:\n• Reset XP to 0\n• Clear all completed habits\n• Reset all streaks\n• Lock all badges\n\nThis action cannot be undone!')) {
+      console.log('✅ User confirmed reset, clearing localStorage...');
+      localStorage.clear();
+      console.log('✅ localStorage cleared, reloading page...');
+      location.reload();
+    } else {
+      console.log('❌ User cancelled reset');
+    }
+  } catch (error) {
+    console.error('❌ Error during reset:', error);
+    alert('Error during reset: ' + error.message);
+  }
+}
+
+// Make function globally accessible
+window.resetAllData = resetAllData;
+
+// Test that the function is accessible
+console.log('🔧 Reset function accessible:', typeof window.resetAllData);
+console.log('🔧 Test reset function:', window.resetAllData);
 
 // Render badges section
 function renderBadges() {
@@ -226,45 +242,49 @@ function renderBadges() {
         `;
       }).join('')}
     </div>
+    
+    <div style="text-align: center; margin-top: 30px; padding: 20px; border-top: 1px solid #ddd;">
+      <button onclick="resetAllData()" style="
+        background: #ff4444; 
+        color: white; 
+        padding: 12px 24px; 
+        border: none; 
+        border-radius: 8px; 
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 8px rgba(255, 68, 68, 0.3);
+      " onmouseover="this.style.background='#ff6666'; this.style.transform='translateY(-2px)'" 
+         onmouseout="this.style.background='#ff4444'; this.style.transform='translateY(0)'">
+        🔄 Reset All Data
+      </button>
+      <p style="margin-top: 10px; font-size: 12px; color: #666; opacity: 0.8;">
+        This will reset XP, habits, streaks, and badges to start fresh
+      </p>
+    </div>
   `;
 }
 
 // Check if a badge should be unlocked
 function isBadgeUnlocked(badgeId) {
-  console.log('🏆 isBadgeUnlocked() called with badgeId:', badgeId);
   const currentStreak = getCurrentStreak();
   const completedCount = completedHabits.size;
   
-  console.log(`🏆 Checking badge ${badgeId}:`, {
-    currentStreak,
-    completedCount,
-    totalHabits: 9
-  });
-  
-  let result = false;
   switch (badgeId) {
     case 'first-habit':
-      result = completedCount >= 1;
-      break;
+      return completedCount >= 1;
     case 'three-habits':
-      result = completedCount >= 3;
-      break;
+      return completedCount >= 3;
     case 'all-habits':
-      result = completedCount >= 9;
-      break;
+      return completedCount >= 9;
     case 'streak-3':
-      result = currentStreak >= 3;
-      break;
+      return currentStreak >= 3;
     case 'streak-7':
-      result = currentStreak >= 7;
-      break;
+      return currentStreak >= 7;
     default:
-      result = false;
-      break;
+      return false;
   }
-  
-  console.log(`🏆 Badge ${badgeId} result:`, result);
-  return result;
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
