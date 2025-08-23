@@ -647,34 +647,60 @@ function isBadgeUnlocked(badgeId) {
 document.addEventListener("DOMContentLoaded", async () => {
   console.log('🎯 DOM Content Loaded');
   
-  try {
-    // Initialize XP system
-    loadXP();
-    checkNewDay();
-    
-    // Initialize habit systems
-    loadUserHabits();
-    loadCompletedHabits();
-    
-    // Render user's selected habits
-    renderHabits();
-    
-    // Render badges
-    renderBadges();
-    
-    // Theme toggle
-    const themeToggle = document.getElementById("theme-toggle");
-    if (themeToggle) {
-      themeToggle.addEventListener("click", () => {
-        document.body.classList.toggle("dark");
-        themeToggle.textContent = document.body.classList.contains("dark") ? "🌗" : "🌙";
-      });
-    }
+  // Set up start button functionality
+  const startButton = document.getElementById('start-button');
+  const loadingPage = document.getElementById('loading-page');
+  const mainApp = document.getElementById('main-app');
+  
+  if (startButton) {
+    startButton.addEventListener('click', () => {
+      console.log('🚀 Start button clicked, transitioning to main app...');
+      
+      // Add fade-out animation to loading page
+      loadingPage.classList.add('fade-out');
+      
+      // After animation completes, hide loading page and show main app
+      setTimeout(() => {
+        loadingPage.style.display = 'none';
+        mainApp.style.display = 'block';
+        
+        // Initialize the main app
+        initializeMainApp();
+      }, 800);
+    });
+  }
+  
+  // Initialize main app function
+  async function initializeMainApp() {
+    try {
+      // Initialize XP system
+      loadXP();
+      checkNewDay();
+      
+      // Initialize habit systems
+      loadUserHabits();
+      loadCompletedHabits();
+      
+      // Render user's selected habits
+      renderHabits();
+      
+      // Render badges
+      renderBadges();
+      
+      // Theme toggle
+      const themeToggle = document.getElementById("theme-toggle");
+      if (themeToggle) {
+        themeToggle.addEventListener("click", () => {
+          document.body.classList.toggle("dark");
+          themeToggle.textContent = document.body.classList.contains("dark") ? "🌗" : "🌙";
+        });
+      }
 
-    console.log('✅ App initialization complete');
-    
-  } catch (error) {
-    console.error('❌ App initialization failed:', error);
+      console.log('✅ App initialization complete');
+      
+    } catch (error) {
+      console.error('❌ App initialization failed:', error);
+    }
   }
 });
 

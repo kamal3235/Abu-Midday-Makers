@@ -6,10 +6,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Micro-Habit Stacker</title>
 
-  <link rel="stylesheet" href="styles.css?v=7" />
+  <link rel="stylesheet" href="styles.css?v=8" />
 </head>
 <body>
-  <div class="app">
+  <!-- Loading Page -->
+  <div id="loading-page" class="loading-page">
+    <div class="loading-content">
+      <div class="app-logo">🎯</div>
+      <h1 class="app-title">Micro-Habit Stacker</h1>
+      <p class="app-tagline">Help people build better habits with small daily actions</p>
+      <button id="start-button" class="start-button">
+        🚀 Start Your Habit
+      </button>
+    </div>
+  </div>
+
+  <!-- Main App (Hidden initially) -->
+  <div id="main-app" class="app" style="display: none;">
     <header>
       <h1>Micro-Habit Stacker</h1>
       <div class="xp-tracker">
@@ -37,7 +50,7 @@
   </script>
 
   <!-- Load main app logic -->
-  <script type="module" src="app.js?v=7"></script>
+  <script type="module" src="app.js?v=8"></script>
 
   <script>
     console.log('📜 All scripts loaded');
