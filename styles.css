@@ -29,25 +29,19 @@ body {
 .loading-content {
   text-align: center;
   color: white;
-  /* Simple test animation first */
-  animation: simpleTest 2s ease-in-out infinite;
+  /* Main fly-in animation */
+  animation: flyInFromBottom 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
 }
 
-/* Simple test animation to verify keyframes work */
-@keyframes simpleTest {
-  0%, 100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.1);
-  }
-}
+
 
 .app-logo {
   font-size: 6rem;
   margin-bottom: 1rem;
-  /* Simple test animation first */
-  animation: simpleTest 2s ease-in-out infinite;
+  /* Bounce animation with delay */
+  animation: bounce 2s infinite 0.3s forwards;
+  opacity: 0;
+  animation-fill-mode: both;
 }
 
 .app-title {
@@ -57,8 +51,11 @@ body {
   font-weight: 300;
   letter-spacing: 1px;
   text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-  /* Simple test animation first */
-  animation: simpleTest 2s ease-in-out infinite;
+  /* Slide in from left with delay */
+  animation: slideInFromLeft 1s ease-out 0.5s forwards;
+  opacity: 0;
+  transform: translateX(-50px);
+  animation-fill-mode: both;
 }
 
 .app-tagline {
@@ -68,8 +65,11 @@ body {
   font-style: italic;
   max-width: 500px;
   line-height: 1.5;
-  /* Simple test animation first */
-  animation: simpleTest 2s ease-in-out infinite;
+  /* Slide in from right with delay */
+  animation: slideInFromRight 1s ease-out 0.7s forwards;
+  opacity: 0;
+  transform: translateX(50px);
+  animation-fill-mode: both;
 }
 
 .start-button {
@@ -85,8 +85,11 @@ body {
   box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
   text-transform: uppercase;
   letter-spacing: 1px;
-  /* Simple test animation first */
-  animation: simpleTest 2s ease-in-out infinite;
+  /* Scale in with delay */
+  animation: scaleIn 1s ease-out 0.9s forwards;
+  opacity: 0;
+  transform: scale(0.5);
+  animation-fill-mode: both;
 }
 
 .start-button:hover {

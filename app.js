@@ -2,6 +2,11 @@
 // app.js
 console.log('🚀 App.js loading...');
 
+// Error handling wrapper
+window.addEventListener('error', (event) => {
+  console.error('❌ JavaScript Error:', event.error);
+});
+
 // XP tracking variables
 let dailyXP = 0;
 let totalXP = 0;
@@ -10,10 +15,36 @@ let totalXP = 0;
 let completedHabits = new Set();
 let userSelectedHabits = []; // Store user's chosen habits
 
+// Safe localStorage wrapper
+const safeStorage = {
+  getItem: (key) => {
+    try {
+      return localStorage.getItem(key);
+    } catch (error) {
+      console.warn('⚠️ localStorage access blocked:', error);
+      return null;
+    }
+  },
+  setItem: (key, value) => {
+    try {
+      localStorage.setItem(key, value);
+    } catch (error) {
+      console.warn('⚠️ localStorage write blocked:', error);
+    }
+  },
+  clear: () => {
+    try {
+      localStorage.clear();
+    } catch (error) {
+      console.warn('⚠️ localStorage clear blocked:', error);
+    }
+  }
+};
+
 // Load XP from localStorage
 function loadXP() {
-  const savedDailyXP = localStorage.getItem('dailyXP');
-  const savedTotalXP = localStorage.getItem('totalXP');
+  const savedDailyXP = safeStorage.getItem('dailyXP');
+  const savedTotalXP = safeStorage.getItem('totalXP');
   
   if (savedDailyXP) dailyXP = parseInt(savedDailyXP);
   if (savedTotalXP) totalXP = parseInt(savedTotalXP);
@@ -23,8 +54,8 @@ function loadXP() {
 
 // Save XP to localStorage
 function saveXP() {
-  localStorage.setItem('dailyXP', dailyXP.toString());
-  localStorage.setItem('totalXP', totalXP.toString());
+  safeStorage.setItem('dailyXP', dailyXP.toString());
+  safeStorage.setItem('totalXP', totalXP.toString());
 }
 
 // Update XP display
@@ -103,12 +134,12 @@ function showNotification(message) {
 // Check if it's a new day and reset daily XP
 function checkNewDay() {
   const today = new Date().toDateString();
-  const lastReset = localStorage.getItem('lastXPReset');
+  const lastReset = safeStorage.getItem('lastXPReset');
   
   if (lastReset !== today) {
     // Reset daily XP
     dailyXP = 0;
-    localStorage.setItem('lastXPReset', today);
+    safeStorage.setItem('lastXPReset', today);
     updateXPDisplay();
     
     // Reset completed habits for the new day
@@ -146,7 +177,7 @@ function resetHabitButtonStates() {
 
 // Load user's selected habits from localStorage
 function loadUserHabits() {
-  const saved = localStorage.getItem('userSelectedHabits');
+  const saved = safeStorage.getItem('userSelectedHabits');
   if (saved) {
     userSelectedHabits = JSON.parse(saved);
   } else {
@@ -167,7 +198,7 @@ function loadUserHabits() {
 
 // Load completed habits from localStorage
 function loadCompletedHabits() {
-  const saved = localStorage.getItem('completedHabits');
+  const saved = safeStorage.getItem('completedHabits');
   if (saved) {
     completedHabits = new Set(JSON.parse(saved));
   }
@@ -175,12 +206,12 @@ function loadCompletedHabits() {
 
 // Save completed habits to localStorage
 function saveCompletedHabits() {
-  localStorage.setItem('completedHabits', JSON.stringify(Array.from(completedHabits)));
+  safeStorage.setItem('completedHabits', JSON.stringify(Array.from(completedHabits)));
 }
 
 // Get current streak (simplified - you can enhance this)
 function getCurrentStreak() {
-  const streak = localStorage.getItem('currentStreak') || 0;
+  const streak = safeStorage.getItem('currentStreak') || 0;
   return parseInt(streak);
 }
 
@@ -192,14 +223,14 @@ function hasCompletedHabitsToday() {
 // Update streak - only increment if habits were completed today
 function updateStreak() {
   const today = new Date().toDateString();
-  const lastStreakUpdate = localStorage.getItem('lastStreakUpdate');
+  const lastStreakUpdate = safeStorage.getItem('lastStreakUpdate');
   
   // Only update streak once per day
   if (lastStreakUpdate !== today) {
     const currentStreak = getCurrentStreak();
     const newStreak = currentStreak + 1;
-    localStorage.setItem('currentStreak', newStreak.toString());
-    localStorage.setItem('lastStreakUpdate', today);
+    safeStorage.setItem('currentStreak', newStreak.toString());
+    safeStorage.setItem('lastStreakUpdate', today);
     return newStreak;
   } else {
     return getCurrentStreak();
@@ -208,8 +239,8 @@ function updateStreak() {
 
 // Reset streak for new day
 function resetDailyStreak() {
-  localStorage.setItem('currentStreak', '0');
-  localStorage.removeItem('lastStreakUpdate'); // Allow streak to be updated again
+  safeStorage.setItem('currentStreak', '0');
+  safeStorage.removeItem('lastStreakUpdate'); // Allow streak to be updated again
 }
 
 // Reset all data and start fresh
@@ -219,7 +250,7 @@ function resetAllData() {
   try {
     if (confirm('⚠️ Are you sure you want to reset ALL data? This will:\n• Reset XP to 0\n• Clear all completed habits\n• Reset all streaks\n• Lock all badges\n\nThis action cannot be undone!')) {
       console.log('✅ User confirmed reset, clearing localStorage...');
-      localStorage.clear();
+      safeStorage.clear();
       console.log('✅ localStorage cleared, reloading page...');
       location.reload();
     } else {
@@ -456,7 +487,7 @@ function saveCustomHabits() {
   
   // Save to localStorage
   userSelectedHabits = newHabits;
-  localStorage.setItem('userSelectedHabits', JSON.stringify(newHabits));
+  safeStorage.setItem('userSelectedHabits', JSON.stringify(newHabits));
   
   // Clear completed habits for new selection
   completedHabits.clear();
@@ -647,60 +678,74 @@ function isBadgeUnlocked(badgeId) {
 document.addEventListener("DOMContentLoaded", async () => {
   console.log('🎯 DOM Content Loaded');
   
-  // Set up start button functionality
-  const startButton = document.getElementById('start-button');
-  const loadingPage = document.getElementById('loading-page');
-  const mainApp = document.getElementById('main-app');
-  
-  if (startButton) {
-    startButton.addEventListener('click', () => {
-      console.log('🚀 Start button clicked, transitioning to main app...');
-      
-      // Add fade-out animation to loading page
-      loadingPage.classList.add('fade-out');
-      
-      // After animation completes, hide loading page and show main app
-      setTimeout(() => {
-        loadingPage.style.display = 'none';
-        mainApp.style.display = 'block';
-        
-        // Initialize the main app
-        initializeMainApp();
-      }, 800);
-    });
-  }
-  
-  // Initialize main app function
-  async function initializeMainApp() {
-    try {
-      // Initialize XP system
-      loadXP();
-      checkNewDay();
-      
-      // Initialize habit systems
-      loadUserHabits();
-      loadCompletedHabits();
-      
-      // Render user's selected habits
-      renderHabits();
-      
-      // Render badges
-      renderBadges();
-      
-      // Theme toggle
-      const themeToggle = document.getElementById("theme-toggle");
-      if (themeToggle) {
-        themeToggle.addEventListener("click", () => {
-          document.body.classList.toggle("dark");
-          themeToggle.textContent = document.body.classList.contains("dark") ? "🌗" : "🌙";
-        });
-      }
-
-      console.log('✅ App initialization complete');
-      
-    } catch (error) {
-      console.error('❌ App initialization failed:', error);
+  try {
+    // Set up start button functionality
+    const startButton = document.getElementById('start-button');
+    const loadingPage = document.getElementById('loading-page');
+    const mainApp = document.getElementById('main-app');
+    
+    // Validate required elements exist
+    if (!startButton || !loadingPage || !mainApp) {
+      throw new Error('Required DOM elements not found');
     }
+  
+    if (startButton) {
+      startButton.addEventListener('click', () => {
+        console.log('🚀 Start button clicked, transitioning to main app...');
+        
+        // Add fade-out animation to loading page
+        loadingPage.classList.add('fade-out');
+        
+        // After animation completes, hide loading page and show main app
+        setTimeout(() => {
+          loadingPage.style.display = 'none';
+          mainApp.style.display = 'block';
+          
+          // Initialize the main app
+          initializeMainApp();
+        }, 800);
+      });
+    }
+    
+    // Initialize main app function
+    async function initializeMainApp() {
+      try {
+        // Initialize XP system
+        loadXP();
+        checkNewDay();
+        
+        // Initialize habit systems
+        loadUserHabits();
+        loadCompletedHabits();
+        
+        // Render user's selected habits
+        renderHabits();
+        
+        // Render badges
+        renderBadges();
+        
+        // Theme toggle
+        const themeToggle = document.getElementById("theme-toggle");
+        if (themeToggle) {
+          themeToggle.addEventListener("click", () => {
+            document.body.classList.toggle("dark");
+            themeToggle.textContent = document.body.classList.contains("dark") ? "🌗" : "🌙";
+          });
+        }
+
+        console.log('✅ App initialization complete');
+        
+      } catch (error) {
+        console.error('❌ App initialization failed:', error);
+      }
+    }
+  } catch (error) {
+    console.error('❌ Critical app setup failed:', error);
+    // Fallback: show main app directly
+    const loadingPage = document.getElementById('loading-page');
+    const mainApp = document.getElementById('main-app');
+    if (loadingPage) loadingPage.style.display = 'none';
+    if (mainApp) mainApp.style.display = 'block';
   }
 });
 
