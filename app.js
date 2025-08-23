@@ -6,6 +6,10 @@ console.log('🚀 App.js loading...');
 let dailyXP = 0;
 let totalXP = 0;
 
+// Habit tracking with customization
+let completedHabits = new Set();
+let userSelectedHabits = []; // Store user's chosen habits
+
 // Load XP from localStorage
 function loadXP() {
   const savedDailyXP = localStorage.getItem('dailyXP');
@@ -138,8 +142,28 @@ function resetHabitButtonStates() {
   console.log('🔄 Reset habit button visual states');
 }
 
-// Badge system
-let completedHabits = new Set();
+
+
+// Load user's selected habits from localStorage
+function loadUserHabits() {
+  const saved = localStorage.getItem('userSelectedHabits');
+  if (saved) {
+    userSelectedHabits = JSON.parse(saved);
+  } else {
+    // Default habits if none selected yet
+    userSelectedHabits = [
+      { id: "h1", name: "Drink 1 glass of water", category: "health" },
+      { id: "h2", name: "Take a 5-minute walk", category: "health" },
+      { id: "h3", name: "Take deep breaths", category: "health" },
+      { id: "h4", name: "Turn off notifications", category: "productivity" },
+      { id: "h5", name: "Create a quiet workspace", category: "productivity" },
+      { id: "h6", name: "Set specific work hours", category: "productivity" },
+      { id: "h7", name: "Find a mentor", category: "learning" },
+      { id: "h8", name: "Practice for 15 minutes", category: "learning" },
+      { id: "h9", name: "Read 1 chapter", category: "learning" }
+    ];
+  }
+}
 
 // Load completed habits from localStorage
 function loadCompletedHabits() {
@@ -207,22 +231,354 @@ function resetAllData() {
   }
 }
 
-// Make function globally accessible
+// Make functions globally accessible
 window.resetAllData = resetAllData;
+window.showHabitEditor = showHabitEditor;
+window.closeHabitEditor = closeHabitEditor;
+window.saveCustomHabits = saveCustomHabits;
 
 // Test that the function is accessible
 console.log('🔧 Reset function accessible:', typeof window.resetAllData);
-console.log('🔧 Test reset function:', window.resetAllData);
+
+// Show habit editor modal
+function showHabitEditor() {
+  // Create modal overlay
+  const modal = document.createElement('div');
+  modal.id = 'habit-editor-modal';
+  modal.style.cssText = `
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  `;
+  
+  // Create modal content
+  const modalContent = document.createElement('div');
+  modalContent.style.cssText = `
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    max-width: 800px;
+    width: 100%;
+    max-height: 80vh;
+    overflow-y: auto;
+    position: relative;
+  `;
+  
+    let html = `
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+      <h2 style="margin: 0; color: #333;">✏️ Create Your Own Habits</h2>
+      <button onclick="closeHabitEditor()" style="
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        color: #666;
+        padding: 5px;
+      ">×</button>
+    </div>
+    
+    <p style="color: #666; margin-bottom: 30px;">
+      Write your own personal habits for each category. These will become your daily tracking habits.
+    </p>
+    
+         <!-- Health Habits Input -->
+     <div style="margin-bottom: 25px; padding: 20px; background: #f0f9ff; border-radius: 12px; border: 2px solid #2196f3;">
+       <h3 style="color: #333; margin-bottom: 15px; display: flex; align-items: center;">
+         🏥 Health & Wellness
+       </h3>
+       <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
+         <input type="text" 
+                id="health-habit-1" 
+                placeholder="1st Health Habit" 
+                value="${userSelectedHabits.find(h => h.category === 'health' && h.id === 'h1')?.name || ''}"
+                style="padding: 12px; border: 2px solid #2196f3; border-radius: 8px; font-size: 14px; box-sizing: border-box;">
+         <input type="text" 
+                id="health-habit-2" 
+                placeholder="2nd Health Habit" 
+                value="${userSelectedHabits.find(h => h.category === 'health' && h.id === 'h2')?.name || ''}"
+                style="padding: 12px; border: 2px solid #2196f3; border-radius: 8px; font-size: 14px; box-sizing: border-box;">
+         <input type="text" 
+                id="health-habit-3" 
+                placeholder="3rd Health Habit" 
+                value="${userSelectedHabits.find(h => h.category === 'health' && h.id === 'h3')?.name || ''}"
+                style="padding: 12px; border: 2px solid #2196f3; border-radius: 8px; font-size: 14px; box-sizing: border-box;">
+       </div>
+       <p style="margin: 10px 0 0 0; font-size: 12px; color: #666; font-style: italic;">
+         Create 3 health habits you want to build daily
+       </p>
+     </div>
+     
+     <!-- Productivity Habits Input -->
+     <div style="margin-bottom: 25px; padding: 20px; background: #fff8e1; border-radius: 12px; border: 2px solid #ff9800;">
+       <h3 style="color: #333; margin-bottom: 15px; display: flex; align-items: center;">
+         ⏱️ Productivity
+       </h3>
+       <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
+         <input type="text" 
+                id="productivity-habit-1" 
+                placeholder="1st Productivity Habit" 
+                value="${userSelectedHabits.find(h => h.category === 'productivity' && h.id === 'h4')?.name || ''}"
+                style="padding: 12px; border: 2px solid #ff9800; border-radius: 8px; font-size: 14px; box-sizing: border-box;">
+         <input type="text" 
+                id="productivity-habit-2" 
+                placeholder="2nd Productivity Habit" 
+                value="${userSelectedHabits.find(h => h.category === 'productivity' && h.id === 'h5')?.name || ''}"
+                style="padding: 12px; border: 2px solid #ff9800; border-radius: 8px; font-size: 14px; box-sizing: border-box;">
+         <input type="text" 
+                id="productivity-habit-3" 
+                placeholder="3rd Productivity Habit" 
+                value="${userSelectedHabits.find(h => h.category === 'productivity' && h.id === 'h6')?.name || ''}"
+                style="padding: 12px; border: 2px solid #ff9800; border-radius: 8px; font-size: 14px; box-sizing: border-box;">
+       </div>
+       <p style="margin: 10px 0 0 0; font-size: 12px; color: #666; font-style: italic;">
+         Create 3 productivity habits you want to develop daily
+       </p>
+     </div>
+     
+     <!-- Learning Habits Input -->
+     <div style="margin-bottom: 25px; padding: 20px; background: #f3e5f5; border-radius: 12px; border: 2px solid #9c27b0;">
+       <h3 style="color: #333; margin-bottom: 15px; display: flex; align-items: center;">
+         📚 Learning & Growth
+       </h3>
+       <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
+         <input type="text" 
+                id="learning-habit-1" 
+                placeholder="1st Learning Habit" 
+                value="${userSelectedHabits.find(h => h.category === 'learning' && h.id === 'h7')?.name || ''}"
+                style="padding: 12px; border: 2px solid #9c27b0; border-radius: 8px; font-size: 14px; box-sizing: border-box;">
+         <input type="text" 
+                id="learning-habit-2" 
+                placeholder="2nd Learning Habit" 
+                value="${userSelectedHabits.find(h => h.category === 'learning' && h.id === 'h8')?.name || ''}"
+                style="padding: 12px; border: 2px solid #9c27b0; border-radius: 8px; font-size: 14px; box-sizing: border-box;">
+         <input type="text" 
+                id="learning-habit-3" 
+                placeholder="3rd Learning Habit" 
+                value="${userSelectedHabits.find(h => h.category === 'learning' && h.id === 'h9')?.name || ''}"
+                style="padding: 12px; border: 2px solid #9c27b0; border-radius: 8px; font-size: 14px; box-sizing: border-box;">
+       </div>
+       <p style="margin: 10px 0 0 0; font-size: 12px; color: #666; font-style: italic;">
+         Create 3 learning habits you want to cultivate daily
+       </p>
+     </div>
+  `;
+   
+       html += `
+     <div style="text-align: center; margin-top: 30px;">
+       <button onclick="saveCustomHabits()" style="
+         background: #4caf50;
+         color: white;
+         border: none;
+         border-radius: 8px;
+         padding: 15px 30px;
+         cursor: pointer;
+         font-size: 16px;
+         font-weight: 500;
+         transition: all 0.3s ease;
+         box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+       " onmouseover="this.style.transform='translateY(-2px)'" 
+          onmouseout="this.style.transform='translateY(0)'">
+         💾 Save My Habits
+       </button>
+     </div>
+   `;
+  
+  modalContent.innerHTML = html;
+  modal.appendChild(modalContent);
+  document.body.appendChild(modal);
+  
+  console.log('🎯 Habit editor modal created and added to DOM');
+}
+
+// Close habit editor modal
+function closeHabitEditor() {
+  const modal = document.getElementById('habit-editor-modal');
+  if (modal) {
+    modal.remove();
+  }
+}
+
+// Save custom habits from input fields
+function saveCustomHabits() {
+  // Get all 9 habit inputs
+  const healthHabit1 = document.getElementById('health-habit-1').value.trim();
+  const healthHabit2 = document.getElementById('health-habit-2').value.trim();
+  const healthHabit3 = document.getElementById('health-habit-3').value.trim();
+  
+  const productivityHabit1 = document.getElementById('productivity-habit-1').value.trim();
+  const productivityHabit2 = document.getElementById('productivity-habit-2').value.trim();
+  const productivityHabit3 = document.getElementById('productivity-habit-3').value.trim();
+  
+  const learningHabit1 = document.getElementById('learning-habit-1').value.trim();
+  const learningHabit2 = document.getElementById('learning-habit-2').value.trim();
+  const learningHabit3 = document.getElementById('learning-habit-3').value.trim();
+  
+  // Validate that all fields are filled
+  if (!healthHabit1 || !healthHabit2 || !healthHabit3 || 
+      !productivityHabit1 || !productivityHabit2 || !productivityHabit3 || 
+      !learningHabit1 || !learningHabit2 || !learningHabit3) {
+    showNotification('⚠️ Please fill in all 9 habit fields!');
+    return;
+  }
+  
+  // Validate minimum length for each habit
+  const allHabits = [healthHabit1, healthHabit2, healthHabit3, 
+                     productivityHabit1, productivityHabit2, productivityHabit3, 
+                     learningHabit1, learningHabit2, learningHabit3];
+  
+  for (let habit of allHabits) {
+    if (habit.length < 3) {
+      showNotification('⚠️ Each habit must be at least 3 characters long!');
+      return;
+    }
+  }
+  
+  // Create habit objects with proper IDs and categories
+  const newHabits = [
+    { id: "h1", name: healthHabit1, category: "health" },
+    { id: "h2", name: healthHabit2, category: "health" },
+    { id: "h3", name: healthHabit3, category: "health" },
+    { id: "h4", name: productivityHabit1, category: "productivity" },
+    { id: "h5", name: productivityHabit2, category: "productivity" },
+    { id: "h6", name: productivityHabit3, category: "productivity" },
+    { id: "h7", name: learningHabit1, category: "learning" },
+    { id: "h8", name: learningHabit2, category: "learning" },
+    { id: "h9", name: learningHabit3, category: "learning" }
+  ];
+  
+  // Save to localStorage
+  userSelectedHabits = newHabits;
+  localStorage.setItem('userSelectedHabits', JSON.stringify(newHabits));
+  
+  // Clear completed habits for new selection
+  completedHabits.clear();
+  saveCompletedHabits();
+  
+  // Close modal and refresh
+  closeHabitEditor();
+  renderHabits();
+  renderBadges();
+  
+  showNotification('✅ Your 9 custom habits have been saved and are now ready to track!');
+}
+
+
+
+
+
+
+
+
+
+// Render user's selected habits
+function renderHabits() {
+  const habitContainer = document.getElementById('habit-container');
+  if (!habitContainer) return;
+  
+  // Use user's selected habits or default ones
+  const habits = userSelectedHabits.length > 0 ? userSelectedHabits : [
+    { id: "h1", name: "Drink 1 glass of water", category: "health" },
+    { id: "h2", name: "Take a 5-minute walk", category: "health" },
+    { id: "h3", name: "Take deep breaths", category: "health" },
+    { id: "h4", name: "Turn off notifications", category: "productivity" },
+    { id: "h5", name: "Create a quiet workspace", category: "productivity" },
+    { id: "h6", name: "Set specific work hours", category: "productivity" },
+    { id: "h7", name: "Find a mentor", category: "learning" },
+    { id: "h8", name: "Practice for 15 minutes", category: "learning" },
+    { id: "h9", name: "Read 1 chapter", category: "learning" }
+  ];
+  
+  // Group by category
+  const categories = {};
+  habits.forEach(habit => {
+    if (!categories[habit.category]) {
+      categories[habit.category] = [];
+    }
+    categories[habit.category].push(habit);
+  });
+  
+  let html = '';
+  
+  Object.entries(categories).forEach(([category, categoryHabits]) => {
+    const categoryName = category === 'health' ? 'Health' : 
+                        category === 'productivity' ? 'Productivity' : 'Learning';
+    const categoryIcon = category === 'health' ? '▲' : 
+                        category === 'productivity' ? '✔' : '📚';
+    
+    html += `
+      <div class="category-card ${category}">
+        <div class="category-title">${categoryIcon} ${categoryName}</div>
+        <div class="habits">
+    `;
+    
+    categoryHabits.forEach(habit => {
+      const isActive = completedHabits.has(habit.id);
+      html += `
+        <button class="habit-btn ${isActive ? 'active' : ''}" data-habit-id="${habit.id}">
+          ${habit.name}
+        </button>
+      `;
+    });
+    
+    html += `
+        </div>
+      </div>
+    `;
+  });
+  
+  // Add Edit My Habits button at the bottom
+  html += `
+    <div style="text-align: center; margin-top: 30px;">
+      <button onclick="showHabitEditor()" style="
+        background: #2196f3;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 15px 30px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+      " onmouseover="this.style.transform='translateY(-2px)'" 
+         onmouseout="this.style.transform='translateY(0)'">
+        ✏️ Edit My Habits
+      </button>
+             <p style="margin-top: 15px; color: #666; font-size: 14px;">
+         Create 3 custom habits for each category and track them daily
+       </p>
+    </div>
+  `;
+  
+  habitContainer.innerHTML = html;
+  
+  // Set up event listeners
+  setTimeout(() => {
+    setupHabitListeners();
+  }, 100);
+}
+
+
 
 // Render badges section
 function renderBadges() {
   const badgesSection = document.getElementById('badges');
   if (!badgesSection) return;
   
+  const totalHabits = userSelectedHabits.length > 0 ? userSelectedHabits.length : 9; // Dynamic habit count
+  
   const badges = [
     { id: 'first-habit', name: 'First Step', icon: '🎯', description: 'Complete your first habit' },
     { id: 'three-habits', name: 'Triple Threat', icon: '🔥', description: 'Complete 3 habits' },
-    { id: 'all-habits', name: 'Habit Master', icon: '👑', description: 'Complete all 9 habits' },
+    { id: 'all-habits', name: 'Habit Master', icon: '👑', description: `Complete all ${totalHabits} habits` },
     { id: 'streak-3', name: 'Consistent', icon: '📈', description: '3-day streak' },
     { id: 'streak-7', name: 'Week Warrior', icon: '🏆', description: '7-day streak' }
   ];
@@ -270,6 +626,7 @@ function renderBadges() {
 function isBadgeUnlocked(badgeId) {
   const currentStreak = getCurrentStreak();
   const completedCount = completedHabits.size;
+  const totalHabits = userSelectedHabits.length > 0 ? userSelectedHabits.length : 9; // Dynamic habit count
   
   switch (badgeId) {
     case 'first-habit':
@@ -277,7 +634,7 @@ function isBadgeUnlocked(badgeId) {
     case 'three-habits':
       return completedCount >= 3;
     case 'all-habits':
-      return completedCount >= 9;
+      return completedCount >= totalHabits;
     case 'streak-3':
       return currentStreak >= 3;
     case 'streak-7':
@@ -295,81 +652,20 @@ document.addEventListener("DOMContentLoaded", async () => {
     loadXP();
     checkNewDay();
     
-    // Initialize badge system
+    // Initialize habit systems
+    loadUserHabits();
     loadCompletedHabits();
     
-    // Import the habit picker module
-    const habitPickerModule = await import("./components/habitPicker.js");
-    console.log('📦 Habit picker module loaded:', habitPickerModule);
+    // Render user's selected habits
+    renderHabits();
     
-    // Load and render habits
-    console.log('📋 Loading categories...');
-    fetch("./data/categories.json")
-      .then(res => {
-        console.log('📋 Categories fetch response:', res.status);
-        return res.json();
-      })
-      .then(categories => {
-        console.log('📋 Categories loaded:', categories);
-        habitPickerModule.renderHabits(categories);
-        console.log('📋 renderHabits called');
-        
-        // Set up habit click listeners after rendering
-        setTimeout(() => {
-          setupHabitListeners();
-          renderBadges(); // Render badges after habits are set up
-        }, 100);
-      })
-      .catch(err => {
-        console.error("❌ Error loading categories:", err);
-        // Use fallback categories if fetch fails
-        const fallbackCategories = [
-          {
-            id: "health",
-            name: "Health",
-            icon: "🧘‍♂️",
-            habits: [
-              { id: "h1", name: "Drink 1 glass of water" },
-              { id: "h2", name: "Take a 5-minute walk" },
-              { id: "h3", name: "Take deep breaths" }
-            ]
-          },
-          {
-            id: "productivity",
-            name: "Productivity",
-            icon: "⏱️",
-            habits: [
-              { id: "h4", name: "Turn off notifications" },
-              { id: "h5", name: "Create a quiet workspace" },
-              { id: "h6", name: "Set specific work hours" }
-            ]
-          },
-          {
-            id: "learning",
-            name: "Learning",
-            icon: "📚",
-            habits: [
-              { id: "h7", name: "Find a mentor" },
-              { id: "h8", name: "Practice for 15 minutes" },
-              { id: "h9", name: "Read 1 chapter" }
-            ]
-          }
-        ];
-        habitPickerModule.renderHabits(fallbackCategories);
-        
-        // Set up habit click listeners after rendering
-        setTimeout(() => {
-          setupHabitListeners();
-          renderBadges(); // Render badges after habits are set up
-        }, 100);
-      });
-
+    // Render badges
+    renderBadges();
+    
     // Theme toggle
     const themeToggle = document.getElementById("theme-toggle");
     if (themeToggle) {
-      console.log('🌓 Setting up theme toggle');
       themeToggle.addEventListener("click", () => {
-        console.log('🌓 Theme toggle clicked');
         document.body.classList.toggle("dark");
         themeToggle.textContent = document.body.classList.contains("dark") ? "🌗" : "🌙";
       });
@@ -397,8 +693,9 @@ function setupHabitListeners() {
       if (isActive) {
         // Deactivating habit - lose XP and remove from completed
         btn.classList.remove('active');
-        btn.style.background = '';
-        btn.style.color = '';
+        btn.style.background = '#f5f5f5';
+        btn.style.color = '#333';
+        btn.textContent = '🎯 Mark Complete';
         addXP(-5); // Lose 5 XP
         completedHabits.delete(habitId);
         console.log('❌ Habit deactivated:', habitId);
@@ -407,6 +704,7 @@ function setupHabitListeners() {
         btn.classList.add('active');
         btn.style.background = '#4caf50';
         btn.style.color = 'white';
+        btn.textContent = '✅ Completed';
         addXP(10); // Gain 10 XP
         completedHabits.add(habitId);
         console.log('✅ Habit activated:', habitId);
